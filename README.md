@@ -34,3 +34,26 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+Structure:
+src
+├── app
+│   ├── (auth) - folder containing auth
+│   └── (root) - all the other routes not related to auth are here
+├── components
+│   ├── shared
+│   └── ui - shadcn components
+├── constants - contains some values that will be reused in application. i.e. navigation bar with 5 links. Each link has a title, URL link, icon
+├── context - theme provider
+├── lib
+│   ├── utils.ts
+│   └── actions - folder - the interaction with the backend. A connection between frontend and the backend
+├── styles
+│   └── globals.css
+├── database - DB setup with MongoDB
+├── types
+|   └── types.ts
+├── package.json
+├── postcss.config.js
+├── tailwind.config.js
+└── tsconfig.json
