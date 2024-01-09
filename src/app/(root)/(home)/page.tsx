@@ -7,50 +7,11 @@ import HomeFilters from '@/components/home/home-filters';
 import QuestionCard from '@/components/cards/question-card';
 
 import NoResult from '@/components/shared/no-result';
+import { getQuestions } from '@/lib/actions/question.action';
 
-const questions = [
-  {
-    _id: 1,
-    title: 'Cascading Deletes in SQLAlchemy?',
-    tags: [
-      { _id: 1, name: 'python' },
-      { _id: 2, name: 'sqlalchemy' },
-    ],
-    author: { _id: 101, name: 'John Doe', picture: 'path/to/picture.jpg' },
-    upvotes: 10,
-    views: 100,
-    answers: [{}, {}, {}], // Assuming 3 placeholder answer objects
-    createdAt: new Date('2021-08-01T12:00:00.000Z'),
-  },
-  {
-    _id: 2,
-    title: 'How do I use express as a custom server in Next.JS?',
-    tags: [
-      { _id: 3, name: 'express' },
-      { _id: 4, name: 'next.js' },
-    ],
-    author: { _id: 102, name: 'Jane Smith', picture: 'path/to/picture2.jpg' },
-    upvotes: 15,
-    views: 150,
-    answers: [{}, {}], // Assuming 2 placeholder answer objects
-    createdAt: new Date('2021-08-02T13:00:00.000Z'),
-  },
-  {
-    _id: 3,
-    title: 'How to Perfectly Center a Div with Tailwind CSS?',
-    tags: [
-      { _id: 5, name: 'react.js' },
-      { _id: 6, name: 'tailwind' },
-    ],
-    author: { _id: 103, name: 'Alice Johnson', picture: 'path/to/picture3.jpg' },
-    upvotes: 20,
-    views: 200,
-    answers: [{}, {}, {}, {}], // Assuming 4 placeholder answer objects
-    createdAt: new Date('2021-08-03T14:30:00.000Z'),
-  },
-];
+export default async function Home() {
+  const { questions } = await getQuestions({});
 
-export default function Home() {
   return (
     <>
       <div className='flex w-full flex-col-reverse justify-between gap-4 sm:flex-row sm:items-center'>
