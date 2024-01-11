@@ -24,7 +24,7 @@ import { Badge } from '../ui/badge';
 import { createQuestion } from '@/lib/actions/question.action';
 import { useRouter, usePathname } from 'next/navigation';
 
-const type = 'create';
+const type: any = 'create';
 
 interface Props {
   mongoUserId: string;
