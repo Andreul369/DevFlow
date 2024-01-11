@@ -1,12 +1,8 @@
 'use client';
 
 import React from 'react';
-
 import Link from 'next/link';
 
-import { sidebarLinks } from '@/constants';
-import { usePathname } from 'next/navigation';
-import { Button } from '../ui/button';
 import Image from 'next/image';
 import RenderTag from './render-tag';
 
