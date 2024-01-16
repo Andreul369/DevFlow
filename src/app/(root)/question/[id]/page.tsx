@@ -6,7 +6,7 @@ import Metric from '@/components/shared/metric';
 import { formatAndDivideNumber, getTimestamp } from '@/lib/utils';
 import ParseHTML from '@/components/shared/parse-html';
 
-const QuestionPage = async ({ params, searchParams }) => {
+const QuestionPage = async ({ params, searchParams }: any) => {
   const question = await getQuestionById({ questionId: params.id });
 
   console.log('question', question);
