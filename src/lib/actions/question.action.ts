@@ -4,7 +4,11 @@ import Question from '@/database/question.model';
 import { connectToDatabase } from '../mongoose';
 import Tag from '@/database/tag.model';
 import User from '@/database/user.model';
-import { GetQuestionsParams, CreateQuestionParams } from './shared.types';
+import {
+  GetQuestionsParams,
+  CreateQuestionParams,
+  GetQuestionByIdParams,
+} from './shared.types';
 import { revalidatePath } from 'next/cache';
 
 export async function getQuestions(params: GetQuestionsParams) {
@@ -61,5 +65,29 @@ export const createQuestion = async (params: CreateQuestionParams) => {
     // which will trigger a rebuild of the page at the given path.
     // This will ensure that the new question is displayed on the page withouth refreshing the page
     revalidatePath(path);
-  } catch (error) {}
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
+export const getQuestionById = async (params: GetQuestionByIdParams) => {
+  try {
+    connectToDatabase();
+
+    const { questionId } = params;
+
+    const question = await Question.findById(questionId)
+      .populate({
+        path: 'tags',
+        model: Tag,
+        select: '_id name',
+      })
+      .populate({ path: 'author', model: User, select: '_id clerkId name picture' });
+
+    return question;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
 };

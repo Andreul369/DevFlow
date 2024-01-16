@@ -9,7 +9,7 @@ import QuestionCard from '@/components/cards/question-card';
 import NoResult from '@/components/shared/no-result';
 import { getQuestions } from '@/lib/actions/question.action';
 
-export default async function Home() {
+export default async function HomePage() {
   const { questions } = await getQuestions({});
 
   return (
