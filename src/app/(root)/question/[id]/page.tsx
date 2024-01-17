@@ -5,8 +5,18 @@ import { getQuestionById } from '@/lib/actions/question.action';
 import Metric from '@/components/shared/metric';
 import { formatAndDivideNumber, getTimestamp } from '@/lib/utils';
 import ParseHTML from '@/components/shared/parse-html';
+import RenderTag from '@/components/shared/render-tag';
+import AnswerForm from '@/components/forms/answer-form';
+import { auth } from '@clerk/nextjs';
+import { redirect } from 'next/navigation';
+import { getUserById } from '@/lib/actions/user.action';
 
 const QuestionPage = async ({ params, searchParams }: any) => {
+  const { userId } = auth();
+
+  if (!userId) redirect('/sign-in');
+
+  const mongoUser = await getUserById({ userId });
   const question = await getQuestionById({ questionId: params.id });
 
   console.log('question', question);
@@ -62,6 +72,14 @@ const QuestionPage = async ({ params, searchParams }: any) => {
       </div>
 
       <ParseHTML data={question.content} />
+
+      <div className='mt-8 flex flex-wrap gap-2'>
+        {question.tags.map((tag: any) => (
+          <RenderTag key={tag._id} _id={tag._id} name={tag.name} showCount={false} />
+        ))}
+      </div>
+
+      <AnswerForm mongoUserId={JSON.stringify(mongoUser._id)} />
     </>
   );
 };
