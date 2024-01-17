@@ -10,7 +10,6 @@ import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -19,9 +18,9 @@ import {
 
 import { answersSchema } from '@/lib/validations';
 import { Editor } from '@tinymce/tinymce-react';
-
-import { createQuestion } from '@/lib/actions/question.action';
 import { useRouter, usePathname } from 'next/navigation';
+import { createAnswer } from '@/lib/actions/answer.action';
+import { useTheme } from '@/context/theme-provider';
 
 const type: any = 'create';
 
@@ -30,6 +29,7 @@ interface Props {
 }
 
 const AnswerForm = ({ mongoUserId }: Props) => {
+  const { mode } = useTheme();
   const editorRef = useRef(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const router = useRouter();
@@ -52,10 +52,8 @@ const AnswerForm = ({ mongoUserId }: Props) => {
       // make an async call to our API -> create a quesion
       // contain all form data
       // navigate to home page
-      await createQuestion({
-        title: values.title,
-        content: values.explanation,
-        tags: values.tags,
+      await createAnswer({
+        content: values.answer,
         author: JSON.parse(mongoUserId),
         path: pathname,
       });
@@ -91,7 +89,6 @@ const AnswerForm = ({ mongoUserId }: Props) => {
                   }}
                   onBlur={field.onBlur}
                   onEditorChange={(content) => field.onChange(content)}
-                  initialValue=''
                   init={{
                     height: 350,
                     menubar: false,
@@ -117,6 +114,8 @@ const AnswerForm = ({ mongoUserId }: Props) => {
                       'codesample | bold italic forecolor | alignleft aligncenter | ' +
                       'alignright alignjustify | bullist numlist',
                     content_style: 'body { font-family:Inter; font-size:16px; }',
+                    skin: mode === 'dark' ? 'oxide-dark' : 'oxide',
+                    content_css: mode === 'dark' ? 'dark' : 'oxide',
                   }}
                 />
               </FormControl>
