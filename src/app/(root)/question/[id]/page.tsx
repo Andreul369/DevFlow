@@ -79,7 +79,11 @@ const QuestionPage = async ({ params, searchParams }: any) => {
         ))}
       </div>
 
-      <AnswerForm mongoUserId={JSON.stringify(mongoUser._id)} />
+      <AnswerForm
+        question={question.content}
+        questionId={JSON.stringify(question._id)}
+        authorId={JSON.stringify(mongoUser._id)}
+      />
     </>
   );
 };

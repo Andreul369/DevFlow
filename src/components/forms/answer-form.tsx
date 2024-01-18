@@ -12,27 +12,26 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from '@/components/ui/form';
 
 import { answersSchema } from '@/lib/validations';
 import { Editor } from '@tinymce/tinymce-react';
-import { useRouter, usePathname } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { createAnswer } from '@/lib/actions/answer.action';
 import { useTheme } from '@/context/theme-provider';
-
-const type: any = 'create';
+import Image from 'next/image';
 
 interface Props {
-  mongoUserId: string;
+  question: string;
+  questionId: string;
+  authorId: string;
 }
 
-const AnswerForm = ({ mongoUserId }: Props) => {
+const AnswerForm = ({ question, questionId, authorId }: Props) => {
   const { mode } = useTheme();
   const editorRef = useRef(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const router = useRouter();
   const pathname = usePathname();
 
   // 1. Define your form.
@@ -46,97 +45,116 @@ const AnswerForm = ({ mongoUserId }: Props) => {
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof answersSchema>) {
     setIsSubmitting(true);
-    // We can try to crate a question or we can try to edit a question
 
     try {
-      // make an async call to our API -> create a quesion
+      // make an async call to our API -> create an answer
       // contain all form data
-      // navigate to home page
       await createAnswer({
         content: values.answer,
-        author: JSON.parse(mongoUserId),
+        author: JSON.parse(authorId),
+        question: JSON.parse(questionId),
         path: pathname,
       });
 
-      // navigate to home page
-      router.push('/');
+      form.reset();
+
+      if (editorRef.current) {
+        const editor = editorRef.current as any;
+        editor.setContent('');
+      }
     } catch (error) {
+      console.log('error', error);
     } finally {
       setIsSubmitting(false);
     }
   }
 
   return (
-    <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className='flex w-full flex-col gap-10'
-      >
-        <FormField
-          control={form.control}
-          name='answer'
-          render={({ field }) => (
-            <FormItem className='flex w-full flex-col gap-3'>
-              <FormLabel className='paragraph-semibold text-dark400_light800'>
-                Write your answer here
-              </FormLabel>
-              <FormControl className='mt-3.5'>
-                <Editor
-                  apiKey={process.env.NEXT_PUBLIC_TINY_EDITOR_API_KEY}
-                  onInit={(evt, editor) => {
-                    // @ts-ignore
-                    editorRef.current = editor;
-                  }}
-                  onBlur={field.onBlur}
-                  onEditorChange={(content) => field.onChange(content)}
-                  init={{
-                    height: 350,
-                    menubar: false,
-                    plugins: [
-                      'advlist',
-                      'autolink',
-                      'lists',
-                      'link',
-                      'image',
-                      'charmap',
-                      'preview',
-                      'anchor',
-                      'searchreplace',
-                      'visualblocks',
-                      'codesample',
-                      'fullscreen',
-                      'insertdatetime',
-                      'media',
-                      'table',
-                    ],
-                    toolbar:
-                      'undo redo | ' +
-                      'codesample | bold italic forecolor | alignleft aligncenter | ' +
-                      'alignright alignjustify | bullist numlist',
-                    content_style: 'body { font-family:Inter; font-size:16px; }',
-                    skin: mode === 'dark' ? 'oxide-dark' : 'oxide',
-                    content_css: mode === 'dark' ? 'dark' : 'oxide',
-                  }}
-                />
-              </FormControl>
-              <FormMessage className='text-red-500' />
-            </FormItem>
-          )}
-        />
+    <>
+      <div className='flex flex-col justify-between gap-5 sm:flex-row sm:items-center sm:gap-2'>
+        <h4 className='paragraph-semibold text-dark400_light800'>
+          Write your answer here
+        </h4>
 
         <Button
-          type='submit'
-          className='primary-gradient w-fit self-end !text-light-900'
-          disabled={isSubmitting}
+          className='btn light-border-2 gap-1.5 rounded-md px-4 py-2.5 text-primary-500 shadow-none dark:text-primary-500'
+          onClick={() => {}}
         >
-          {isSubmitting ? (
-            <>{type === 'edit' ? 'Editing...' : 'Posting...'}</>
-          ) : (
-            <>{type === 'edit' ? 'Edit Answer' : 'Post Answer'}</>
-          )}
+          <Image
+            src='/assets/icons/stars.svg'
+            alt='star'
+            width={12}
+            height={12}
+            className='object-contain'
+          />
+          Generate AI Answer
         </Button>
-      </form>
-    </Form>
+      </div>
+
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className='mt-6 flex w-full flex-col gap-10'
+        >
+          <FormField
+            control={form.control}
+            name='answer'
+            render={({ field }) => (
+              <FormItem className='flex w-full flex-col gap-3'>
+                <FormControl className='mt-3.5'>
+                  <Editor
+                    apiKey={process.env.NEXT_PUBLIC_TINY_EDITOR_API_KEY}
+                    onInit={(evt, editor) => {
+                      // @ts-ignore
+                      editorRef.current = editor;
+                    }}
+                    onBlur={field.onBlur}
+                    onEditorChange={(content) => field.onChange(content)}
+                    init={{
+                      height: 350,
+                      menubar: false,
+                      plugins: [
+                        'advlist',
+                        'autolink',
+                        'lists',
+                        'link',
+                        'image',
+                        'charmap',
+                        'preview',
+                        'anchor',
+                        'searchreplace',
+                        'visualblocks',
+                        'codesample',
+                        'fullscreen',
+                        'insertdatetime',
+                        'media',
+                        'table',
+                      ],
+                      toolbar:
+                        'undo redo | ' +
+                        'codesample | bold italic forecolor | alignleft aligncenter | ' +
+                        'alignright alignjustify | bullist numlist',
+                      content_style: 'body { font-family:Inter; font-size:16px; }',
+                      skin: mode === 'dark' ? 'oxide-dark' : 'oxide',
+                      content_css: mode === 'dark' ? 'dark' : 'oxide',
+                    }}
+                  />
+                </FormControl>
+                <FormMessage className='text-red-500' />
+              </FormItem>
+            )}
+          />
+
+          <Button
+            type='submit'
+            className='primary-gradient w-fit self-end !text-light-900'
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? 'Posting...' : 'Post Answer'}
+          </Button>
+        </form>
+      </Form>
+    </>
   );
 };
 
