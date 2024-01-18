@@ -41,6 +41,9 @@ dependencies:
   '@tinymce/tinymce-react':
     specifier: ^4.3.2
     version: 4.3.2(react-dom@18.2.0)(react@18.2.0)
+  '@types/prismjs':
+    specifier: ^1.26.3
+    version: 1.26.3
   class-variance-authority:
     specifier: ^0.7.0
     version: 0.7.0
@@ -1486,6 +1489,10 @@ packages:
     resolution: {integrity: sha512-6I0fMH8Aoy2lOejL3s4LhyIYX34DPwY8bl5xlNjBvUEk8OHrcuzsFt+Ied4LvJihbtXPM+8zUqdydfIti86v9g==}
     dependencies:
       undici-types: 5.26.5
+
+  /@types/prismjs@1.26.3:
+    resolution: {integrity: sha512-A0D0aTXvjlqJ5ZILMz3rNfDBOx9hHxLZYv2by47Sm/pqW35zzjusrZTryatjN/Rf8Us2gZrJD+KeHbUSTux1Cw==}
+    dev: false
 
   /@types/prop-types@15.7.11:
     resolution: {integrity: sha512-ga8y9v9uyeiLdpKddhxYQkxNDrfvuPrlFb0N1qnZZByvcElJaXthF1UhvCh9TLWJBEHeNtdnbysW7Y6Uq8CVng==}
