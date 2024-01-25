@@ -1,5 +1,4 @@
 import React from 'react';
-import HomeFilters from '@/components/home/home-filters';
 import Filter from '@/components/shared/filter';
 import NoResult from '@/components/shared/no-result';
 import LocalSearchbar from '@/components/shared/search/local-searchbar';
