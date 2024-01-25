@@ -2,77 +2,113 @@
 
 import Question from '@/database/question.model';
 import { connectToDatabase } from '../mongoose';
-import { GetAnswersParams, CreateAnswerParams } from './shared.types';
+import { GetAnswersParams, CreateAnswerParams, AnswerVoteParams } from './shared.types';
 import { revalidatePath } from 'next/cache';
 import Answer from '@/database/answer.model';
 
-export async function getAnswers(params: GetAnswersParams) {
+export async function createAnswer(params: CreateAnswerParams) {
   try {
     connectToDatabase();
 
-    const { questionId, sortBy, page = 1, pageSize = 10 } = params;
+    const { content, author, question, path } = params;
 
-    const skipAmount = (page - 1) * pageSize;
+    const newAnswer = await Answer.create({ content, author, question });
 
-    let sortOptions = {};
-
-    switch (sortBy) {
-      case 'highestUpvotes':
-        sortOptions = { upvotes: -1 };
-        break;
-      case 'lowestUpvotes':
-        sortOptions = { upvotes: 1 };
-        break;
-      case 'recent':
-        sortOptions = { createdAt: -1 };
-        break;
-      case 'old':
-        sortOptions = { createdAt: 1 };
-        break;
-
-      default:
-        break;
-    }
-
-    const answers = await Answer.find({ question: questionId })
-      .populate('author', '_id clerkId name picture')
-      .sort(sortOptions)
-      .skip(skipAmount)
-      .limit(pageSize);
-
-    const totalAnswer = await Answer.countDocuments({
-      question: questionId,
+    // Add the answer to the question's answers array
+    await Question.findByIdAndUpdate(question, {
+      $push: { answers: newAnswer._id },
     });
 
-    const isNextAnswer = totalAnswer > skipAmount + answers.length;
+    // TODO: Add interaction...
 
-    return { answers, isNextAnswer };
+    revalidatePath(path);
   } catch (error) {
     console.log(error);
     throw error;
   }
 }
 
-export const createAnswer = async (params: CreateAnswerParams) => {
+export async function getAnswers(params: GetAnswersParams) {
   try {
     connectToDatabase();
 
-    const { content, author, question, path } = params;
+    const { questionId } = params;
 
-    // Create the answer
-    const newAnswer = await Answer.create({ content, author, question });
+    const answers = await Answer.find({ question: questionId })
+      .populate('author', '_id clerkId name picture')
+      .sort({ createdAt: -1 });
 
-    // Add the answer to the question's answers array
-    await Question.findByIdAndUpdate(question, { $push: { answers: newAnswer._id } });
+    return { answers };
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
 
-    // TODO: Add interaction...
+export async function upvoteAnswer(params: AnswerVoteParams) {
+  try {
+    connectToDatabase();
 
-    // Once we create a answer we can call revalidatePath,
-    // which will trigger a rebuild of the page at the given path.
-    // This will ensure that the new answer is displayed on the page withouth refreshing the page
+    const { answerId, userId, hasupVoted, hasdownVoted, path } = params;
+
+    let updateQuery = {};
+
+    if (hasupVoted) {
+      updateQuery = { $pull: { upvotes: userId } };
+    } else if (hasdownVoted) {
+      updateQuery = {
+        $pull: { downvotes: userId },
+        $push: { upvotes: userId },
+      };
+    } else {
+      updateQuery = { $addToSet: { upvotes: userId } };
+    }
+
+    const answer = await Answer.findByIdAndUpdate(answerId, updateQuery, { new: true });
+
+    if (!answer) {
+      throw new Error('Answer not found');
+    }
+
+    // Increment author's reputation
+
     revalidatePath(path);
   } catch (error) {
     console.log(error);
     throw error;
   }
-};
+}
+
+export async function downvoteAnswer(params: AnswerVoteParams) {
+  try {
+    connectToDatabase();
+
+    const { answerId, userId, hasupVoted, hasdownVoted, path } = params;
+
+    let updateQuery = {};
+
+    if (hasdownVoted) {
+      updateQuery = { $pull: { downvote: userId } };
+    } else if (hasupVoted) {
+      updateQuery = {
+        $pull: { upvotes: userId },
+        $push: { downvotes: userId },
+      };
+    } else {
+      updateQuery = { $addToSet: { downvotes: userId } };
+    }
+
+    const answer = await Answer.findByIdAndUpdate(answerId, updateQuery, { new: true });
+
+    if (!answer) {
+      throw new Error('Answer not found');
+    }
+
+    // Increment author's reputation
+
+    revalidatePath(path);
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}

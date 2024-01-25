@@ -10,8 +10,9 @@ import AnswerForm from '@/components/forms/answer-form';
 import { auth } from '@clerk/nextjs';
 import { getUserById } from '@/lib/actions/user.action';
 import AllAnswers from '@/components/shared/all-answers';
+import Votes from '@/components/shared/votes';
 
-const QuestionPage = async ({ params, searchParams }: any) => {
+const QuestionPage = async ({ params, searchParams }) => {
   const { userId: clerkId } = auth();
 
   let mongoUser;
@@ -32,16 +33,27 @@ const QuestionPage = async ({ params, searchParams }: any) => {
           >
             <Image
               src={result.author.picture}
-              alt='profile picture'
+              className='rounded-full'
               width={22}
               height={22}
-              className='rounded-full'
+              alt='profile'
             />
             <p className='paragraph-semibold text-dark300_light700'>
               {result.author.name}
             </p>
           </Link>
-          <div className='flex justify-end'>VOTING Func</div>
+          <div className='flex justify-end'>
+            <Votes
+              type='Question'
+              itemId={JSON.stringify(result._id)}
+              userId={JSON.stringify(mongoUser._id)}
+              upvotes={result.upvotes.length}
+              hasupVoted={result.upvotes.includes(mongoUser._id)}
+              downvotes={result.downvotes.length}
+              hasdownVoted={result.downvotes.includes(mongoUser._id)}
+              hasSaved={mongoUser?.saved.includes(result._id)}
+            />
+          </div>
         </div>
         <h2 className='h2-semibold text-dark200_light900 mt-3.5 w-full text-left'>
           {result.title}
@@ -84,8 +96,6 @@ const QuestionPage = async ({ params, searchParams }: any) => {
         questionId={result._id}
         userId={mongoUser._id}
         totalAnswers={result.answers.length}
-        page={searchParams?.page}
-        filter={searchParams?.filter}
       />
 
       <AnswerForm
