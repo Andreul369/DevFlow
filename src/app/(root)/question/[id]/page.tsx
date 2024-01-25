@@ -12,7 +12,13 @@ import { getUserById } from '@/lib/actions/user.action';
 import AllAnswers from '@/components/shared/all-answers';
 import Votes from '@/components/shared/votes';
 
-const QuestionPage = async ({ params, searchParams }) => {
+const QuestionPage = async ({
+  params,
+  searchParams,
+}: {
+  params: { slug: string };
+  searchParams: { [key: string]: string | string[] | undefined };
+}) => {
   const { userId: clerkId } = auth();
 
   let mongoUser;

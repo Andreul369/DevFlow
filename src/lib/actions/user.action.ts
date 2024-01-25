@@ -137,7 +137,7 @@ export async function toggleSaveQuestion(params: ToggleSaveQuestionParams) {
   }
 }
 
-export async function getSaveDQuestion(params: GetSavedQuestionsParams) {
+export async function getSavedQuestions(params: GetSavedQuestionsParams) {
   try {
     connectToDatabase();
 
