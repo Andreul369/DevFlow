@@ -16,7 +16,7 @@ const QuestionPage = async ({
   params,
   searchParams,
 }: {
-  params: { slug: string };
+  params: { id: string };
   searchParams: { [key: string]: string | string[] | undefined };
 }) => {
   const { userId: clerkId } = auth();
