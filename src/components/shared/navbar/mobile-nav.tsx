@@ -3,12 +3,13 @@
 import { Sheet, SheetContent, SheetClose, SheetTrigger } from '@/components/ui/sheet';
 import Image from 'next/image';
 import Link from 'next/link';
-import { SignedOut } from '@clerk/nextjs';
+import { SignedOut, useAuth } from '@clerk/nextjs';
 import { Button } from '@/components/ui/button';
 import { sidebarLinks } from '@/constants';
 import { usePathname } from 'next/navigation';
 
 const NavContent = () => {
+  const { userId } = useAuth();
   const pathname = usePathname();
 
   return (
@@ -18,7 +19,13 @@ const NavContent = () => {
           (pathname.includes(item.route) && item.route.length > 1) ||
           pathname === item.route;
 
-        // TODO
+        if (item.route === '/profile') {
+          if (userId) {
+            item.route = `/profile/${userId}`;
+          } else {
+            return null;
+          }
+        }
 
         return (
           <SheetClose asChild key={item.route}>
