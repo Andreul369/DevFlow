@@ -2,7 +2,12 @@
 
 import Question from '@/database/question.model';
 import { connectToDatabase } from '../mongoose';
-import { GetAnswersParams, CreateAnswerParams, AnswerVoteParams } from './shared.types';
+import {
+  GetAnswersParams,
+  CreateAnswerParams,
+  AnswerVoteParams,
+  DeleteAnswerParams,
+} from './shared.types';
 import { revalidatePath } from 'next/cache';
 import Answer from '@/database/answer.model';
 
@@ -107,6 +112,23 @@ export async function downvoteAnswer(params: AnswerVoteParams) {
     // Increment author's reputation
 
     revalidatePath(path);
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+
+export async function deleteAnswer(params: DeleteAnswerParams) {
+  try {
+    connectToDatabase();
+
+    const { answerId, path } = params;
+
+    const answer = await Answer.findByIdAndDelete(answerId);
+
+    // Increment author's reputation
+    revalidatePath(path);
+    return answer;
   } catch (error) {
     console.log(error);
     throw error;

@@ -1,20 +1,21 @@
-import React from 'react';
-import { URLProps } from '@/types';
-import Image from 'next/image';
-import { getUserInfo } from '@/lib/actions/user.action';
-import { SignedIn, auth } from '@clerk/nextjs';
-import Link from 'next/link';
 import { Button } from '@/components/ui/button';
+import { getUserInfo } from '@/lib/actions/user.action';
+import { URLProps } from '@/types';
+import { SignedIn, auth } from '@clerk/nextjs';
+import Image from 'next/image';
+import Link from 'next/link';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+
+import React from 'react';
 import { getJoinedDate } from '@/lib/utils';
 import ProfileLink from '@/components/shared/profile-link';
 import Stats from '@/components/shared/stats';
-import QuestionsTab from '@/components/shared/questions-tab';
+import QuestionTab from '@/components/shared/questions-tab';
 import AnswersTab from '@/components/shared/answers-tab';
 
-const ProfilePage = async ({ params, searchParams }: URLProps) => {
-  const userInfo = await getUserInfo({ userId: params.id });
+const Page = async ({ params, searchParams }: URLProps) => {
   const { userId: clerkId } = auth();
+  const userInfo = await getUserInfo({ userId: params.id });
 
   return (
     <>
@@ -22,7 +23,7 @@ const ProfilePage = async ({ params, searchParams }: URLProps) => {
         <div className='flex flex-col items-start gap-4 lg:flex-row'>
           <Image
             src={userInfo?.user.picture}
-            alt='Profile Picture'
+            alt='profile picture'
             width={140}
             height={140}
             className='rounded-full object-cover'
@@ -93,13 +94,13 @@ const ProfilePage = async ({ params, searchParams }: URLProps) => {
             </TabsTrigger>
           </TabsList>
           <TabsContent value='top-posts'>
-            <QuestionsTab
+            <QuestionTab
               searchParams={searchParams}
               userId={userInfo.user._id}
               clerkId={clerkId}
             />
           </TabsContent>
-          <TabsContent value='answers'>
+          <TabsContent value='answers' className='flex w-full flex-col gap-6'>
             <AnswersTab
               searchParams={searchParams}
               userId={userInfo.user._id}
@@ -112,4 +113,4 @@ const ProfilePage = async ({ params, searchParams }: URLProps) => {
   );
 };
 
-export default ProfilePage;
+export default Page;

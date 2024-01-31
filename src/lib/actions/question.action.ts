@@ -9,6 +9,7 @@ import {
   CreateQuestionParams,
   GetQuestionByIdParams,
   QuestionVoteParams,
+  DeleteQuestionParams,
 } from './shared.types';
 import { revalidatePath } from 'next/cache';
 
@@ -159,6 +160,23 @@ export async function downvoteQuestion(params: QuestionVoteParams) {
     // Increment author's reputation
 
     revalidatePath(path);
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+
+export async function deleteQuestion(params: DeleteQuestionParams) {
+  try {
+    connectToDatabase();
+
+    const { questionId, path } = params;
+
+    const question = await Question.findByIdAndDelete(questionId);
+
+    // Increment author's reputation
+    revalidatePath(path);
+    return question;
   } catch (error) {
     console.log(error);
     throw error;
