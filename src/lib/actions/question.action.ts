@@ -12,6 +12,8 @@ import {
   DeleteQuestionParams,
 } from './shared.types';
 import { revalidatePath } from 'next/cache';
+import Answer from '@/database/answer.model';
+import Interaction from '@/database/interaction.model';
 
 export async function getQuestions(params: GetQuestionsParams) {
   try {
@@ -172,11 +174,12 @@ export async function deleteQuestion(params: DeleteQuestionParams) {
 
     const { questionId, path } = params;
 
-    const question = await Question.findByIdAndDelete(questionId);
+    await Question.deleteOne({ _id: questionId });
+    await Answer.deleteMany({ question: questionId });
+    await Interaction.deleteMany({ question: questionId });
+    await Tag.updateMany({ question: questionId }, { $pull: { questions: questionId } });
 
-    // Increment author's reputation
     revalidatePath(path);
-    return question;
   } catch (error) {
     console.log(error);
     throw error;

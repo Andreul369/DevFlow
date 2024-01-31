@@ -10,6 +10,8 @@ import {
 } from './shared.types';
 import { revalidatePath } from 'next/cache';
 import Answer from '@/database/answer.model';
+import Interaction from '@/database/interaction.model';
+import Tag from '@/database/tag.model';
 
 export async function createAnswer(params: CreateAnswerParams) {
   try {
@@ -124,11 +126,15 @@ export async function deleteAnswer(params: DeleteAnswerParams) {
 
     const { answerId, path } = params;
 
-    const answer = await Answer.findByIdAndDelete(answerId);
+    const answer = await Answer.findById(answerId);
 
-    // Increment author's reputation
+    if (!answer) throw new Error('Answer not found');
+
+    await Answer.deleteOne({ _id: answerId });
+    await Question.updateMany({ _id: answer.question }, { $pull: { answers: answerId } });
+    await Interaction.deleteMany({ answer: answerId });
+
     revalidatePath(path);
-    return answer;
   } catch (error) {
     console.log(error);
     throw error;

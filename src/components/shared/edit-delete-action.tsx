@@ -12,6 +12,7 @@ interface Props {
 
 const EditDeleteAction = ({ type, itemId }: Props) => {
   const pathname = usePathname();
+
   const router = useRouter();
 
   const handleEdit = () => {
