@@ -33,7 +33,6 @@ const QuestionCard = ({
   createdAt,
 }: QuestionProps) => {
   const showActionButtons = clerkId && clerkId === author.clerkId;
-  console.log(author);
 
   return (
     <div className='card-wrapper rounded-lg p-9 sm:px-11'>
