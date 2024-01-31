@@ -7,14 +7,14 @@ import { SignedIn } from '@clerk/nextjs';
 import EditDeleteAction from '../shared/edit-delete-action';
 
 interface QuestionProps {
-  clerkId: string | null;
+  clerkId?: string | null;
   _id: string;
   title: string;
   tags: {
     _id: string;
     name: string;
   }[];
-  author: { _id: string; name: string; picture: string };
+  author: { _id: string; clerkId: string; name: string; picture: string };
   upvotes: string[];
   views: number;
   answers: Array<object>;
@@ -33,6 +33,7 @@ const QuestionCard = ({
   createdAt,
 }: QuestionProps) => {
   const showActionButtons = clerkId && clerkId === author.clerkId;
+  console.log(author);
 
   return (
     <div className='card-wrapper rounded-lg p-9 sm:px-11'>
@@ -49,7 +50,9 @@ const QuestionCard = ({
         </div>
 
         <SignedIn>
-          {showActionButtons && <EditDeleteAction type='Question' itemId={_id} />}
+          {showActionButtons && (
+            <EditDeleteAction type='Question' itemId={JSON.stringify(_id)} />
+          )}
         </SignedIn>
       </div>
 
