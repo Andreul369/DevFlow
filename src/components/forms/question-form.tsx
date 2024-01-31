@@ -25,13 +25,12 @@ import { createQuestion } from '@/lib/actions/question.action';
 import { useRouter, usePathname } from 'next/navigation';
 import { useTheme } from '@/context/theme-provider';
 
-const type: any = 'create';
-
 interface Props {
   mongoUserId: string;
+  type?: 'create' | 'edit';
 }
 
-const QuestionForm = ({ mongoUserId }: Props) => {
+const QuestionForm = ({ mongoUserId, type }: Props) => {
   const { mode } = useTheme();
   const editorRef = useRef(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
