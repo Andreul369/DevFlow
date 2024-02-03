@@ -26,24 +26,28 @@ import { useRouter, usePathname } from 'next/navigation';
 import { useTheme } from '@/context/theme-provider';
 
 interface Props {
-  mongoUserId: string;
   type?: 'create' | 'edit';
+  mongoUserId: string;
+  questionDetails?: string;
 }
 
-const QuestionForm = ({ mongoUserId, type }: Props) => {
+const QuestionForm = ({ type, mongoUserId, questionDetails }: Props) => {
   const { mode } = useTheme();
   const editorRef = useRef(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
 
+  const parsedQuestionDetails = JSON.parse(questionDetails || '');
+  console.log('parsedQeustiondetasl');
+  console.log(parsedQuestionDetails);
   // 1. Define your form.
   const form = useForm<z.infer<typeof questionsSchema>>({
     resolver: zodResolver(questionsSchema),
     defaultValues: {
-      title: '',
-      explanation: '',
-      tags: [],
+      title: parsedQuestionDetails.title || '',
+      explanation: parsedQuestionDetails.content || '',
+      // tags: parsedQuestionDetails.tags || [],
     },
   });
 
@@ -148,7 +152,7 @@ const QuestionForm = ({ mongoUserId, type }: Props) => {
                   }}
                   onBlur={field.onBlur}
                   onEditorChange={(content) => field.onChange(content)}
-                  initialValue=''
+                  initialValue={parsedQuestionDetails.content || ''}
                   init={{
                     height: 350,
                     menubar: false,
@@ -203,7 +207,7 @@ const QuestionForm = ({ mongoUserId, type }: Props) => {
                     onKeyDown={(e) => handleInputKeyDown(e, field)}
                   />
 
-                  {field.value.length > 0 && (
+                  {/* {field.value.length > 0 && (
                     <div className='flex-start mt-2.5 gap-2.5'>
                       {field.value.map((tag: any) => (
                         <Badge
@@ -222,7 +226,7 @@ const QuestionForm = ({ mongoUserId, type }: Props) => {
                         </Badge>
                       ))}
                     </div>
-                  )}
+                  )} */}
                 </>
               </FormControl>
               <FormDescription className='body-regular mt-2.5 text-light-500'>
