@@ -17,7 +17,6 @@ import Question from '@/database/question.model';
 import Tag from '@/database/tag.model';
 import { FilterQuery } from 'mongoose';
 import Answer from '@/database/answer.model';
-import { questionsSchema } from '../validations';
 
 export async function getUserById(params: any) {
   try {

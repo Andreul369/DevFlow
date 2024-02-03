@@ -11,14 +11,8 @@ import { auth } from '@clerk/nextjs';
 import { getUserById } from '@/lib/actions/user.action';
 import AllAnswers from '@/components/shared/all-answers';
 import Votes from '@/components/shared/votes';
-
-const QuestionPage = async ({
-  params,
-  searchParams,
-}: {
-  params: { id: string };
-  searchParams: { [key: string]: string | string[] | undefined };
-}) => {
+import { URLProps } from '@/types';
+const QuestionPage = async ({ params, searchParams }: URLProps) => {
   const { userId: clerkId } = auth();
 
   let mongoUser;
@@ -71,7 +65,7 @@ const QuestionPage = async ({
           imgUrl='/assets/icons/clock.svg'
           alt='clock icon'
           value={` asked ${getTimestamp(result.createdAt)}`}
-          title=' Asked'
+          title=''
           textStyles='small-medium text-dark400_light800'
         />
         <Metric

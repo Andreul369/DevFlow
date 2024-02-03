@@ -21,7 +21,7 @@ import { Input } from '@/components/ui/input';
 import { questionsSchema } from '@/lib/validations';
 import { Editor } from '@tinymce/tinymce-react';
 import { Badge } from '../ui/badge';
-import { createQuestion } from '@/lib/actions/question.action';
+import { createQuestion, editQuestion } from '@/lib/actions/question.action';
 import { useRouter, usePathname } from 'next/navigation';
 import { useTheme } from '@/context/theme-provider';
 
@@ -39,15 +39,15 @@ const QuestionForm = ({ type, mongoUserId, questionDetails }: Props) => {
   const pathname = usePathname();
 
   const parsedQuestionDetails = JSON.parse(questionDetails || '');
-  console.log('parsedQeustiondetasl');
-  console.log(parsedQuestionDetails);
+  const groupedTags = parsedQuestionDetails.tags.map((tag) => tag.name);
+
   // 1. Define your form.
   const form = useForm<z.infer<typeof questionsSchema>>({
     resolver: zodResolver(questionsSchema),
     defaultValues: {
       title: parsedQuestionDetails.title || '',
       explanation: parsedQuestionDetails.content || '',
-      // tags: parsedQuestionDetails.tags || [],
+      tags: groupedTags || [],
     },
   });
 
@@ -57,19 +57,30 @@ const QuestionForm = ({ type, mongoUserId, questionDetails }: Props) => {
     // We can try to crate a question or we can try to edit a question
 
     try {
-      // make an async call to our API -> create a quesion
-      // contain all form data
-      // navigate to home page
-      await createQuestion({
-        title: values.title,
-        content: values.explanation,
-        tags: values.tags,
-        author: JSON.parse(mongoUserId),
-        path: pathname,
-      });
+      if (type === 'edit') {
+        await editQuestion({
+          questionId: parsedQuestionDetails._id,
+          title: values.title,
+          content: values.explanation,
+          path: pathname,
+        });
 
-      // navigate to home page
-      router.push('/');
+        await router.push(`/question/${parsedQuestionDetails._id}`);
+      } else {
+        // make an async call to our API -> create a quesion
+        // contain all form data
+        // navigate to home page
+        await createQuestion({
+          title: values.title,
+          content: values.explanation,
+          tags: values.tags,
+          author: JSON.parse(mongoUserId),
+          path: pathname,
+        });
+
+        // navigate to home page after creating the question
+        router.push('/');
+      }
     } catch (error) {
     } finally {
       setIsSubmitting(false);
@@ -202,31 +213,36 @@ const QuestionForm = ({ type, mongoUserId, questionDetails }: Props) => {
               <FormControl className='mt-3.5'>
                 <>
                   <Input
+                    disabled={type === 'edit'}
                     className='no-focus paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 min-h-[56px] border'
                     placeholder='Add tags...'
                     onKeyDown={(e) => handleInputKeyDown(e, field)}
                   />
 
-                  {/* {field.value.length > 0 && (
+                  {field.value.length > 0 && (
                     <div className='flex-start mt-2.5 gap-2.5'>
                       {field.value.map((tag: any) => (
                         <Badge
                           key={tag}
                           className='subtle-medium background-light800_dark300 text-light400_light500 flex items-center justify-center gap-2 rounded-md border-none px-4 py-2 capitalize'
-                          onClick={() => handleTagRemove(tag, field)}
+                          onClick={() =>
+                            type === 'create' ? handleTagRemove(tag, field) : () => {}
+                          }
                         >
                           {tag}
-                          <Image
-                            src='/assets/icons/close.svg'
-                            alt='Close icon'
-                            width={12}
-                            height={12}
-                            className='cursor-pointer object-contain invert-0 dark:invert'
-                          />
+                          {type === 'create' && (
+                            <Image
+                              src='/assets/icons/close.svg'
+                              alt='Close icon'
+                              width={12}
+                              height={12}
+                              className='cursor-pointer object-contain invert-0 dark:invert'
+                            />
+                          )}
                         </Badge>
                       ))}
                     </div>
-                  )} */}
+                  )}
                 </>
               </FormControl>
               <FormDescription className='body-regular mt-2.5 text-light-500'>
