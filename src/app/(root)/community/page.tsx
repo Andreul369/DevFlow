@@ -14,7 +14,10 @@ const CommunityPage = async ({ searchParams }: SearchParamsProps) => {
 
   if (!userId) redirect('/sign-in');
 
-  const { users } = await getAllUsers({ searchQuery: searchParams.q });
+  const { users } = await getAllUsers({
+    searchQuery: searchParams.q,
+    filter: searchParams.filter,
+  });
 
   return (
     <>

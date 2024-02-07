@@ -2,7 +2,7 @@ import React from 'react';
 import { auth } from '@clerk/nextjs';
 import { redirect } from 'next/navigation';
 import LocalSearchbar from '@/components/shared/search/local-searchbar';
-import { UserFilters } from '@/constants/filters';
+import { TagFilters } from '@/constants/filters';
 import Filter from '@/components/shared/filter';
 import Link from 'next/link';
 import NoResult from '@/components/shared/no-result';
@@ -14,7 +14,10 @@ const TagsPage = async ({ searchParams }: SearchParamsProps) => {
 
   if (!userId) redirect('/sign-in');
 
-  const { tags } = await getAllTags({ searchQuery: searchParams.q });
+  const { tags } = await getAllTags({
+    searchQuery: searchParams.q,
+    filter: searchParams.filter,
+  });
 
   return (
     <>
@@ -29,7 +32,7 @@ const TagsPage = async ({ searchParams }: SearchParamsProps) => {
         />
 
         <Filter
-          filters={UserFilters}
+          filters={TagFilters}
           otherClasses='min-h-[56px] sm:min-w-[170px]'
           containerClasses='flex'
         />
