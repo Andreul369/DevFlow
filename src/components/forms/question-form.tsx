@@ -1,12 +1,10 @@
 'use client';
 
 import React, { useRef, useState } from 'react';
-
 import Image from 'next/image';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
-
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -38,15 +36,15 @@ const QuestionForm = ({ type, mongoUserId, questionDetails }: Props) => {
   const router = useRouter();
   const pathname = usePathname();
 
-  const parsedQuestionDetails = JSON.parse(questionDetails || '');
-  const groupedTags = parsedQuestionDetails.tags.map((tag) => tag.name);
+  const parsedQuestionDetails = questionDetails && JSON.parse(questionDetails || '');
+  const groupedTags = parsedQuestionDetails?.tags.map((tag) => tag.name);
 
   // 1. Define your form.
   const form = useForm<z.infer<typeof questionsSchema>>({
     resolver: zodResolver(questionsSchema),
     defaultValues: {
-      title: parsedQuestionDetails.title || '',
-      explanation: parsedQuestionDetails.content || '',
+      title: parsedQuestionDetails?.title || '',
+      explanation: parsedQuestionDetails?.content || '',
       tags: groupedTags || [],
     },
   });
@@ -82,6 +80,8 @@ const QuestionForm = ({ type, mongoUserId, questionDetails }: Props) => {
         router.push('/');
       }
     } catch (error) {
+      console.log(error);
+      throw error;
     } finally {
       setIsSubmitting(false);
     }
@@ -163,7 +163,7 @@ const QuestionForm = ({ type, mongoUserId, questionDetails }: Props) => {
                   }}
                   onBlur={field.onBlur}
                   onEditorChange={(content) => field.onChange(content)}
-                  initialValue={parsedQuestionDetails.content || ''}
+                  initialValue={parsedQuestionDetails?.content || ''}
                   init={{
                     height: 350,
                     menubar: false,
