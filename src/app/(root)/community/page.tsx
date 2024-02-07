@@ -7,15 +7,14 @@ import Filter from '@/components/shared/filter';
 import UserCard from '@/components/cards/user-card';
 import { getAllUsers } from '@/lib/actions/user.action';
 import Link from 'next/link';
+import { SearchParamsProps } from '@/types';
 
-const CommunityPage = async () => {
+const CommunityPage = async ({ searchParams }: SearchParamsProps) => {
   const { userId } = auth();
 
   if (!userId) redirect('/sign-in');
 
-  const { users } = await getAllUsers({});
-
-  //   console.log(users);
+  const { users } = await getAllUsers({ searchQuery: searchParams.q });
 
   return (
     <>

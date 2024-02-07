@@ -7,15 +7,14 @@ import Filter from '@/components/shared/filter';
 import Link from 'next/link';
 import NoResult from '@/components/shared/no-result';
 import { getAllTags } from '@/lib/actions/tag.action';
+import { SearchParamsProps } from '@/types';
 
-const TagsPage = async () => {
+const TagsPage = async ({ searchParams }: SearchParamsProps) => {
   const { userId } = auth();
 
   if (!userId) redirect('/sign-in');
 
-  const { tags } = await getAllTags({});
-
-  //   console.log(users);
+  const { tags } = await getAllTags({ searchQuery: searchParams.q });
 
   return (
     <>
@@ -61,7 +60,7 @@ const TagsPage = async () => {
         ) : (
           <NoResult
             title='No Tags Found'
-            description='It looks like thre are no tags found'
+            description='It looks like there are no tags found'
             link='/ask-question'
             linkText='Ask a Question'
           />
