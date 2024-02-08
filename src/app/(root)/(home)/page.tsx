@@ -11,7 +11,7 @@ import { SearchParamsProps } from '@/types';
 import PaginationComponent from '@/components/shared/pagination';
 
 export default async function HomePage({ searchParams }: SearchParamsProps) {
-  const { questions } = await getQuestions({
+  const result = await getQuestions({
     searchQuery: searchParams.q,
     page: searchParams.page ? +searchParams.page : 1,
   });
@@ -47,8 +47,8 @@ export default async function HomePage({ searchParams }: SearchParamsProps) {
       <HomeFilters />
 
       <div className='mt-10 flex w-full flex-col gap-6'>
-        {questions.length > 0 ? (
-          questions.map((question) => (
+        {result.questions.length > 0 ? (
+          result.questions.map((question) => (
             <QuestionCard
               key={question._id}
               _id={question._id}
@@ -75,7 +75,7 @@ export default async function HomePage({ searchParams }: SearchParamsProps) {
       <div className='mt-10'>
         <PaginationComponent
           pageNumber={searchParams?.page ? +searchParams.page : 1}
-          isNext={questions.isNext}
+          isNext={result.isNext}
         />
       </div>
     </>

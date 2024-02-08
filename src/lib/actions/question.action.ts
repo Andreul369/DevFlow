@@ -60,7 +60,12 @@ export async function getQuestions(params: GetQuestionsParams) {
       .limit(pageSize)
       .sort(sortOptions);
 
-    return { questions };
+    // Calculate the total number of questions
+    const totalQuestions = await Question.countDocuments(query);
+
+    const isNext = totalQuestions > skipAmount + questions.length;
+
+    return { questions, isNext };
   } catch (error) {
     console.log(error);
     throw error;
