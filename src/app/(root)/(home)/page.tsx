@@ -8,6 +8,7 @@ import QuestionCard from '@/components/cards/question-card';
 import NoResult from '@/components/shared/no-result';
 import { getQuestions } from '@/lib/actions/question.action';
 import { SearchParamsProps } from '@/types';
+import PaginationComponent from '@/components/shared/pagination';
 
 export default async function HomePage({ searchParams }: SearchParamsProps) {
   const { questions } = await getQuestions({
@@ -69,6 +70,8 @@ export default async function HomePage({ searchParams }: SearchParamsProps) {
           />
         )}
       </div>
+
+      <PaginationComponent />
     </>
   );
 }
