@@ -40,7 +40,8 @@ const PaginationComponent = ({ pageNumber, isNext }: Props) => {
       <PaginationContent>
         <PaginationItem>
           <PaginationPrevious
-            href={isNext ? `?page=${pageNumber - 1}` : `?page=${pageNumber}`}
+            // TODO: smth doesn't work properly here
+            href={isNext ? `?page=${pageNumber - 1}` : ''}
             onClick={() => handleNavigation('prev')}
             className='body-medium text-dark200_light800'
           />
@@ -65,7 +66,7 @@ const PaginationComponent = ({ pageNumber, isNext }: Props) => {
         </PaginationItem>
         <PaginationItem>
           <PaginationNext
-            href={isNext ? `?page=${pageNumber + 1}` : `?page=${pageNumber}`}
+            href={isNext ? `?page=${pageNumber + 1}` : ''}
             onClick={() => handleNavigation('next')}
             className='body-medium text-dark200_light800'
           />
