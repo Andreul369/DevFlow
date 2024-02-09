@@ -8,15 +8,17 @@ import Link from 'next/link';
 import NoResult from '@/components/shared/no-result';
 import { getAllTags } from '@/lib/actions/tag.action';
 import { SearchParamsProps } from '@/types';
+import PaginationComponent from '@/components/shared/pagination';
 
 const TagsPage = async ({ searchParams }: SearchParamsProps) => {
   const { userId } = auth();
 
   if (!userId) redirect('/sign-in');
 
-  const { tags } = await getAllTags({
+  const { tags, isNext } = await getAllTags({
     searchQuery: searchParams.q,
     filter: searchParams.filter,
+    page: searchParams.page ? +searchParams.page : 1,
   });
 
   return (
@@ -69,6 +71,13 @@ const TagsPage = async ({ searchParams }: SearchParamsProps) => {
           />
         )}
       </section>
+
+      <div className='mt-10'>
+        <PaginationComponent
+          pageNumber={searchParams?.page ? +searchParams.page : 1}
+          isNext={isNext}
+        />
+      </div>
     </>
   );
 };

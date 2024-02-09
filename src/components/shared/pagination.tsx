@@ -35,30 +35,43 @@ const PaginationComponent = ({ pageNumber, isNext }: Props) => {
     router.push(newUrl);
   };
 
+  // If there are no multiple pages to display, we hide the component
+  if (!isNext && pageNumber === 1) return null;
+
   return (
     <Pagination>
       <PaginationContent>
         <PaginationItem>
           <PaginationPrevious
             // TODO: smth doesn't work properly here
-            href={isNext ? `?page=${pageNumber - 1}` : ''}
+            href={pageNumber === 1 ? '' : `?page=${pageNumber - 1}`}
             onClick={() => handleNavigation('prev')}
             className='body-medium text-dark200_light800'
           />
         </PaginationItem>
         <PaginationItem>
-          <PaginationLink href='#' className='body-medium text-dark200_light800'>
-            1 | {pageNumber}
+          <PaginationLink
+            href={`?page=${pageNumber - 1}`}
+            className='body-medium text-dark200_light800'
+          >
+            {pageNumber - 1}
           </PaginationLink>
         </PaginationItem>
         <PaginationItem>
-          <PaginationLink href='#' isActive className='body-medium text-dark200_light800'>
-            2
+          <PaginationLink
+            href={`?page=${pageNumber}`}
+            isActive
+            className='body-medium text-dark200_light800'
+          >
+            {pageNumber}
           </PaginationLink>
         </PaginationItem>
         <PaginationItem>
-          <PaginationLink href='#' className='body-medium text-dark200_light800'>
-            3
+          <PaginationLink
+            href={`?page=${pageNumber + 1}`}
+            className='body-medium text-dark200_light800'
+          >
+            {pageNumber + 1}
           </PaginationLink>
         </PaginationItem>
         <PaginationItem>

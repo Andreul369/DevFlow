@@ -8,15 +8,17 @@ import UserCard from '@/components/cards/user-card';
 import { getAllUsers } from '@/lib/actions/user.action';
 import Link from 'next/link';
 import { SearchParamsProps } from '@/types';
+import PaginationComponent from '@/components/shared/pagination';
 
 const CommunityPage = async ({ searchParams }: SearchParamsProps) => {
   const { userId } = auth();
 
   if (!userId) redirect('/sign-in');
 
-  const { users } = await getAllUsers({
+  const { users, isNext } = await getAllUsers({
     searchQuery: searchParams.q,
     filter: searchParams.filter,
+    page: searchParams.page ? +searchParams.page : 1,
   });
 
   return (
@@ -50,6 +52,13 @@ const CommunityPage = async ({ searchParams }: SearchParamsProps) => {
           </div>
         )}
       </section>
+
+      <div className='mt-10'>
+        <PaginationComponent
+          pageNumber={searchParams.page ? +searchParams.page : 1}
+          isNext={isNext}
+        />
+      </div>
     </>
   );
 };

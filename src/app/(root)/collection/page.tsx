@@ -7,16 +7,18 @@ import QuestionCard from '@/components/cards/question-card';
 import { getSavedQuestions } from '@/lib/actions/user.action';
 import { auth } from '@clerk/nextjs';
 import { SearchParamsProps } from '@/types';
+import PaginationComponent from '@/components/shared/pagination';
 
 const CollectionPage = async ({ searchParams }: SearchParamsProps) => {
   const { userId } = auth();
 
   if (!userId) return null;
 
-  const result = await getSavedQuestions({
+  const { questions, isNext } = await getSavedQuestions({
     clerkId: userId,
     searchQuery: searchParams.q,
     filter: searchParams.filter,
+    page: searchParams.page ? +searchParams.page : 1,
   });
 
   return (
@@ -36,8 +38,8 @@ const CollectionPage = async ({ searchParams }: SearchParamsProps) => {
       </div>
 
       <div className='mt-10 flex w-full flex-col gap-6'>
-        {result.questions.length > 0 ? (
-          result.questions.map((question: any) => (
+        {questions.length > 0 ? (
+          questions.map((question: any) => (
             <QuestionCard
               key={question._id}
               _id={question._id}
@@ -58,6 +60,13 @@ const CollectionPage = async ({ searchParams }: SearchParamsProps) => {
             linkText='Ask a Question'
           />
         )}
+      </div>
+
+      <div className='mt-10'>
+        <PaginationComponent
+          pageNumber={searchParams?.page ? +searchParams.page : 1}
+          isNext={isNext}
+        />
       </div>
     </>
   );
