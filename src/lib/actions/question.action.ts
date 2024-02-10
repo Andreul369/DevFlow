@@ -103,8 +103,15 @@ export const createQuestion = async (params: CreateQuestionParams) => {
     });
 
     // Create an interaction record for the user's ask_question action
+    await Interaction.create({
+      user: author,
+      actions: 'ask_question',
+      question: question._id,
+      tag: tagDocuments,
+    });
 
-    // Increment author's reputation by 5 points for creating a question
+    // Increment author's reputation by +5 points for creating a question
+    await User.findByIdAndUpdate(author, { $inc: { reputation: 5 } });
 
     // Once we create a question we can call revalidatePath,
     // which will trigger a rebuild of the page at the given path.
