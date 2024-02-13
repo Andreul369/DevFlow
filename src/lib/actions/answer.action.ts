@@ -53,7 +53,6 @@ export async function getAnswers(params: GetAnswersParams) {
 
     const skipAmount = (page - 1) * pageSize;
 
-    // filter functionality
     let sortOptions = {};
 
     switch (sortBy) {
@@ -69,6 +68,9 @@ export async function getAnswers(params: GetAnswersParams) {
       case 'old':
         sortOptions = { createdAt: 1 };
         break;
+
+      default:
+        break;
     }
 
     const answers = await Answer.find({ question: questionId })
@@ -77,9 +79,12 @@ export async function getAnswers(params: GetAnswersParams) {
       .skip(skipAmount)
       .limit(pageSize);
 
-    const totalAnswers = await Answer.countDocuments({ question: questionId });
+    const totalAnswers = await Answer.countDocuments({
+      question: questionId,
+    });
 
-    const isNext = totalAnswers > skipAmount + totalAnswers.length;
+    const isNext = totalAnswers > skipAmount + answers.length;
+
     return { answers, isNext };
   } catch (error) {
     console.log(error);
