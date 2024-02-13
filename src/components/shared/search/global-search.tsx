@@ -7,21 +7,7 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { formUrlQuery, removeKeysFromQuery } from '@/lib/utils';
 import GlobalResult from './global-result';
 
-interface CustomInputProps {
-  route: string;
-  iconPosition: string;
-  imgSrc: string;
-  placeholder: string;
-  otherClasses?: string;
-}
-
-const GlobalSearch = ({
-  route,
-  iconPosition,
-  imgSrc,
-  placeholder,
-  otherClasses,
-}: CustomInputProps) => {
+const GlobalSearch = () => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
