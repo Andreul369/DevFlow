@@ -63,7 +63,7 @@ const QuestionForm = ({ type, mongoUserId, questionDetails }: Props) => {
           path: pathname,
         });
 
-        await router.push(`/question/${parsedQuestionDetails._id}`);
+        router.push(`/question/${parsedQuestionDetails._id}`);
       } else {
         // make an async call to our API -> create a quesion
         // contain all form data
@@ -75,7 +75,7 @@ const QuestionForm = ({ type, mongoUserId, questionDetails }: Props) => {
           author: JSON.parse(mongoUserId),
           path: pathname,
         });
-
+        console.log(values);
         // navigate to home page after creating the question
         router.push('/');
       }
