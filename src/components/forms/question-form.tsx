@@ -16,7 +16,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { questionsSchema } from '@/lib/validations';
+import { QuestionsSchema } from '@/lib/validations';
 import { Editor } from '@tinymce/tinymce-react';
 import { Badge } from '../ui/badge';
 import { createQuestion, editQuestion } from '@/lib/actions/question.action';
@@ -40,8 +40,8 @@ const QuestionForm = ({ type, mongoUserId, questionDetails }: Props) => {
   const groupedTags = parsedQuestionDetails?.tags.map((tag: any) => tag.name);
 
   // 1. Define your form.
-  const form = useForm<z.infer<typeof questionsSchema>>({
-    resolver: zodResolver(questionsSchema),
+  const form = useForm<z.infer<typeof QuestionsSchema>>({
+    resolver: zodResolver(QuestionsSchema),
     defaultValues: {
       title: parsedQuestionDetails?.title || '',
       explanation: parsedQuestionDetails?.content || '',
@@ -50,9 +50,8 @@ const QuestionForm = ({ type, mongoUserId, questionDetails }: Props) => {
   });
 
   // 2. Define a submit handler.
-  async function onSubmit(values: z.infer<typeof questionsSchema>) {
+  async function onSubmit(values: z.infer<typeof QuestionsSchema>) {
     setIsSubmitting(true);
-    // We can try to crate a question or we can try to edit a question
 
     try {
       if (type === 'edit') {
@@ -65,9 +64,6 @@ const QuestionForm = ({ type, mongoUserId, questionDetails }: Props) => {
 
         router.push(`/question/${parsedQuestionDetails._id}`);
       } else {
-        // make an async call to our API -> create a quesion
-        // contain all form data
-        // navigate to home page
         await createQuestion({
           title: values.title,
           content: values.explanation,
@@ -75,13 +71,10 @@ const QuestionForm = ({ type, mongoUserId, questionDetails }: Props) => {
           author: JSON.parse(mongoUserId),
           path: pathname,
         });
-        console.log(values);
-        // navigate to home page after creating the question
+
         router.push('/');
       }
     } catch (error) {
-      console.log(error);
-      throw error;
     } finally {
       setIsSubmitting(false);
     }
@@ -98,7 +91,7 @@ const QuestionForm = ({ type, mongoUserId, questionDetails }: Props) => {
         if (tagValue.length > 15) {
           return form.setError('tags', {
             type: 'required',
-            message: 'Tag must be less than 15 characters',
+            message: 'Tag must be less than 15 characters.',
           });
         }
 
@@ -106,15 +99,16 @@ const QuestionForm = ({ type, mongoUserId, questionDetails }: Props) => {
           form.setValue('tags', [...field.value, tagValue]);
           tagInput.value = '';
           form.clearErrors('tags');
-        } else {
-          form.trigger();
         }
+      } else {
+        form.trigger();
       }
     }
   };
 
   const handleTagRemove = (tag: string, field: any) => {
-    const newTags = field.value.filter((item: string) => item !== tag);
+    const newTags = field.value.filter((t: string) => t !== tag);
+
     form.setValue('tags', newTags);
   };
 
@@ -186,11 +180,11 @@ const QuestionForm = ({ type, mongoUserId, questionDetails }: Props) => {
                     ],
                     toolbar:
                       'undo redo | ' +
-                      'codesample | bold italic forecolor | alignleft aligncenter | ' +
+                      'codesample | bold italic forecolor | alignleft aligncenter |' +
                       'alignright alignjustify | bullist numlist',
-                    content_style: 'body { font-family:Inter; font-size:16px; }',
+                    content_style: 'body { font-family:Inter; font-size:16px }',
                     skin: mode === 'dark' ? 'oxide-dark' : 'oxide',
-                    content_css: mode === 'dark' ? 'dark' : 'oxide',
+                    content_css: mode === 'dark' ? 'dark' : 'light',
                   }}
                 />
               </FormControl>
@@ -226,11 +220,11 @@ const QuestionForm = ({ type, mongoUserId, questionDetails }: Props) => {
                           key={tag}
                           className='subtle-medium background-light800_dark300 text-light400_light500 flex items-center justify-center gap-2 rounded-md border-none px-4 py-2 capitalize'
                           onClick={() =>
-                            type === 'create' ? handleTagRemove(tag, field) : () => {}
+                            type !== 'edit' ? handleTagRemove(tag, field) : () => {}
                           }
                         >
                           {tag}
-                          {type === 'create' && (
+                          {type !== 'edit' && (
                             <Image
                               src='/assets/icons/close.svg'
                               alt='Close icon'
@@ -253,7 +247,6 @@ const QuestionForm = ({ type, mongoUserId, questionDetails }: Props) => {
             </FormItem>
           )}
         />
-
         <Button
           type='submit'
           className='primary-gradient w-fit !text-light-900'

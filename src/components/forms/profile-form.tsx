@@ -14,7 +14,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { profileSchema } from '@/lib/validations';
+import { ProfileSchema } from '@/lib/validations';
 import { usePathname, useRouter } from 'next/navigation';
 import { Textarea } from '../ui/textarea';
 import { updateUser } from '@/lib/actions/user.action';
@@ -31,8 +31,8 @@ const ProfileForm = ({ clerkId, userDetails }: Props) => {
   const parsedUser = JSON.parse(userDetails);
 
   // 1. Define your form.
-  const form = useForm<z.infer<typeof profileSchema>>({
-    resolver: zodResolver(profileSchema),
+  const form = useForm<z.infer<typeof ProfileSchema>>({
+    resolver: zodResolver(ProfileSchema),
     defaultValues: {
       name: parsedUser.name || '',
       username: parsedUser.username || '',
@@ -43,7 +43,7 @@ const ProfileForm = ({ clerkId, userDetails }: Props) => {
   });
 
   // 2. Define a submit handler.
-  async function onSubmit(values: z.infer<typeof profileSchema>) {
+  async function onSubmit(values: z.infer<typeof ProfileSchema>) {
     setIsSubmitting(true);
 
     try {
@@ -85,7 +85,7 @@ const ProfileForm = ({ clerkId, userDetails }: Props) => {
               <FormControl className='mt-3.5'>
                 <Input
                   placeholder='Your name'
-                  className='no-focus paragraph-regular background-light700_dark300 light-border-2 text-dark300_light700 min-h-[56px] border'
+                  className='no-focus paragraph-regular background-light800_dark300 light-border-2 text-dark300_light700 min-h-[56px] border'
                   {...field}
                 />
               </FormControl>
@@ -105,7 +105,7 @@ const ProfileForm = ({ clerkId, userDetails }: Props) => {
               <FormControl className='mt-3.5'>
                 <Input
                   placeholder='Your username'
-                  className='no-focus paragraph-regular background-light700_dark300 light-border-2 text-dark300_light700 min-h-[56px] border'
+                  className='no-focus paragraph-regular background-light800_dark300 light-border-2 text-dark300_light700 min-h-[56px] border'
                   {...field}
                 />
               </FormControl>
@@ -126,7 +126,7 @@ const ProfileForm = ({ clerkId, userDetails }: Props) => {
                 <Input
                   type='url'
                   placeholder='Your portfolio URL'
-                  className='no-focus paragraph-regular background-light700_dark300 light-border-2 text-dark300_light700 min-h-[56px] border'
+                  className='no-focus paragraph-regular background-light800_dark300 light-border-2 text-dark300_light700 min-h-[56px] border'
                   {...field}
                 />
               </FormControl>
@@ -146,7 +146,7 @@ const ProfileForm = ({ clerkId, userDetails }: Props) => {
               <FormControl className='mt-3.5'>
                 <Input
                   placeholder='Where are you from?'
-                  className='no-focus paragraph-regular background-light700_dark300 light-border-2 text-dark300_light700 min-h-[56px] border'
+                  className='no-focus paragraph-regular background-light800_dark300 light-border-2 text-dark300_light700 min-h-[56px] border'
                   {...field}
                 />
               </FormControl>
@@ -166,7 +166,7 @@ const ProfileForm = ({ clerkId, userDetails }: Props) => {
               <FormControl className='mt-3.5'>
                 <Textarea
                   placeholder='Tell us a few things about yourself'
-                  className='no-focus paragraph-regular background-light700_dark300 light-border-2 text-dark300_light700 min-h-[56px] border'
+                  className='no-focus paragraph-regular background-light800_dark300 light-border-2 text-dark300_light700 min-h-[56px] border'
                   {...field}
                 />
               </FormControl>

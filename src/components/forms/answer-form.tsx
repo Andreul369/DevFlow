@@ -15,7 +15,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 
-import { answersSchema } from '@/lib/validations';
+import { AnswersSchema } from '@/lib/validations';
 import { Editor } from '@tinymce/tinymce-react';
 import { usePathname } from 'next/navigation';
 import { createAnswer } from '@/lib/actions/answer.action';
@@ -35,15 +35,15 @@ const AnswerForm = ({ question, questionId, authorId }: Props) => {
   const pathname = usePathname();
 
   // 1. Define your form.
-  const form = useForm<z.infer<typeof answersSchema>>({
-    resolver: zodResolver(answersSchema),
+  const form = useForm<z.infer<typeof AnswersSchema>>({
+    resolver: zodResolver(AnswersSchema),
     defaultValues: {
       answer: '',
     },
   });
 
   // 2. Define a submit handler.
-  async function onSubmit(values: z.infer<typeof answersSchema>) {
+  async function onSubmit(values: z.infer<typeof AnswersSchema>) {
     setIsSubmitting(true);
 
     try {

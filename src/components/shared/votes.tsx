@@ -8,6 +8,7 @@ import { formatAndDivideNumber } from '@/lib/utils';
 import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect } from 'react';
+import { toast } from 'sonner';
 
 interface Props {
   type: string;
@@ -43,7 +44,7 @@ const Votes = ({
 
   const handleVote = async (action: string) => {
     if (!userId) {
-      return;
+      return toast('Please log in.');
     }
 
     if (action === 'upvote') {
@@ -65,8 +66,7 @@ const Votes = ({
         });
       }
 
-      // todo: show a toast
-      return;
+      return toast('Please log in.');
     }
 
     if (action === 'downvote') {
