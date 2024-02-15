@@ -6,16 +6,36 @@ import { HomePageFilters } from '@/constants/filters';
 import HomeFilters from '@/components/home/home-filters';
 import QuestionCard from '@/components/cards/question-card';
 import NoResult from '@/components/shared/no-result';
-import { getQuestions } from '@/lib/actions/question.action';
+import { getQuestions, getRecommendedQuestions } from '@/lib/actions/question.action';
 import { SearchParamsProps } from '@/types';
 import PaginationComponent from '@/components/shared/pagination';
-
+import { auth } from '@clerk/nextjs';
 
 export default async function HomePage({ searchParams }: SearchParamsProps) {
-  const { questions, isNext } = await getQuestions({
-    searchQuery: searchParams.q,
-    page: searchParams.page ? +searchParams.page : 1,
-  });
+  const { userId } = auth();
+
+  let result;
+
+  if (searchParams?.filter === 'recommended') {
+    if (userId) {
+      result = await getRecommendedQuestions({
+        userId,
+        searchQuery: searchParams.q,
+        page: searchParams.page ? +searchParams.page : 1,
+      });
+    } else {
+      result = {
+        questions: [],
+        isNext: false,
+      };
+    }
+  } else {
+    result = await getQuestions({
+      searchQuery: searchParams.q,
+      filter: searchParams.filter,
+      page: searchParams.page ? +searchParams.page : 1,
+    });
+  }
 
   return (
     <>
@@ -48,8 +68,8 @@ export default async function HomePage({ searchParams }: SearchParamsProps) {
       <HomeFilters />
 
       <div className='mt-10 flex w-full flex-col gap-6'>
-        {questions.length > 0 ? (
-          questions.map((question) => (
+        {result.questions.length > 0 ? (
+          result.questions.map((question) => (
             <QuestionCard
               key={question._id}
               _id={question._id}
@@ -76,7 +96,7 @@ export default async function HomePage({ searchParams }: SearchParamsProps) {
       <div className='mt-10'>
         <PaginationComponent
           pageNumber={searchParams?.page ? +searchParams.page : 1}
-          isNext={isNext}
+          isNext={result.isNext}
         />
       </div>
     </>
