@@ -72,7 +72,7 @@ export async function getQuestions(params: GetQuestionsParams) {
   }
 }
 
-export const createQuestion = async (params: CreateQuestionParams) => {
+export async function createQuestion(params: CreateQuestionParams) {
   try {
     connectToDatabase();
 
@@ -105,25 +105,21 @@ export const createQuestion = async (params: CreateQuestionParams) => {
     // Create an interaction record for the user's ask_question action
     await Interaction.create({
       user: author,
-      actions: 'ask_question',
+      action: 'ask_question',
       question: question._id,
-      tag: tagDocuments,
+      tags: tagDocuments,
     });
 
-    // Increment author's reputation by +5 points for creating a question
+    // Increment author's reputation by +5 for creating a question
     await User.findByIdAndUpdate(author, { $inc: { reputation: 5 } });
 
-    // Once we create a question we can call revalidatePath,
-    // which will trigger a rebuild of the page at the given path.
-    // This will ensure that the new question is displayed on the page withouth refreshing the page
     revalidatePath(path);
   } catch (error) {
     console.log(error);
-    throw error;
   }
-};
+}
 
-export const getQuestionById = async (params: GetQuestionByIdParams) => {
+export async function getQuestionById(params: GetQuestionByIdParams) {
   try {
     connectToDatabase();
 
@@ -142,7 +138,7 @@ export const getQuestionById = async (params: GetQuestionByIdParams) => {
     console.log(error);
     throw error;
   }
-};
+}
 
 export async function upvoteQuestion(params: QuestionVoteParams) {
   try {
