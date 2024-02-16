@@ -54,7 +54,7 @@ const LocalSearchbar = ({
 
   return (
     <div
-      className={`background-light800_darkgradient relative flex min-h-[56px] grow items-center gap-4 rounded-xl px-4 ${otherClasses}`}
+      className={`background-light800_darkgradient relative flex min-h-[46px] grow items-center gap-4 rounded-xl px-4 ${otherClasses}`}
     >
       {iconPosition === 'left' && (
         <Image

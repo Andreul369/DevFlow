@@ -34,7 +34,7 @@ const CollectionPage = async ({ searchParams }: SearchParamsProps) => {
           otherClasses='flex-1'
         />
 
-        <Filter filters={QuestionFilters} otherClasses='min-h-[56px] sm:min-w-[170px]' />
+        <Filter filters={QuestionFilters} otherClasses='min-h-[46px] sm:min-w-[170px]' />
       </div>
 
       <div className='mt-10 flex w-full flex-col gap-6'>
