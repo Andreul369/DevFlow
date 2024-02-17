@@ -9,6 +9,14 @@ import { getAllUsers } from '@/lib/actions/user.action';
 import Link from 'next/link';
 import { SearchParamsProps } from '@/types';
 import PaginationComponent from '@/components/shared/pagination';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Community | Dev Overflow',
+  icons: {
+    icon: '/assets/images/site-logo.svg',
+  },
+};
 
 const CommunityPage = async ({ searchParams }: SearchParamsProps) => {
   const { userId } = auth();

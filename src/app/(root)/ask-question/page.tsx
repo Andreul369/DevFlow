@@ -3,6 +3,14 @@ import QuestionForm from '@/components/forms/question-form';
 import { getUserById } from '@/lib/actions/user.action';
 import { auth } from '@clerk/nextjs';
 import { redirect } from 'next/navigation';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Ask a Question | Dev Overflow',
+  icons: {
+    icon: '/assets/images/site-logo.svg',
+  },
+};
 
 const AskQuestionPage = async () => {
   const { userId } = auth();

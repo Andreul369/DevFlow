@@ -5,6 +5,7 @@ import Metric from '../shared/metric';
 import { formatAndDivideNumber, getTimestamp } from '@/lib/utils';
 import { SignedIn } from '@clerk/nextjs';
 import EditDeleteAction from '../shared/edit-delete-action';
+import Image from 'next/image';
 
 interface QuestionProps {
   clerkId?: string | null;
@@ -32,68 +33,46 @@ const JobCard = ({
   answers,
   createdAt,
 }: QuestionProps) => {
-  const showActionButtons = clerkId && clerkId === author.clerkId;
-
   return (
-    <div className='card-wrapper rounded-lg p-9 sm:px-11'>
-      <div className='flex flex-col-reverse items-start justify-between gap-5 sm:flex-row'>
-        <div>
-          <span className='subtle-regular text-dark400_light700 line-clamp-1 flex sm:hidden'>
-            {getTimestamp(createdAt)}
-          </span>
-          <Link href={`/question/${_id}`}>
-            <h3 className='sm:h3-semibold base-semibold text-dark200_light900 line-clamp-1 flex-1'>
-              {title}
-            </h3>
-          </Link>
+    <div className='background-light900_dark200 light-border shadow-light100_darknone flex flex-col items-start gap-6 rounded-lg border p-6 sm:flex-row sm:p-8'>
+      <div className='flex items-center gap-6'>
+        <Image src='/assets/icons/clock-2.svg' alt='clock' width={40} height={40} />
+      </div>
+      <div className='w-full'>
+        <div className='flex-between flex-wrap gap-2'>
+          <p className='base-semibold text-dark200_light900'>SNI</p>
+          <div className='hidden sm:flex'></div>
         </div>
-
-        <SignedIn>
-          {showActionButtons && (
-            <EditDeleteAction type='Question' itemId={JSON.stringify(_id)} />
-          )}
-        </SignedIn>
-      </div>
-
-      <div className='mt-3.5 flex flex-wrap gap-2'>
-        {tags.map((tag) => (
-          <RenderTag key={tag._id} _id={tag._id} name={tag.name} />
-        ))}
-      </div>
-
-      <div className='flex-between mt-6 w-full flex-wrap gap-3'>
-        <Metric
-          imgUrl={author.picture}
-          alt='user'
-          value={author.name}
-          title={` - asked ${getTimestamp(createdAt)}`}
-          href={`/profile/${author._id}`}
-          isAuthor
-          textStyles='body-medium text-dark400_light700'
-        />
-
-        <div className='flex items-center gap-4 max-sm:flex-wrap max-sm:justify-start'>
-          <Metric
-            imgUrl='/assets/icons/like.svg'
-            alt='upvotes'
-            value={formatAndDivideNumber(upvotes.length)}
-            title=' Votes'
-            textStyles='small-medium text-dark400_light800'
-          />
-          <Metric
-            imgUrl='/assets/icons/message.svg'
-            alt='message'
-            value={formatAndDivideNumber(answers.length)}
-            title=' Answers'
-            textStyles='small-medium text-dark400_light800'
-          />
-          <Metric
-            imgUrl='/assets/icons/eye.svg'
-            alt='eye'
-            value={formatAndDivideNumber(views)}
-            title=' Views'
-            textStyles='small-medium text-dark400_light800'
-          />
+        <p className='body-regular text-dark500_light700 mt-2 line-clamp-2'>
+          Overview To be part of our organization, every employee should understand and
+          share in the YNHHS Vision, support our Mission, and live our Values. These
+          values - integrity,
+        </p>
+        <div className='flex-between mt-8 flex-wrap gap-6'>
+          <div className='flex flex-wrap items-center gap-6'>
+            <div className='flex items-center gap-2'>
+              <Image src='/assets/icons/clock-2.svg' alt='clock' width={20} height={20} />
+              <p className='body-medium text-light-500'>FULLTIME</p>
+            </div>
+            <div className='flex items-center gap-2'>
+              <Image
+                src='/assets/icons/currency-dollar-circle.svg'
+                alt='clock'
+                width={20}
+                height={20}
+              />
+              <p className='body-medium text-light-500'>Not disclosed</p>
+            </div>
+          </div>
+          <Link href='#' className='flex items-center gap-2'>
+            <p className='body-semibold primary-text-gradient'>View Job</p>
+            <Image
+              src='/assets/icons/arrow-up-right.svg'
+              alt='clock'
+              width={20}
+              height={20}
+            />
+          </Link>
         </div>
       </div>
     </div>

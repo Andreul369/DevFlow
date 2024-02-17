@@ -9,6 +9,14 @@ import NoResult from '@/components/shared/no-result';
 import { getAllTags } from '@/lib/actions/tag.action';
 import { SearchParamsProps } from '@/types';
 import PaginationComponent from '@/components/shared/pagination';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'All Tags | Dev Overflow',
+  icons: {
+    icon: '/assets/images/site-logo.svg',
+  },
+};
 
 const TagsPage = async ({ searchParams }: SearchParamsProps) => {
   const { userId } = auth();

@@ -10,6 +10,14 @@ import { getQuestions, getRecommendedQuestions } from '@/lib/actions/question.ac
 import { SearchParamsProps } from '@/types';
 import PaginationComponent from '@/components/shared/pagination';
 import { auth } from '@clerk/nextjs';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Home | Dev Overflow',
+  icons: {
+    icon: '/assets/images/site-logo.svg',
+  },
+};
 
 export default async function HomePage({ searchParams }: SearchParamsProps) {
   const { userId } = auth();

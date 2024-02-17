@@ -7,6 +7,14 @@ import { getUserById } from '@/lib/actions/user.action';
 
 import QuestionForm from '@/components/forms/question-form';
 import { ParamsProps } from '@/types';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Edit Question | Dev Overflow',
+  icons: {
+    icon: '/assets/images/site-logo.svg',
+  },
+};
 
 const EditQuestionPage = async ({ params }: ParamsProps) => {
   const { userId } = auth();

@@ -8,6 +8,14 @@ import { SearchParamsProps } from '@/types';
 import JobCard from '@/components/cards/job-card';
 import NoResult from '@/components/shared/no-result';
 import PaginationComponent from '@/components/shared/pagination';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Jobs | Dev Overflow',
+  icons: {
+    icon: '/assets/images/site-logo.svg',
+  },
+};
 
 const JobsPage = async ({ searchParams }: SearchParamsProps) => {
   const result = await getQuestions({
@@ -27,7 +35,7 @@ const JobsPage = async ({ searchParams }: SearchParamsProps) => {
           route='/community'
           iconPosition='left'
           imgSrc='/assets/icons/search.svg'
-          placeholder='Search by username...'
+          placeholder='Job Title, Company, or Keywords'
           otherClasses='flex-1'
         />
 
