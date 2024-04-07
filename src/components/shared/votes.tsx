@@ -9,7 +9,7 @@ import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { toast } from 'sonner';
-
+import * as Icons from '@/components/ui/icons';
 interface Props {
   type: string;
   itemId: string;
@@ -44,7 +44,12 @@ const Votes = ({
 
   const handleVote = async (action: string) => {
     if (!userId) {
-      return toast('Please log in.');
+      return toast('Please log in', {
+        action: {
+          label: `${(<Icons.LogIn className='mr-2 size-4' />)}`,
+          onClick: () => console.log('Undo'),
+        },
+      });
     }
 
     if (action === 'upvote') {

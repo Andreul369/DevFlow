@@ -12,7 +12,6 @@ import { getUserById } from '@/lib/actions/user.action';
 import AllAnswers from '@/components/shared/all-answers';
 import Votes from '@/components/shared/votes';
 import { URLProps } from '@/types';
-import PaginationComponent from '@/components/shared/pagination';
 
 const QuestionPage = async ({ params, searchParams }: URLProps) => {
   const { userId: clerkId } = auth();

@@ -9,6 +9,7 @@ import JobCard from '@/components/cards/job-card';
 import NoResult from '@/components/shared/no-result';
 import PaginationComponent from '@/components/shared/pagination';
 import { Metadata } from 'next';
+import { Pagination } from '@/components/ui/pagination';
 
 export const metadata: Metadata = {
   title: 'Jobs | Dev Overflow',
@@ -71,10 +72,7 @@ const JobsPage = async ({ searchParams }: SearchParamsProps) => {
       </div>
 
       <div className='mt-10'>
-        <PaginationComponent
-          pageNumber={searchParams?.page ? +searchParams.page : 1}
-          isNext={result.isNext}
-        />
+        <Pagination></Pagination>
       </div>
     </>
   );

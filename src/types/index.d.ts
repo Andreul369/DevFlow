@@ -40,9 +40,9 @@ export interface URLProps {
 }
 
 export interface BadgeCounts {
-  GOLD: number;
-  SILVER: number;
   BRONZE: number;
+  SILVER: number;
+  GOLD: number;
 }
 
 export type BadgeCriteriaType = keyof typeof BADGE_CRITERIA;

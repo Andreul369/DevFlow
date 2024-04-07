@@ -7,8 +7,9 @@ import QuestionCard from '@/components/cards/question-card';
 import { getSavedQuestions } from '@/lib/actions/user.action';
 import { auth } from '@clerk/nextjs';
 import { SearchParamsProps } from '@/types';
-import PaginationComponent from '@/components/shared/pagination';
+
 import { Metadata } from 'next';
+import { Pagination } from '@/components/ui/pagination';
 
 export const metadata: Metadata = {
   title: 'Collection | Dev Overflow',
@@ -71,10 +72,7 @@ const CollectionPage = async ({ searchParams }: SearchParamsProps) => {
       </div>
 
       <div className='mt-10'>
-        <PaginationComponent
-          pageNumber={searchParams?.page ? +searchParams.page : 1}
-          isNext={isNext}
-        />
+        <Pagination></Pagination>
       </div>
     </>
   );

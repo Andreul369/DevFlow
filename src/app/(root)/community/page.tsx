@@ -8,8 +8,9 @@ import UserCard from '@/components/cards/user-card';
 import { getAllUsers } from '@/lib/actions/user.action';
 import Link from 'next/link';
 import { SearchParamsProps } from '@/types';
-import PaginationComponent from '@/components/shared/pagination';
+
 import { Metadata } from 'next';
+import { Pagination } from '@/components/ui/pagination';
 
 export const metadata: Metadata = {
   title: 'Community | Dev Overflow',
@@ -62,10 +63,7 @@ const CommunityPage = async ({ searchParams }: SearchParamsProps) => {
       </section>
 
       <div className='mt-10'>
-        <PaginationComponent
-          pageNumber={searchParams.page ? +searchParams.page : 1}
-          isNext={isNext}
-        />
+        <Pagination></Pagination>
       </div>
     </>
   );
