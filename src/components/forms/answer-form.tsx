@@ -21,6 +21,7 @@ import { usePathname } from 'next/navigation';
 import { createAnswer } from '@/lib/actions/answer.action';
 import { useTheme } from '@/context/theme-provider';
 import Image from 'next/image';
+import { toast } from 'sonner';
 
 interface Props {
   question: string;
@@ -74,29 +75,30 @@ const AnswerForm = ({ question, questionId, authorId }: Props) => {
     if (!authorId) return;
 
     setIsSubmittingAI(true);
+    toast.info('Feature will be implemented soon.');
+    setIsSubmittingAI(false);
+    // try {
+    //   const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/chatgpt`, {
+    //     method: 'POST',
+    //     body: JSON.stringify({ question }),
+    //   });
 
-    try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/chatgpt`, {
-        method: 'POST',
-        body: JSON.stringify({ question }),
-      });
+    //   const aiAnswer = await response.json();
 
-      const aiAnswer = await response.json();
+    //   // Convert plain text to HTML format
+    //   const formattedAnswer = aiAnswer.reply.replace(/\n/g, '<br />');
 
-      // Convert plain text to HTML format
-      const formattedAnswer = aiAnswer.reply.replace(/\n/g, '<br />');
+    //   if (editorRef.current) {
+    //     const editor = editorRef.current as any;
+    //     editor.setContent(formattedAnswer);
+    //   }
 
-      if (editorRef.current) {
-        const editor = editorRef.current as any;
-        editor.setContent(formattedAnswer);
-      }
-
-      // Toast...
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setIsSubmittingAI(false);
-    }
+    //   // Toast...
+    // } catch (error) {
+    //   console.log(error);
+    // } finally {
+    //   setIsSubmittingAI(false);
+    // }
   };
 
   return (
