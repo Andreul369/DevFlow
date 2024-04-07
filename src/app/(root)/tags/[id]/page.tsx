@@ -4,7 +4,7 @@ import NoResult from '@/components/shared/no-result';
 import QuestionCard from '@/components/cards/question-card';
 import LocalSearchbar from '@/components/shared/search/local-searchbar';
 import { URLProps } from '@/types';
-import PaginationComponent from '@/components/shared/pagination';
+import { Pagination } from '@/components/ui/pagination';
 
 const TagPage = async ({ params, searchParams }: URLProps) => {
   const { tagTitle, questions, isNext } = await getQuestionsByTagId({
@@ -53,10 +53,7 @@ const TagPage = async ({ params, searchParams }: URLProps) => {
       </div>
 
       <div className='mt-10'>
-        <PaginationComponent
-          pageNumber={searchParams?.page ? +searchParams.page : 1}
-          isNext={isNext}
-        />
+        <Pagination></Pagination>
       </div>
     </>
   );

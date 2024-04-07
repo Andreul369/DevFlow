@@ -7,7 +7,7 @@ import { getQuestions } from '@/lib/actions/question.action';
 import { SearchParamsProps } from '@/types';
 import JobCard from '@/components/cards/job-card';
 import NoResult from '@/components/shared/no-result';
-import PaginationComponent from '@/components/shared/pagination';
+
 import { Metadata } from 'next';
 import { Pagination } from '@/components/ui/pagination';
 
@@ -62,11 +62,11 @@ const JobsPage = async ({ searchParams }: SearchParamsProps) => {
           ))
         ) : (
           <NoResult
-            title="There's no questions to show"
+            title="There's no active job posts at the moment."
             description='Be the first to break the silence! 🚀 Ask a Question and kickstart the discussion.
           our query could be the next big thing others learn from. Get involved! 💡'
-            link='/ask-question'
-            linkText='Ask a Question'
+            link='/'
+            linkText='Back to home'
           />
         )}
       </div>

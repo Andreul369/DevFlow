@@ -8,8 +8,9 @@ import Link from 'next/link';
 import NoResult from '@/components/shared/no-result';
 import { getAllTags } from '@/lib/actions/tag.action';
 import { SearchParamsProps } from '@/types';
-import PaginationComponent from '@/components/shared/pagination';
+
 import { Metadata } from 'next';
+import { Pagination } from '@/components/ui/pagination';
 
 export const metadata: Metadata = {
   title: 'All Tags | Dev Overflow',
@@ -81,10 +82,7 @@ const TagsPage = async ({ searchParams }: SearchParamsProps) => {
       </section>
 
       <div className='mt-10'>
-        <PaginationComponent
-          pageNumber={searchParams?.page ? +searchParams.page : 1}
-          isNext={isNext}
-        />
+        <Pagination></Pagination>
       </div>
     </>
   );

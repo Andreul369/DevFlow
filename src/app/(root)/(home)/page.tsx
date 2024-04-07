@@ -104,7 +104,6 @@ export default async function HomePage({ searchParams }: SearchParamsProps) {
 
       <div className='mt-10'>
         <Pagination></Pagination>
-        
       </div>
     </>
   );
