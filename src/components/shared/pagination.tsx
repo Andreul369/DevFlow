@@ -18,7 +18,7 @@ const SharedPagination = ({ pageNumber, isNext }: Props) => {
   return (
     <Pagination>
       <PaginationContent>
-        <PaginationItem aria-disabled={pageNumber === 1}>
+        <PaginationItem>
           <PaginationPrevious href='#' />
         </PaginationItem>
         <PaginationItem>

@@ -47,12 +47,12 @@ const QuestionPage = async ({ params, searchParams }: URLProps) => {
             <Votes
               type='Question'
               itemId={JSON.stringify(result._id)}
-              userId={JSON.stringify(mongoUser._id)}
+              userId={JSON.stringify(mongoUser?._id)}
               upvotes={result.upvotes.length}
-              hasupVoted={result.upvotes.includes(mongoUser._id)}
+              hasupVoted={result.upvotes.includes(mongoUser?._id)}
               downvotes={result.downvotes.length}
-              hasdownVoted={result.downvotes.includes(mongoUser._id)}
-              hasSaved={mongoUser?.saved.includes(result._id)}
+              hasdownVoted={result.downvotes.includes(mongoUser?._id)}
+              hasSaved={mongoUser?.saved.includes(result?._id)}
             />
           </div>
         </div>
@@ -95,7 +95,7 @@ const QuestionPage = async ({ params, searchParams }: URLProps) => {
 
       <AllAnswers
         questionId={result._id}
-        userId={mongoUser._id}
+        userId={mongoUser?._id}
         totalAnswers={result.answers.length}
         page={searchParams?.page}
         filter={searchParams?.filter}
@@ -104,7 +104,7 @@ const QuestionPage = async ({ params, searchParams }: URLProps) => {
       <AnswerForm
         question={result.content}
         questionId={JSON.stringify(result._id)}
-        authorId={JSON.stringify(mongoUser._id)}
+        authorId={JSON.stringify(mongoUser?._id)}
       />
     </>
   );
