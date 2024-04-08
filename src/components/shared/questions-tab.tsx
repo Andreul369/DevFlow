@@ -32,10 +32,10 @@ const QuestionsTab = async ({ searchParams, userId, clerkId }: Props) => {
       ))}
 
       <div className='mt-10'>
-        <Pagination
+        {/* <Pagination
           pageNumber={searchParams?.page ? +searchParams.page : 1}
           isNext={isNext}
-        />
+        /> */}
       </div>
     </>
   );
