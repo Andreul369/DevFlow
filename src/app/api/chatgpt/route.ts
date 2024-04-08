@@ -1,29 +1,36 @@
-import OpenAI from 'openai';
+import { NextResponse } from 'next/server';
 
 export const POST = async (request: Request) => {
-  const openai = new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY,
-  });
-
   const { question } = await request.json();
+
   try {
-    const response = await openai.chat.completions.create({
-      model: 'gpt-3.5-turbo',
-      messages: [
-        {
-          role: 'system',
-          content:
-            'You will be provided with a piece of code or a question, and your task is to provide ideas for efficiency improvements.',
-        },
-        { role: 'user', content: `${question}` },
-      ],
-      temperature: 0.7,
-      max_tokens: 64,
-      top_p: 1,
+    const response = await fetch('https://api.openai.com/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
+      },
+      body: JSON.stringify({
+        model: 'gpt-3.5-turbo',
+        messages: [
+          {
+            role: 'system',
+            content:
+              'You are a knowlegeable assistant that provides quality information.',
+          },
+          {
+            role: 'user',
+            content: `Tell me ${question}`,
+          },
+        ],
+      }),
     });
 
-    return response.choices[0].message.content;
+    const responseData = await response.json();
+    const reply = responseData.choices[0].message.content;
+
+    return NextResponse.json({ reply });
   } catch (error: any) {
-    return Response.json({ error: error.message });
+    return NextResponse.json({ error: error.message });
   }
 };
