@@ -10,7 +10,7 @@ import Link from 'next/link';
 import { SearchParamsProps } from '@/types';
 
 import { Metadata } from 'next';
-import { Pagination } from '@/components/ui/pagination';
+import Pagination from '@/components/shared/pagination';
 
 export const metadata: Metadata = {
   title: 'Community | Dev Overflow',
@@ -63,7 +63,10 @@ const CommunityPage = async ({ searchParams }: SearchParamsProps) => {
       </section>
 
       <div className='mt-10'>
-        <Pagination></Pagination>
+        <Pagination
+          pageNumber={searchParams?.page ? +searchParams.page : 1}
+          isNext={isNext}
+        />
       </div>
     </>
   );

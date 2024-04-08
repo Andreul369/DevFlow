@@ -9,7 +9,7 @@ import { auth } from '@clerk/nextjs';
 import { SearchParamsProps } from '@/types';
 
 import { Metadata } from 'next';
-import { Pagination } from '@/components/ui/pagination';
+import Pagination from '@/components/shared/pagination';
 
 export const metadata: Metadata = {
   title: 'Collection | Dev Overflow',
@@ -72,7 +72,10 @@ const CollectionPage = async ({ searchParams }: SearchParamsProps) => {
       </div>
 
       <div className='mt-10'>
-        <Pagination></Pagination>
+        <Pagination
+          pageNumber={searchParams?.page ? +searchParams.page : 1}
+          isNext={isNext}
+        />
       </div>
     </>
   );
