@@ -74,9 +74,9 @@ const AnswerForm = ({ question, questionId, authorId }: Props) => {
   const generateAIAnswer = async () => {
     if (!authorId) return;
 
-    setIsSubmittingAI(true);
+    // setIsSubmittingAI(true);
     toast.info('Feature will be implemented soon.');
-    setIsSubmittingAI(false);
+    // setIsSubmittingAI(false);
     // try {
     //   const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/chatgpt`, {
     //     method: 'POST',

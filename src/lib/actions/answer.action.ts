@@ -83,9 +83,11 @@ export async function getAnswers(params: GetAnswersParams) {
       question: questionId,
     });
 
+    const totalPages = Math.ceil(totalAnswers / pageSize);
+
     const isNext = totalAnswers > skipAmount + answers.length;
 
-    return { answers, isNext };
+    return { answers, isNext, totalPages };
   } catch (error) {
     console.log(error);
     throw error;

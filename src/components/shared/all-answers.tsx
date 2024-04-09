@@ -18,7 +18,7 @@ interface Props {
 }
 
 const AllAnswers = async ({ questionId, userId, totalAnswers, page, filter }: Props) => {
-  const { answers, isNext } = await getAnswers({
+  const { answers, isNext, totalPages } = await getAnswers({
     questionId,
     page: page ? +page : 1,
     sortBy: filter,
@@ -76,10 +76,13 @@ const AllAnswers = async ({ questionId, userId, totalAnswers, page, filter }: Pr
       </div>
 
       <div className='mt-10'>
-        {/* <Pagination
-          pageNumber={searchParams?.page ? +searchParams.page : 1}
+        <Pagination
+          page='question'
+          slug={questionId}
+          pageNumber={page ? +page : 1}
           isNext={isNext}
-        /> */}
+          totalPages={totalPages}
+        />
       </div>
     </div>
   );
