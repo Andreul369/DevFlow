@@ -33,7 +33,7 @@ const GlobalSearch = () => {
 
     // 👇 this setIsOpen closes the GlobarResult after you change the pathname
     // (after you click on smth from the results)
-    // setIsOpen(false);
+    setIsOpen(false);
 
     document.addEventListener('click', handleOutsideClick);
 

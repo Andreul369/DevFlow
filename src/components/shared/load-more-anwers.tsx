@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import Filter from './filter';
 import { AnswerFilters } from '@/constants/filters';
@@ -7,8 +9,6 @@ import Image from 'next/image';
 import { getTimestamp } from '@/lib/utils';
 import ParseHTML from './parse-html';
 import Votes from './votes';
-import Pagination from './pagination';
-import LoadMoreAnswers from './load-more-anwers';
 
 interface Props {
   questionId: string;
@@ -18,7 +18,13 @@ interface Props {
   filter?: string;
 }
 
-const AllAnswers = async ({ questionId, userId, totalAnswers, page, filter }: Props) => {
+const LoadMoreAnswers = async ({
+  questionId,
+  userId,
+  totalAnswers,
+  page,
+  filter,
+}: Props) => {
   const { answers, isNext, totalPages } = await getAnswers({
     questionId,
     page: page ? +page : 1,
@@ -75,10 +81,8 @@ const AllAnswers = async ({ questionId, userId, totalAnswers, page, filter }: Pr
           </article>
         ))}
       </div>
-
-      <LoadMoreAnswers />
     </div>
   );
 };
 
-export default AllAnswers;
+export default LoadMoreAnswers;

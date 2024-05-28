@@ -93,18 +93,18 @@ const QuestionPage = async ({ params, searchParams }: URLProps) => {
         ))}
       </div>
 
+      <AnswerForm
+        question={result.content}
+        questionId={JSON.stringify(result._id)}
+        authorId={JSON.stringify(mongoUser?._id)}
+      />
+
       <AllAnswers
         questionId={result._id}
         userId={mongoUser?._id}
         totalAnswers={result.answers.length}
         page={searchParams?.page}
         filter={searchParams?.filter}
-      />
-
-      <AnswerForm
-        question={result.content}
-        questionId={JSON.stringify(result._id)}
-        authorId={JSON.stringify(mongoUser?._id)}
       />
     </>
   );
