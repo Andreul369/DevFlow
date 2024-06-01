@@ -23,6 +23,20 @@ const LoadMoreAnswers = ({ initialAnswers, questionId, userId, filter }: Props) 
   const [allAnswers, setAllAnswers] = useState(JSON.parse(initialAnswers));
   // const { ref, inView } = useInView();
 
+  useEffect(() => {
+    async function loadAnswers() {
+      const newAnswers = await getAnswers({
+        questionId: '6612e7942e2696fb3c2852d1',
+        page: 2,
+        sortBy: 'recent',
+      });
+
+      console.log(newAnswers);
+    }
+
+    loadAnswers();
+  }, [questionId]);
+
   const loadMoreAnswers = async () => {
     try {
       const newAnswers = await getAnswers({
@@ -71,7 +85,7 @@ const LoadMoreAnswers = ({ initialAnswers, questionId, userId, filter }: Props) 
                 </p>
               </div>
             </Link>
-
+            {/* 
             <div className='flex justify-end'>
               <Votes
                 type='Answer'
@@ -82,10 +96,10 @@ const LoadMoreAnswers = ({ initialAnswers, questionId, userId, filter }: Props) 
                 downvotes={answer.downvotes.length}
                 hasdownVoted={answer.downvotes.includes(userId)}
               />
-            </div>
+            </div> */}
           </div>
 
-          <ParseHTML data={answer.content} />
+          {/* <ParseHTML data={answer.content} /> */}
         </article>
       ))}
 

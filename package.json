@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@clerk/nextjs": "^4.31.1",
+    "@clerk/nextjs": "^4.31.2",
     "@hookform/resolvers": "^3.4.2",
     "@ianvs/prettier-plugin-sort-imports": "^4.2.1",
     "@radix-ui/react-avatar": "^1.0.4",
@@ -34,12 +34,12 @@
     "eslint-plugin-tailwindcss": "^3.17.0",
     "html-react-parser": "^5.1.10",
     "lucide-react": "^0.306.0",
-    "mongodb": "^6.6.2",
-    "mongoose": "^8.4.0",
+    "mongodb": "^6.7.0",
+    "mongoose": "^8.4.1",
     "next": "^14.2.3",
     "next-themes": "^0.2.1",
     "npm-check-updates": "^16.14.20",
-    "openai": "^4.47.1",
+    "openai": "^4.47.3",
     "prismjs": "^1.29.0",
     "query-string": "^8.2.0",
     "react": "^18.3.1",
@@ -53,7 +53,7 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "@types/node": "^20.12.12",
+    "@types/node": "^20.13.0",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "autoprefixer": "^10.4.19",
