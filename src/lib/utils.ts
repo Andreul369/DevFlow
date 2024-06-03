@@ -8,7 +8,8 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export const getTimestamp = (createdAt: string): string => {
+// TODO: fix this string | Date mby?
+export const getTimestamp = (createdAt: string | Date): string => {
   const now = new Date();
   const createdAtDate = new Date(createdAt);
   const timeDifference = now.getTime() - createdAtDate.getTime();
