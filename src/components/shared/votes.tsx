@@ -36,8 +36,8 @@ const Votes = ({
 
   const handleSave = async () => {
     await toggleSaveQuestion({
-      userId: JSON.parse(userId),
-      questionId: JSON.parse(itemId),
+      userId,
+      questionId: itemId,
       path: pathname,
     });
 
@@ -57,15 +57,15 @@ const Votes = ({
       if (type === 'Question') {
         await upvoteQuestion({
           questionId: JSON.parse(itemId),
-          userId: JSON.parse(userId),
+          userId,
           hasupVoted,
           hasdownVoted,
           path: pathname,
         });
       } else if (type === 'Answer') {
         await upvoteAnswer({
-          answerId: JSON.parse(itemId),
-          userId: JSON.parse(userId),
+          answerId: itemId,
+          userId,
           hasupVoted,
           hasdownVoted,
           path: pathname,
@@ -81,15 +81,15 @@ const Votes = ({
       if (type === 'Question') {
         await downvoteQuestion({
           questionId: JSON.parse(itemId),
-          userId: JSON.parse(userId),
+          userId,
           hasupVoted,
           hasdownVoted,
           path: pathname,
         });
       } else if (type === 'Answer') {
         await downvoteAnswer({
-          answerId: JSON.parse(itemId),
-          userId: JSON.parse(userId),
+          answerId: itemId,
+          userId,
           hasupVoted,
           hasdownVoted,
           path: pathname,
@@ -104,9 +104,11 @@ const Votes = ({
 
   useEffect(() => {
     viewQuestion({
-      questionId: JSON.parse(itemId),
-      userId: userId ? JSON.parse(userId) : undefined,
+      questionId: itemId,
+      userId: userId || undefined,
     });
+
+    console.log('ROLLLING ROLLING ');
   }, [itemId, userId, pathname, router]);
 
   return (

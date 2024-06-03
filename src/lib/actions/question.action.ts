@@ -162,7 +162,9 @@ export async function upvoteQuestion(params: QuestionVoteParams) {
   try {
     connectToDatabase();
 
-    const { questionId, userId, hasupVoted, hasdownVoted, path } = params;
+    let { questionId, userId, hasupVoted, hasdownVoted, path } = params;
+    questionId = questionId.replace(/"/g, '');
+    userId = userId?.replace(/"/g, '');
 
     let updateQuery = {};
 
@@ -208,7 +210,9 @@ export async function downvoteQuestion(params: QuestionVoteParams) {
   try {
     connectToDatabase();
 
-    const { questionId, userId, hasupVoted, hasdownVoted, path } = params;
+    let { questionId, userId, hasupVoted, hasdownVoted, path } = params;
+    questionId = questionId.replace(/"/g, '');
+    userId = userId?.replace(/"/g, '');
 
     let updateQuery = {};
 

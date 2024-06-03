@@ -146,7 +146,9 @@ export async function toggleSaveQuestion(params: ToggleSaveQuestionParams) {
   try {
     connectToDatabase();
 
-    const { userId, questionId, path } = params;
+    let { userId, questionId, path } = params;
+    userId = userId.replace(/"/g, '');
+    questionId = questionId.replace(/"/g, '');
 
     const user = await User.findById(userId);
 

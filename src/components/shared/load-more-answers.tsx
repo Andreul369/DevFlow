@@ -1,67 +1,64 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useTransition } from 'react';
 import Filter from './filter';
 import { AnswerFilters } from '@/constants/filters';
-import { getAnswers } from '@/lib/actions/answer.action';
 import Link from 'next/link';
 import Image from 'next/image';
 import { getTimestamp } from '@/lib/utils';
 import ParseHTML from './parse-html';
 import Votes from './votes';
-// import { useInView } from 'react-intersection-observer';
+import { useInView } from 'react-intersection-observer';
 import * as Icons from '@/components/ui/icons';
 import { Button } from '../ui/button';
+import { getAnswers } from '@/lib/actions/answer.action';
 
 interface Props {
   questionId: string;
   userId: string;
-  filter: string;
+  filter?: string;
 }
 
-const LoadMoreAnswers = ({ initialAnswers, questionId, userId, filter }: Props) => {
-  const [allAnswers, setAllAnswers] = useState(JSON.parse(initialAnswers));
-  // const { ref, inView } = useInView();
-
-  useEffect(() => {
-    async function loadAnswers() {
-      const newAnswers = await getAnswers({
-        questionId: '6612e7942e2696fb3c2852d1',
-        page: 2,
-        sortBy: 'recent',
-      });
-
-      console.log(newAnswers);
-    }
-
-    loadAnswers();
-  }, [questionId]);
+const LoadMoreAnswers = ({
+  initialAnswers,
+  questionId,
+  userId,
+  filter,
+  isNext,
+}: Props) => {
+  const [allAnswers, setAllAnswers] = useState(initialAnswers);
+  const [page, setPage] = useState(1);
+  const [isNextPage, setIsNextPage] = useState(isNext);
+  const [ref, inView] = useInView();
 
   const loadMoreAnswers = async () => {
-    try {
-      const newAnswers = await getAnswers({
-        questionId: JSON.parse(questionId),
-        page: 2,
-        sortBy: 'recent',
-      });
+    const next = page + 1;
 
-      // setAllAnswers((oldAnswers) => [...oldAnswers, ...newAnswers]);
+    const { answers: newAnswers, isNext } = await getAnswers({
+      questionId,
+      page: next,
+      sortBy: filter,
+    });
 
-      console.log(newAnswers);
-    } catch (error) {
-      console.error('Error loading more answers:', error);
+    if (allAnswers?.length) {
+      setPage(next);
+      setAllAnswers((prevAnswers: any) => [
+        ...(prevAnswers?.length ? prevAnswers : []),
+        ...newAnswers,
+      ]);
+      setIsNextPage(isNext);
     }
   };
 
-  // useEffect(() => {
-  //   if (inView) {
-  //     loadMoreAnswers();
-  //   }
-  // }, [inView]);
+  useEffect(() => {
+    if (inView) {
+      loadMoreAnswers();
+    }
+  }, [inView]);
 
   return (
     <>
-      {allAnswers.map((answer) => (
+      {allAnswers?.map((answer) => (
         <article key={answer._id} className='light-border border-b py-10'>
           <div className='mb-8 flex flex-col-reverse justify-between gap-5 sm:flex-row sm:items-center sm:gap-2'>
             <Link
@@ -81,32 +78,33 @@ const LoadMoreAnswers = ({ initialAnswers, questionId, userId, filter }: Props) 
                 </p>
                 <p className='small-regular text-dark400_light500 mt-0.5 line-clamp-1'>
                   <span className='mx-0.5 max-sm:hidden'>•</span>
-                  {/* answered {getTimestamp(answer.createdAt)} */}
+                  answered {getTimestamp(answer.createdAt)}
                 </p>
               </div>
             </Link>
-            {/* 
+
             <div className='flex justify-end'>
               <Votes
                 type='Answer'
-                itemId={JSON.stringify(answer._id)}
+                itemId={answer._id}
                 userId={userId}
                 upvotes={answer.upvotes.length}
                 hasupVoted={answer.upvotes.includes(userId)}
                 downvotes={answer.downvotes.length}
                 hasdownVoted={answer.downvotes.includes(userId)}
               />
-            </div> */}
+            </div>
           </div>
 
-          {/* <ParseHTML data={answer.content} /> */}
+          <ParseHTML data={answer.content} />
         </article>
       ))}
 
-      {/* <div className='mt-11 flex w-full items-center justify-center' ref={ref}> */}
-      {/* <Icons.Spinner className='size-10 animate-spin' /> */}
-      <Button onClick={loadMoreAnswers}>Load more</Button>
-      {/* </div> */}
+      {isNextPage && (
+        <div className='mt-11 flex w-full items-center justify-center' ref={ref}>
+          <Icons.Spinner className='size-9 animate-spin' />
+        </div>
+      )}
     </>
   );
 };

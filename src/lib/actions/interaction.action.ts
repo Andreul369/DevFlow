@@ -9,7 +9,9 @@ export async function viewQuestion(params: ViewQuestionParams) {
   try {
     connectToDatabase();
 
-    const { userId, questionId } = params;
+    let { userId, questionId } = params;
+    questionId = questionId.replace(/"/g, '');
+    userId = userId?.replace(/"/g, '');
 
     // Update view count for each question
     await Question.findByIdAndUpdate(questionId, {

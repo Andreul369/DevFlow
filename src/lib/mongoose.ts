@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 let isConnected: boolean = false;
 
 export const connectToDatabase = async () => {
-  mongoose.set('strictQuery', true);
+  mongoose.set('strict', true);
 
   if (!process.env.MONGODB_URL) {
     return console.log('Missing MONGODB_URL environment variable.');

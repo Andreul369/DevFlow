@@ -54,7 +54,6 @@ export async function getAnswers(params: GetAnswersParams) {
     const skipAmount = (page - 1) * pageSize;
 
     let sortOptions = {};
-
     switch (sortBy) {
       case 'highestUpvotes':
         sortOptions = { upvotes: -1 };
@@ -87,7 +86,11 @@ export async function getAnswers(params: GetAnswersParams) {
 
     const isNext = totalAnswers > skipAmount + answers.length;
 
-    return { answers, isNext, totalPages };
+    return {
+      answers: JSON.parse(JSON.stringify(answers)),
+      isNext,
+      totalPages,
+    };
   } catch (error) {
     console.log(error);
     throw error;

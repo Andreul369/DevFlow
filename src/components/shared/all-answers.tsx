@@ -19,7 +19,7 @@ interface Props {
 }
 
 const AllAnswers = async ({ questionId, userId, totalAnswers, page, filter }: Props) => {
-  const { answers, isNext, totalPages } = await getAnswers({
+  const { answers, isNext } = await getAnswers({
     questionId,
     page: page ? +page : 1,
     sortBy: filter,
@@ -34,10 +34,12 @@ const AllAnswers = async ({ questionId, userId, totalAnswers, page, filter }: Pr
       </div>
 
       <LoadMoreAnswers
-        initialAnswers={JSON.stringify(answers)}
-        questionId={JSON.stringify(questionId)}
+        initialAnswers={answers}
+        questionId={questionId}
         userId={userId}
-        filter={filter}
+        getAnswers={getAnswers}
+        filter={filter || ''}
+        isNext={isNext}
       />
     </div>
   );
