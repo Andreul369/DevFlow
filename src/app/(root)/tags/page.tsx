@@ -10,7 +10,6 @@ import { getAllTags } from '@/lib/actions/tag.action';
 import { SearchParamsProps } from '@/types';
 
 import { Metadata } from 'next';
-import Pagination from '@/components/shared/pagination';
 
 export const metadata: Metadata = {
   title: 'All Tags | Dev Overflow',
@@ -24,7 +23,7 @@ const TagsPage = async ({ searchParams }: SearchParamsProps) => {
 
   if (!userId) redirect('/sign-in');
 
-  const { tags, isNext } = await getAllTags({
+  const { tags } = await getAllTags({
     searchQuery: searchParams.q,
     filter: searchParams.filter,
     page: searchParams.page ? +searchParams.page : 1,

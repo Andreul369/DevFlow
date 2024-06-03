@@ -10,7 +10,6 @@ import Link from 'next/link';
 import { SearchParamsProps } from '@/types';
 
 import { Metadata } from 'next';
-import Pagination from '@/components/shared/pagination';
 
 export const metadata: Metadata = {
   title: 'Community | Dev Overflow',
@@ -24,7 +23,7 @@ const CommunityPage = async ({ searchParams }: SearchParamsProps) => {
 
   if (!userId) redirect('/sign-in');
 
-  const { users, isNext } = await getAllUsers({
+  const { users } = await getAllUsers({
     searchQuery: searchParams.q,
     filter: searchParams.filter,
     page: searchParams.page ? +searchParams.page : 1,

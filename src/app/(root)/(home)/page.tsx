@@ -11,7 +11,6 @@ import { SearchParamsProps } from '@/types';
 
 import { auth } from '@clerk/nextjs';
 import { Metadata } from 'next';
-import SharedPagination from '@/components/shared/pagination';
 
 export const metadata: Metadata = {
   title: 'Home | Dev Overflow',
