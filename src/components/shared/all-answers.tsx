@@ -2,12 +2,6 @@ import React from 'react';
 import Filter from './filter';
 import { AnswerFilters } from '@/constants/filters';
 import { getAnswers } from '@/lib/actions/answer.action';
-import Link from 'next/link';
-import Image from 'next/image';
-import { getTimestamp } from '@/lib/utils';
-import ParseHTML from './parse-html';
-import Votes from './votes';
-
 import LoadMoreAnswers from './load-more-answers';
 
 interface Props {
@@ -37,7 +31,6 @@ const AllAnswers = async ({ questionId, userId, totalAnswers, page, filter }: Pr
         initialAnswers={answers}
         questionId={questionId}
         userId={userId}
-        getAnswers={getAnswers}
         filter={filter || ''}
         isNext={isNext}
       />

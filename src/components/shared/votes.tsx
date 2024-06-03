@@ -9,7 +9,7 @@ import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { toast } from 'sonner';
-import * as Icons from '@/components/ui/icons';
+
 interface Props {
   type: string;
   itemId: string;

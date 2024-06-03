@@ -1,8 +1,8 @@
 'use client';
 
-import React, { useEffect, useState, useTransition } from 'react';
-import Filter from './filter';
-import { AnswerFilters } from '@/constants/filters';
+import React, { useEffect, useState } from 'react';
+// import Filter from './filter';
+// import { AnswerFilters } from '@/constants/filters';
 import Link from 'next/link';
 import Image from 'next/image';
 import { getTimestamp } from '@/lib/utils';
@@ -10,13 +10,15 @@ import ParseHTML from './parse-html';
 import Votes from './votes';
 import { useInView } from 'react-intersection-observer';
 import * as Icons from '@/components/ui/icons';
-import { Button } from '../ui/button';
+
 import { getAnswers } from '@/lib/actions/answer.action';
 
 interface Props {
+  initialAnswers: any[];
   questionId: string;
   userId: string;
   filter?: string;
+  isNext?: boolean;
 }
 
 const LoadMoreAnswers = ({
