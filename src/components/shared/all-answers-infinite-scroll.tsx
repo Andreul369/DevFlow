@@ -21,7 +21,7 @@ interface Props {
   isNext?: boolean;
 }
 
-const LoadMoreAnswers = ({
+const AllAnswersInfiniteScroll = ({
   initialAnswers,
   questionId,
   userId,
@@ -52,11 +52,29 @@ const LoadMoreAnswers = ({
     }
   };
 
+  const filterAnswers = async () => {
+    setPage(1);
+    const { answers: newAnswers, isNext } = await getAnswers({
+      questionId,
+      page,
+      sortBy: filter,
+    });
+    console.log(filter);
+    if (allAnswers?.length) {
+      setAllAnswers(newAnswers);
+    }
+  };
+
   useEffect(() => {
     if (inView) {
       loadMoreAnswers();
     }
   }, [inView]);
+
+  useEffect(() => {
+    filterAnswers();
+    console.log(isNextPage);
+  }, [filter]);
 
   return (
     <>
@@ -111,4 +129,4 @@ const LoadMoreAnswers = ({
   );
 };
 
-export default LoadMoreAnswers;
+export default AllAnswersInfiniteScroll;

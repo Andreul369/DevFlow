@@ -72,9 +72,8 @@ const Votes = ({
         });
       }
 
-      return toast(`Upvote ${!hasupVoted ? 'Successful' : 'Removed'}`, {
-        // variant: !hasupVoted ? 'default' : 'destructive',
-      });
+      return toast.success(`Upvote ${!hasupVoted ? 'Successful' : 'Removed'}`);
+      // variant: !hasupVoted ? 'default' : 'destructive',
     }
 
     if (action === 'downvote') {
@@ -96,9 +95,8 @@ const Votes = ({
         });
       }
 
-      return toast(`Downvote ${!hasupVoted ? 'Successful' : 'Removed'}`, {
-        // variant: !hasupVoted ? 'default' : 'destructive',
-      });
+      return toast.success(`Downvote ${!hasupVoted ? 'Successful' : 'Removed'}`);
+      // variant: !hasupVoted ? 'default' : 'destructive',
     }
   };
 
@@ -107,8 +105,6 @@ const Votes = ({
       questionId: itemId,
       userId: userId || undefined,
     });
-
-    console.log('ROLLLING ROLLING ');
   }, [itemId, userId, pathname, router]);
 
   return (
