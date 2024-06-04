@@ -22,7 +22,8 @@ const AllAnswers = async ({ questionId, userId, totalAnswers, page, filter }: Pr
     page: page ? +page : 1,
     sortBy: filter,
   });
-
+  console.log('XXXXXXXXXXXXX SERVER SIDE CONSOLE LOG XXXXXXXXXXXXX', filter);
+  console.log('IS NEXTTT:', isNext);
   return (
     <div className='mt-11'>
       <div className='flex items-center justify-between'>
@@ -73,8 +74,8 @@ const AllAnswers = async ({ questionId, userId, totalAnswers, page, filter }: Pr
         initialAnswers={answers}
         questionId={questionId}
         userId={userId}
-        filter={filter}
         isNext={isNext}
+        filter={filter}
       />
     </div>
   );
