@@ -1,8 +1,6 @@
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
-// import Filter from './filter';
-// import { AnswerFilters } from '@/constants/filters';
 import Link from 'next/link';
 import Image from 'next/image';
 import { getTimestamp } from '@/lib/utils';
@@ -29,9 +27,10 @@ const AllAnswersInfiniteScroll = ({
   isNext,
 }: Props) => {
   const [allAnswers, setAllAnswers] = useState(initialAnswers);
+  const [isNextPage, setIsNextPage] = useState(isNext);
 
   const pageRef = useRef(1);
-  const [isNextPage, setIsNextPage] = useState(isNext);
+
   const [ref, inView] = useInView();
 
   const loadMoreAnswers = async () => {
@@ -44,14 +43,15 @@ const AllAnswersInfiniteScroll = ({
     });
 
     if (allAnswers?.length) {
-      pageRef.current = next;
       setAllAnswers((prevAnswers) => [...prevAnswers, ...newAnswers]);
       setIsNextPage(isNext);
+      pageRef.current = next;
     }
   };
 
   const filterAnswers = async () => {
-    setAllAnswers([]);
+    pageRef.current = 1;
+
     const { answers: newAnswers, isNext } = await getAnswers({
       questionId,
       page: pageRef.current,
@@ -59,6 +59,7 @@ const AllAnswersInfiniteScroll = ({
     });
 
     setAllAnswers(newAnswers);
+    setIsNextPage(isNext);
   };
 
   useEffect(() => {
@@ -68,11 +69,7 @@ const AllAnswersInfiniteScroll = ({
   }, [inView]);
 
   useEffect(() => {
-    setAllAnswers(initialAnswers);
-    setIsNextPage(isNext);
-    pageRef.current = 1;
-    console.log('IS NEXT PAGE', isNextPage);
-    console.log('CURRENTPAGE:', pageRef.current);
+    filterAnswers();
   }, [filter]);
 
   return (

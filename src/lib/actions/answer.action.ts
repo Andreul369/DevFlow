@@ -56,16 +56,16 @@ export async function getAnswers(params: GetAnswersParams) {
     let sortOptions = {};
     switch (sortBy) {
       case 'highestUpvotes':
-        sortOptions = { upvotes: -1 };
+        sortOptions = { upvotes: -1, _id: 1 };
         break;
       case 'lowestUpvotes':
-        sortOptions = { upvotes: 1 };
+        sortOptions = { upvotes: 1, _id: 1 };
         break;
       case 'recent':
-        sortOptions = { createdAt: -1 };
+        sortOptions = { createdAt: -1, _id: 1 };
         break;
       case 'old':
-        sortOptions = { createdAt: 1 };
+        sortOptions = { createdAt: 1, _id: 1 };
         break;
 
       default:
@@ -82,14 +82,13 @@ export async function getAnswers(params: GetAnswersParams) {
       question: questionId,
     });
 
-    const totalPages = Math.ceil(totalAnswers / pageSize);
+    // const totalPages = Math.ceil(totalAnswers / pageSize);
 
     const isNext = totalAnswers > skipAmount + answers.length;
 
     return {
       answers: JSON.parse(JSON.stringify(answers)),
       isNext,
-      totalPages,
     };
   } catch (error) {
     console.log(error);
