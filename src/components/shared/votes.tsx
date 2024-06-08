@@ -95,7 +95,7 @@ const Votes = ({
         });
       }
 
-      return toast.success(`Downvote ${!hasupVoted ? 'Successful' : 'Removed'}`);
+      return toast.success(`Downvote ${!hasdownVoted ? 'Successful' : 'Removed'}`);
       // variant: !hasupVoted ? 'default' : 'destructive',
     }
   };

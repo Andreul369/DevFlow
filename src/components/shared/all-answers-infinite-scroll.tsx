@@ -33,48 +33,46 @@ const AllAnswersInfiniteScroll = ({
 
   const [ref, inView] = useInView();
 
-  const loadMoreAnswers = async () => {
-    const next = pageRef.current + 1;
-
-    const { answers: newAnswers, isNext } = await getAnswers({
-      questionId,
-      page: next,
-      sortBy: filter,
-    });
-
-    if (allAnswers?.length) {
-      setAllAnswers((prevAnswers) => [...prevAnswers, ...newAnswers]);
-      setIsNextPage(isNext);
-      pageRef.current = next;
-    }
-  };
-
-  const filterAnswers = async () => {
-    pageRef.current = 1;
-
-    const { answers: newAnswers, isNext } = await getAnswers({
-      questionId,
-      page: pageRef.current,
-      sortBy: filter,
-    });
-
-    setAllAnswers(newAnswers);
-    setIsNextPage(isNext);
-  };
-
   useEffect(() => {
+    const loadMoreAnswers = async () => {
+      const next = pageRef.current + 1;
+
+      const { answers: newAnswers, isNext } = await getAnswers({
+        questionId,
+        page: next,
+        sortBy: filter,
+      });
+
+      if (allAnswers?.length) {
+        setAllAnswers((prevAnswers) => [...prevAnswers, ...newAnswers]);
+        setIsNextPage(isNext);
+        pageRef.current = next;
+      }
+    };
     if (inView) {
       loadMoreAnswers();
     }
-  }, [inView]);
+  }, [allAnswers?.length, filter, inView, questionId]);
 
   useEffect(() => {
+    const filterAnswers = async () => {
+      pageRef.current = 1;
+
+      const { answers: newAnswers, isNext } = await getAnswers({
+        questionId,
+        page: pageRef.current,
+        sortBy: filter,
+      });
+
+      setAllAnswers(newAnswers);
+      setIsNextPage(isNext);
+    };
     filterAnswers();
-  }, [filter]);
+  }, [filter, questionId]);
 
   return (
     <>
-      {allAnswers?.map((answer) => (
+      {initialAnswers?.map((answer) => (
         <article key={answer._id} className='light-border border-b py-10'>
           <div className='mb-8 flex flex-col-reverse justify-between gap-5 sm:flex-row sm:items-center sm:gap-2'>
             <Link
