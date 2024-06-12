@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useOptimistic, useRef, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { getTimestamp } from '@/lib/utils';
@@ -72,7 +72,7 @@ const AllAnswersInfiniteScroll = ({
 
   return (
     <>
-      {initialAnswers?.map((answer) => (
+      {allAnswers?.map((answer) => (
         <article key={answer._id} className='light-border border-b py-10'>
           <div className='mb-8 flex flex-col-reverse justify-between gap-5 sm:flex-row sm:items-center sm:gap-2'>
             <Link

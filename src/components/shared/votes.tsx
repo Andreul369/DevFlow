@@ -1,14 +1,16 @@
+// @ts-nocheck
 'use client';
 
 import { downvoteAnswer, upvoteAnswer } from '@/lib/actions/answer.action';
 import { viewQuestion } from '@/lib/actions/interaction.action';
 import { downvoteQuestion, upvoteQuestion } from '@/lib/actions/question.action';
 import { toggleSaveQuestion } from '@/lib/actions/user.action';
-import { formatAndDivideNumber } from '@/lib/utils';
+import { cn, formatAndDivideNumber } from '@/lib/utils';
 import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { startTransition, useEffect, useOptimistic } from 'react';
 import { toast } from 'sonner';
+import * as Icons from '@/components/ui/icons';
 
 interface Props {
   type: string;
@@ -46,6 +48,24 @@ const Votes = ({
     });
   };
 
+  const [optimisticUpvotes, addOptimisticUpvote] = useOptimistic(
+    { upvotes, hasupVoted },
+    // @ts-ignore
+    (state, newUpvote) => ({
+      upvotes: state.upvotes + newUpvote.upvotes,
+      hasupVoted: newUpvote.hasupVoted,
+    })
+  );
+
+  const [optimisticDownvotes, addOptimisticDownvote] = useOptimistic(
+    { downvotes, hasdownVoted },
+    // @ts-ignore
+    (state, newDownvote) => ({
+      upvotes: state.downvotes + newDownvote.downvotes,
+      hasupVoted: newDownvote.hasdownVoted,
+    })
+  );
+
   const handleVote = async (action: string) => {
     if (!userId) {
       return toast('Please log in', {
@@ -55,20 +75,26 @@ const Votes = ({
 
     if (action === 'upvote') {
       if (type === 'Question') {
-        await upvoteQuestion({
-          questionId: JSON.parse(itemId),
-          userId,
-          hasupVoted,
-          hasdownVoted,
-          path: pathname,
+        startTransition(async () => {
+          addOptimisticUpvote({ upvotes: hasupVoted ? -1 : 1, hasupVoted: !hasupVoted });
+          await upvoteQuestion({
+            questionId: JSON.parse(itemId),
+            userId,
+            hasupVoted,
+            hasdownVoted,
+            path: pathname,
+          });
         });
       } else if (type === 'Answer') {
-        await upvoteAnswer({
-          answerId: itemId,
-          userId,
-          hasupVoted,
-          hasdownVoted,
-          path: pathname,
+        startTransition(async () => {
+          addOptimisticUpvote({ upvotes: hasupVoted ? -1 : 1, hasupVoted: !hasupVoted });
+          await upvoteAnswer({
+            answerId: itemId,
+            userId,
+            hasupVoted,
+            hasdownVoted,
+            path: pathname,
+          });
         });
       }
 
@@ -78,20 +104,32 @@ const Votes = ({
 
     if (action === 'downvote') {
       if (type === 'Question') {
-        await downvoteQuestion({
-          questionId: JSON.parse(itemId),
-          userId,
-          hasupVoted,
-          hasdownVoted,
-          path: pathname,
+        startTransition(async () => {
+          addOptimisticDownvote({
+            downvotes: hasdownVoted ? -1 : 1,
+            hasdownVoted: !hasdownVoted,
+          });
+          await downvoteQuestion({
+            questionId: JSON.parse(itemId),
+            userId,
+            hasupVoted,
+            hasdownVoted,
+            path: pathname,
+          });
         });
       } else if (type === 'Answer') {
-        await downvoteAnswer({
-          answerId: itemId,
-          userId,
-          hasupVoted,
-          hasdownVoted,
-          path: pathname,
+        startTransition(async () => {
+          addOptimisticDownvote({
+            downvotes: hasdownVoted ? -1 : 1,
+            hasdownVoted: !hasdownVoted,
+          });
+          await downvoteAnswer({
+            answerId: itemId,
+            userId,
+            hasupVoted,
+            hasdownVoted,
+            path: pathname,
+          });
         });
       }
 
@@ -111,37 +149,33 @@ const Votes = ({
     <div className='flex gap-5'>
       <div className='flex-center gap-2.5'>
         <div className='flex-center gap-1.5'>
-          <Image
-            src={hasupVoted ? '/assets/icons/upvoted.svg' : '/assets/icons/upvote.svg'}
-            width={18}
-            height={18}
-            alt='upvote'
-            className='cursor-pointer'
+          <Icons.ThumbsUp
+            className={cn(
+              'size-5 stroke-1 text-[#7B8EC8]',
+              optimisticUpvotes.hasupVoted && 'fill-[#6DFF8D]'
+            )}
             onClick={() => handleVote('upvote')}
           />
 
           <div className='flex-center background-light700_dark400 min-w-[18px] rounded-sm p-1'>
             <p className='subtle-medium text-dark400_light900'>
-              {formatAndDivideNumber(upvotes)}
+              {formatAndDivideNumber(optimisticUpvotes.upvotes)}
             </p>
           </div>
         </div>
 
         <div className='flex-center gap-1.5'>
-          <Image
-            src={
-              hasdownVoted ? '/assets/icons/downvoted.svg' : '/assets/icons/downvote.svg'
-            }
-            width={18}
-            height={18}
-            alt='downvote'
-            className='cursor-pointer'
+          <Icons.ThumbsDown
+            className={cn(
+              'size-5 stroke-1 text-[#7B8EC8]',
+              optimisticDownvotes.hasdownVoted && 'fill-[#FF6D6D]'
+            )}
             onClick={() => handleVote('downvote')}
           />
 
           <div className='flex-center background-light700_dark400 min-w-[18px] rounded-sm p-1'>
             <p className='subtle-medium text-dark400_light900'>
-              {formatAndDivideNumber(downvotes)}
+              {formatAndDivideNumber(optimisticDownvotes.downvotes)}
             </p>
           </div>
         </div>
