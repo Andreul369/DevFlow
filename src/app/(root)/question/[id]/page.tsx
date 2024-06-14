@@ -103,7 +103,6 @@ const QuestionPage = async ({ params, searchParams }: URLProps) => {
         questionId={result._id.toString()}
         userId={mongoUser?._id.toString()}
         totalAnswers={result.answers.length}
-        page={searchParams?.page}
         filter={searchParams?.filter}
       />
     </>

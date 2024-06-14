@@ -52,7 +52,7 @@ const AllAnswersInfiniteScroll = ({
     if (inView) {
       loadMoreAnswers();
     }
-  }, [allAnswers?.length, filter, inView, questionId]);
+  }, [inView]);
 
   useEffect(() => {
     const filterAnswers = async () => {
@@ -68,7 +68,7 @@ const AllAnswersInfiniteScroll = ({
       setIsNextPage(isNext);
     };
     filterAnswers();
-  }, [filter, questionId]);
+  }, [filter]);
 
   return (
     <>

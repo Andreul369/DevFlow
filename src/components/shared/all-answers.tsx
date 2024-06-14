@@ -12,10 +12,9 @@ interface Props {
   filter?: string;
 }
 
-const AllAnswers = async ({ questionId, userId, totalAnswers, page, filter }: Props) => {
+const AllAnswers = async ({ questionId, userId, totalAnswers, filter }: Props) => {
   const { answers, isNext } = await getAnswers({
     questionId,
-    page: 1,
     sortBy: filter,
   });
 
