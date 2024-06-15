@@ -18,6 +18,8 @@ const AllAnswers = async ({ questionId, userId, totalAnswers, filter }: Props) =
     sortBy: filter,
   });
 
+  console.log('sssssssssssssss', 'ssstest', answers);
+
   return (
     <div className='mt-11'>
       <div className='flex items-center justify-between'>

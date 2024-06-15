@@ -8,7 +8,7 @@ import { toggleSaveQuestion } from '@/lib/actions/user.action';
 import { cn, formatAndDivideNumber } from '@/lib/utils';
 import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
-import { startTransition, useEffect, useOptimistic } from 'react';
+import { startTransition, useEffect, useOptimistic, useState } from 'react';
 import { toast } from 'sonner';
 import * as Icons from '@/components/ui/icons';
 
@@ -21,20 +21,28 @@ interface Props {
   downvotes: number;
   hasdownVoted: boolean;
   hasSaved?: boolean;
+  onItemUpdate: (itemId: string) => void;
+  // setAllAnswers: ReturnType<typeof useState>;
 }
 
-const Votes = ({
-  type,
-  itemId,
-  userId,
-  upvotes,
-  hasupVoted,
-  downvotes,
-  hasdownVoted,
-  hasSaved,
-}: Props) => {
+const Votes = (props: Props) => {
   const pathname = usePathname();
   const router = useRouter();
+
+  const {
+    type,
+    itemId,
+    userId,
+    upvotes,
+    hasupVoted,
+    downvotes,
+    hasdownVoted,
+    hasSaved,
+    onItemUpdate,
+    // setAllAnswers,
+  } = props;
+
+  // console.log('sssssssetAllAnswers', setAllAnswers);
 
   const handleSave = async () => {
     await toggleSaveQuestion({
@@ -47,15 +55,6 @@ const Votes = ({
       // variant: !hasSaved ? 'default' : 'destructive',
     });
   };
-
-  const [optimisticUpvotes, addOptimisticUpvote] = useOptimistic(
-    { upvotes, hasupVoted },
-    // @ts-ignore
-    (state, newUpvote) => ({
-      upvotes: state.upvotes + newUpvote.upvotes,
-      hasupVoted: newUpvote.hasupVoted,
-    })
-  );
 
   const [optimisticDownvotes, addOptimisticDownvote] = useOptimistic(
     { downvotes, hasdownVoted },
@@ -76,7 +75,11 @@ const Votes = ({
     if (action === 'upvote') {
       if (type === 'Question') {
         startTransition(async () => {
-          addOptimisticUpvote({ upvotes: hasupVoted ? -1 : 1, hasupVoted: !hasupVoted });
+          // console.log('ssssssxxxxxxxx', upvotes , 1);
+          // console.log('ssssss', newUpvotes);
+          // onItemUpdate(itemId,  upvotes + 1);
+          onItemUpdate(itemId);
+          // addOptimisticUpvote({ upvotes: hasupVoted ? -1 : 1, hasupVoted: !hasupVoted });
           await upvoteQuestion({
             questionId: JSON.parse(itemId),
             userId,
@@ -87,7 +90,10 @@ const Votes = ({
         });
       } else if (type === 'Answer') {
         startTransition(async () => {
-          addOptimisticUpvote({ upvotes: hasupVoted ? -1 : 1, hasupVoted: !hasupVoted });
+          // console.log('ssssssxxxxxxxx', upvotes , 1);
+          // console.log('ssssss', newUpvotes);
+          onItemUpdate(itemId);
+          // addOptimisticUpvote({ upvotes: hasupVoted ? -1 : 1, hasupVoted: !hasupVoted });
           await upvoteAnswer({
             answerId: itemId,
             userId,
@@ -152,14 +158,14 @@ const Votes = ({
           <Icons.ThumbsUp
             className={cn(
               'size-5 stroke-1 text-[#7B8EC8]',
-              optimisticUpvotes.hasupVoted && 'fill-[#6DFF8D]'
+              hasupVoted && 'fill-[#6DFF8D]'
             )}
             onClick={() => handleVote('upvote')}
           />
 
           <div className='flex-center background-light700_dark400 min-w-[18px] rounded-sm p-1'>
             <p className='subtle-medium text-dark400_light900'>
-              {formatAndDivideNumber(optimisticUpvotes.upvotes)}
+              {formatAndDivideNumber(upvotes)}
             </p>
           </div>
         </div>

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useOptimistic, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useOptimistic, useRef, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { getTimestamp } from '@/lib/utils';
@@ -8,8 +8,10 @@ import ParseHTML from './parse-html';
 import Votes from './votes';
 import { useInView } from 'react-intersection-observer';
 import * as Icons from '@/components/ui/icons';
+// import {produce} from "immer";
 
 import { getAnswers } from '@/lib/actions/answer.action';
+
 
 interface Props {
   initialAnswers: any[];
@@ -28,10 +30,50 @@ const AllAnswersInfiniteScroll = ({
 }: Props) => {
   const [allAnswers, setAllAnswers] = useState(initialAnswers);
   const [isNextPage, setIsNextPage] = useState(isNext);
+  
+  const handleItemUpdate = useCallback((itemId: string) => {
+    setAllAnswers(prevState => {
+      const findIndex = prevState.findIndex(item => item._id === itemId);
+
+        // console.log('ssssssssss, findIndex', findIndex );
+      if (findIndex > -1) {
+        const newState = [...prevState];
+        newState[findIndex] = {
+          ...newState[findIndex],
+          upvotes: [newState[findIndex], itemId],
+          hasupVoted: true,
+        }
+        return newState;
+      }
+      
+    
+      // prevState.
+      
+      return prevState;
+
+    });
+    
+    // produce();
+    // console.log('ssssssssssss upvotes', upvote);
+    
+    //
+
+  }, []);
+
 
   const pageRef = useRef(1);
 
   const [ref, inView] = useInView();
+  
+  const allSliced = allAnswers;
+  // const allSliced = useMemo(() => {
+  //   return allAnswers.slice(0, 1)
+  // }, [allAnswers]);
+
+  useEffect(() => {
+    // console.log('ssssssss', allSliced[0]);
+  }, [allSliced])
+  
 
   useEffect(() => {
     const loadMoreAnswers = async () => {
@@ -72,7 +114,7 @@ const AllAnswersInfiniteScroll = ({
 
   return (
     <>
-      {allAnswers?.map((answer) => (
+      {allSliced.map((answer) => (
         <article key={answer._id} className='light-border border-b py-10'>
           <div className='mb-8 flex flex-col-reverse justify-between gap-5 sm:flex-row sm:items-center sm:gap-2'>
             <Link
@@ -106,6 +148,8 @@ const AllAnswersInfiniteScroll = ({
                 hasupVoted={answer.upvotes.includes(userId)}
                 downvotes={answer.downvotes.length}
                 hasdownVoted={answer.downvotes.includes(userId)}
+                onItemUpdate={handleItemUpdate}
+                // setAllAnswers={setAllAnswers as any}
               />
             </div>
           </div>
