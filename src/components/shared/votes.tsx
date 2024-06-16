@@ -105,7 +105,6 @@ const Votes = (props: Props) => {
       }
 
       return toast.success(`Upvote ${!hasupVoted ? 'Successful' : 'Removed'}`);
-      // variant: !hasupVoted ? 'default' : 'destructive',
     }
 
     if (action === 'downvote') {
