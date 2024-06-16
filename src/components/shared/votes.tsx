@@ -21,7 +21,7 @@ interface Props {
   downvotes: number;
   hasdownVoted: boolean;
   hasSaved?: boolean;
-  onItemUpdate: (itemId: string) => void;
+  onItemUpdate: (itemId: string, data: any) => void;
   // setAllAnswers: ReturnType<typeof useState>;
 }
 
@@ -78,29 +78,33 @@ const Votes = (props: Props) => {
           // console.log('ssssssxxxxxxxx', upvotes , 1);
           // console.log('ssssss', newUpvotes);
           // onItemUpdate(itemId,  upvotes + 1);
-          onItemUpdate(itemId);
-          // addOptimisticUpvote({ upvotes: hasupVoted ? -1 : 1, hasupVoted: !hasupVoted });
-          await upvoteQuestion({
+          onItemUpdate(itemId, {
+            // type: 'question',
             questionId: JSON.parse(itemId),
             userId,
             hasupVoted,
             hasdownVoted,
             path: pathname,
           });
+          // addOptimisticUpvote({ upvotes: hasupVoted ? -1 : 1, hasupVoted: !hasupVoted });
+          // await upvoteQuestion({
+          // });
         });
       } else if (type === 'Answer') {
         startTransition(async () => {
           // console.log('ssssssxxxxxxxx', upvotes , 1);
           // console.log('ssssss', newUpvotes);
-          onItemUpdate(itemId);
-          // addOptimisticUpvote({ upvotes: hasupVoted ? -1 : 1, hasupVoted: !hasupVoted });
-          await upvoteAnswer({
+          onItemUpdate(itemId, {
+            // type: 'answer',
             answerId: itemId,
             userId,
             hasupVoted,
             hasdownVoted,
             path: pathname,
           });
+          // addOptimisticUpvote({ upvotes: hasupVoted ? -1 : 1, hasupVoted: !hasupVoted });
+          // await upvoteAnswer({
+          // });
         });
       }
 
