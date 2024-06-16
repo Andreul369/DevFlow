@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { getQuestionById } from '@/lib/actions/question.action';
@@ -12,6 +12,8 @@ import { getUserById } from '@/lib/actions/user.action';
 import AllAnswers from '@/components/shared/all-answers';
 import Votes from '@/components/shared/votes';
 import { URLProps } from '@/types';
+import { getAnswers } from '../../../../lib/actions/answer.action';
+import { GetAnswersParams } from '../../../../lib/actions/shared.types';
 
 const QuestionPage = async ({ params, searchParams }: URLProps) => {
   const { userId: clerkId } = auth();
@@ -23,6 +25,21 @@ const QuestionPage = async ({ params, searchParams }: URLProps) => {
   }
 
   const result = await getQuestionById({ questionId: params.id });
+  
+  // let filters: any = 
+  
+  // const [anserData, setAnserData] = useState<GetAnswersParams>();
+  
+  // const handleNextPage = async (props: GetAnswersParams) => {
+  //   filters = await getAnswers(props);
+  //   // const { answers, isNext } = await getAnswers(props);
+  // };
+
+  // const { answers, isNext } = await getAnswers({
+  //   questionId: result._id.toString(),
+  //   sortBy: searchParams?.filter,
+  // });
+  // console.log('ssssssssssssss', answers.length);
 
   return (
     <>
@@ -104,6 +121,10 @@ const QuestionPage = async ({ params, searchParams }: URLProps) => {
         userId={mongoUser?._id.toString()}
         totalAnswers={result.answers.length}
         filter={searchParams?.filter}
+        // answers={answers}
+        // isNext={isNext}
+        // onNextPage={handleNextPage}
+
       />
     </>
   );

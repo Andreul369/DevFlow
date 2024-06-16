@@ -1,4 +1,3 @@
-// @ts-nocheck
 'use client';
 
 import { downvoteAnswer, upvoteAnswer } from '@/lib/actions/answer.action';
@@ -8,9 +7,10 @@ import { toggleSaveQuestion } from '@/lib/actions/user.action';
 import { cn, formatAndDivideNumber } from '@/lib/utils';
 import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
-import { startTransition, useEffect, useOptimistic, useState } from 'react';
+import { useEffect} from 'react';
 import { toast } from 'sonner';
 import * as Icons from '@/components/ui/icons';
+import { AnswerVoteParams, QuestionVoteParams } from '../../lib/actions/shared.types';
 
 interface Props {
   type: string;
@@ -21,9 +21,11 @@ interface Props {
   downvotes: number;
   hasdownVoted: boolean;
   hasSaved?: boolean;
-  onItemUpdate: (itemId: string, data: any) => void;
-  // setAllAnswers: ReturnType<typeof useState>;
+  onItemUpdate: (itemId: string, action: string, data: AnswerVoteParams | QuestionVoteParams) => void;
 }
+
+const isQuestion = (type: string): boolean => type === 'Question';
+const isAnswer = (type: string): boolean => type === 'Answer';
 
 const Votes = (props: Props) => {
   const pathname = usePathname();
@@ -39,10 +41,7 @@ const Votes = (props: Props) => {
     hasdownVoted,
     hasSaved,
     onItemUpdate,
-    // setAllAnswers,
   } = props;
-
-  // console.log('sssssssetAllAnswers', setAllAnswers);
 
   const handleSave = async () => {
     await toggleSaveQuestion({
@@ -51,19 +50,11 @@ const Votes = (props: Props) => {
       path: pathname,
     });
 
-    return toast(`Question ${!hasSaved ? 'Saved in' : 'Removed from'} your collection`, {
-      // variant: !hasSaved ? 'default' : 'destructive',
-    });
+    return toast(
+      `Question ${!hasSaved ? 'Saved in' : 'Removed from'} your collection`,
+      {}
+    );
   };
-
-  const [optimisticDownvotes, addOptimisticDownvote] = useOptimistic(
-    { downvotes, hasdownVoted },
-    // @ts-ignore
-    (state, newDownvote) => ({
-      upvotes: state.downvotes + newDownvote.downvotes,
-      hasupVoted: newDownvote.hasdownVoted,
-    })
-  );
 
   const handleVote = async (action: string) => {
     if (!userId) {
@@ -73,78 +64,63 @@ const Votes = (props: Props) => {
     }
 
     if (action === 'upvote') {
-      if (type === 'Question') {
-        startTransition(async () => {
-          // console.log('ssssssxxxxxxxx', upvotes , 1);
-          // console.log('ssssss', newUpvotes);
-          // onItemUpdate(itemId,  upvotes + 1);
-          onItemUpdate(itemId, {
-            // type: 'question',
-            questionId: JSON.parse(itemId),
-            userId,
-            hasupVoted,
-            hasdownVoted,
-            path: pathname,
-          });
-          // addOptimisticUpvote({ upvotes: hasupVoted ? -1 : 1, hasupVoted: !hasupVoted });
-          // await upvoteQuestion({
-          // });
-        });
-      } else if (type === 'Answer') {
-        startTransition(async () => {
-          // console.log('ssssssxxxxxxxx', upvotes , 1);
-          // console.log('ssssss', newUpvotes);
-          onItemUpdate(itemId, {
-            // type: 'answer',
-            answerId: itemId,
-            userId,
-            hasupVoted,
-            hasdownVoted,
-            path: pathname,
-          });
-          // addOptimisticUpvote({ upvotes: hasupVoted ? -1 : 1, hasupVoted: !hasupVoted });
-          // await upvoteAnswer({
-          // });
-        });
+      
+      const data: Record<string, any> = {
+        userId,
+        hasupVoted,
+        hasdownVoted,
+        path: pathname,
+      };
+
+      if (isQuestion(type)) {
+        data.questionId = JSON.parse(itemId);
+      } else if (isAnswer(type)) {
+        data.answerId = itemId;
+
       }
 
+      onItemUpdate(itemId, action, data as unknown as AnswerVoteParams | QuestionVoteParams);
+
       return toast.success(`Upvote ${!hasupVoted ? 'Successful' : 'Removed'}`);
-      // variant: !hasupVoted ? 'default' : 'destructive',
     }
 
     if (action === 'downvote') {
+      const data: Record<string, unknown> = {
+          userId,
+          hasupVoted,
+          hasdownVoted,
+          path: pathname,
+      };
+
+      if (isQuestion(type)) {
+        data.questionId = JSON.parse(itemId);
+      } else if (isAnswer(type)) {
+        data.answerId = itemId;
+      }
+
       if (type === 'Question') {
-        startTransition(async () => {
-          addOptimisticDownvote({
-            downvotes: hasdownVoted ? -1 : 1,
-            hasdownVoted: !hasdownVoted,
-          });
-          await downvoteQuestion({
-            questionId: JSON.parse(itemId),
-            userId,
-            hasupVoted,
-            hasdownVoted,
-            path: pathname,
-          });
-        });
+        onItemUpdate(itemId, action, data as unknown as AnswerVoteParams | QuestionVoteParams);
+        // FIXME: delete this line 
+        // await downvoteQuestion({
+        //   questionId: JSON.parse(itemId),
+        //   userId,
+        //   hasupVoted,
+        //   hasdownVoted,
+        //   path: pathname,
+        // });
       } else if (type === 'Answer') {
-        startTransition(async () => {
-          addOptimisticDownvote({
-            downvotes: hasdownVoted ? -1 : 1,
-            hasdownVoted: !hasdownVoted,
-          });
-          await downvoteAnswer({
-            answerId: itemId,
-            userId,
-            hasupVoted,
-            hasdownVoted,
-            path: pathname,
-          });
-        });
+        onItemUpdate(itemId, action, data as unknown as AnswerVoteParams | QuestionVoteParams);
+        // FIXME: delete this line 
+        // await downvoteAnswer({
+        //   answerId: itemId,
+        //   userId,
+        //   hasupVoted,
+        //   hasdownVoted,
+        //   path: pathname,
+        // });
       }
 
       return toast.success(`Downvote ${!hasdownVoted ? 'Successful' : 'Removed'}`);
-      // variant: !hasupVoted ? 'default' : 'destructive',
     }
   };
 
@@ -178,14 +154,14 @@ const Votes = (props: Props) => {
           <Icons.ThumbsDown
             className={cn(
               'size-5 stroke-1 text-[#7B8EC8]',
-              optimisticDownvotes.hasdownVoted && 'fill-[#FF6D6D]'
+              hasdownVoted && 'fill-[#FF6D6D]'
             )}
             onClick={() => handleVote('downvote')}
           />
 
           <div className='flex-center background-light700_dark400 min-w-[18px] rounded-sm p-1'>
             <p className='subtle-medium text-dark400_light900'>
-              {formatAndDivideNumber(optimisticDownvotes.downvotes)}
+              {formatAndDivideNumber(downvotes)}
             </p>
           </div>
         </div>
