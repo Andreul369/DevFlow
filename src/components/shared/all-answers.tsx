@@ -18,7 +18,7 @@ const AllAnswers = async ({ questionId, userId, totalAnswers, filter }: Props) =
     sortBy: filter,
   });
 
-  console.log('sssssssssssssss', 'ssstest', answers);
+  console.log('sssssssssssssss', 'ssstest', answers?.length);
 
   return (
     <div className='mt-11'>

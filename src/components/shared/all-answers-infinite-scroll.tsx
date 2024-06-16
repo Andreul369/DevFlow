@@ -10,7 +10,7 @@ import { useInView } from 'react-intersection-observer';
 import * as Icons from '@/components/ui/icons';
 // import {produce} from "immer";
 
-import { getAnswers } from '@/lib/actions/answer.action';
+import { getAnswers, upvoteAnswer } from '@/lib/actions/answer.action';
 
 
 interface Props {
@@ -22,36 +22,54 @@ interface Props {
 }
 
 const AllAnswersInfiniteScroll = ({
-  initialAnswers,
+  initialAnswers: allAnswers,
   questionId,
   userId,
   filter,
   isNext,
 }: Props) => {
-  const [allAnswers, setAllAnswers] = useState(initialAnswers);
+  // const [allAnswers, setAllAnswers] = useState(initialAnswers);
   const [isNextPage, setIsNextPage] = useState(isNext);
   
-  const handleItemUpdate = useCallback((itemId: string) => {
-    setAllAnswers(prevState => {
-      const findIndex = prevState.findIndex(item => item._id === itemId);
+//   useEffect(() => {
+// // setAllAnswers()
+    
 
-        // console.log('ssssssssss, findIndex', findIndex );
-      if (findIndex > -1) {
-        const newState = [...prevState];
-        newState[findIndex] = {
-          ...newState[findIndex],
-          upvotes: [newState[findIndex], itemId],
-          hasupVoted: true,
-        }
-        return newState;
-      }
+//   }, [initialAnswers])
+  
+  const handleItemUpdate = useCallback(async (itemId: string, data: any) => {
+    // setAllAnswers(prevState => {
+    //   const findIndex = prevState.findIndex(item => item._id === itemId);
+
+    //     // console.log('ssssssssss, findIndex', findIndex );
+    //   if (findIndex > -1) {
+    //     const newState = [...prevState];
+    //     newState[findIndex] = {
+    //       ...newState[findIndex],
+    //       upvotes: [newState[findIndex], itemId],
+    //       hasupVoted: true,
+    //     }
+    //     return newState;
+    //   }
       
     
-      // prevState.
+    //   // prevState.
       
-      return prevState;
+    //   return prevState;
 
-    });
+    // });
+    
+    // const isQuestion = data.type === 'question';
+
+    // const newData = {
+    // };
+    // if (isQuestion) {
+      
+
+    // }
+
+
+    await upvoteAnswer(data);
     
     // produce();
     // console.log('ssssssssssss upvotes', upvote);
