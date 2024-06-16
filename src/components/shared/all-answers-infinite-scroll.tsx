@@ -1,6 +1,8 @@
 'use client';
 
 import React, {
+  MutableRefObject,
+  Ref,
   useCallback,
   useEffect,
   useMemo,
@@ -17,7 +19,9 @@ import { useInView } from 'react-intersection-observer';
 import * as Icons from '@/components/ui/icons';
 // import {produce} from "immer";
 
-import { getAnswers } from '@/lib/actions/answer.action';
+import { downvoteAnswer, getAnswers, upvoteAnswer } from '@/lib/actions/answer.action';
+import { AnswerVoteParams, GetAnswersParams, QuestionVoteParams } from '../../lib/actions/shared.types';
+import { downvoteQuestion, upvoteQuestion } from '../../lib/actions/question.action';
 
 interface Props {
   initialAnswers: any[];
@@ -25,70 +29,52 @@ interface Props {
   userId: string;
   filter?: string;
   isNext?: boolean;
+  onNextPage: (prosp: GetAnswersParams) => void;
+  onItemUpdate: (itemId: string, action: string, data: AnswerVoteParams | QuestionVoteParams) => void;
+  // inViewRef: MutableRefObject<any>;
 }
 
+
 const AllAnswersInfiniteScroll = ({
-  initialAnswers,
+  initialAnswers: allAnswers,
+  // initialAnswers,
   questionId,
   userId,
   filter,
   isNext,
+  onNextPage,
+  onItemUpdate,
+  // inViewRef,
 }: Props) => {
-  const [allAnswers, setAllAnswers] = useState(initialAnswers);
+  // const [allAnswers, setAllAnswers] = useState(initialAnswers);
   const [isNextPage, setIsNextPage] = useState(isNext);
-
-  const handleItemUpdate = useCallback((itemId: string, action: string) => {
-    setAllAnswers((prevState) => {
-      const findIndex = prevState.findIndex((item) => item._id === itemId);
-
-      if (findIndex > -1) {
-        const newState = [...prevState];
-        console.log('newState[findIndex]===', newState[findIndex]);
-        if (action === 'upvote') {
-          newState[findIndex] = {
-            ...newState[findIndex],
-            upvotes: newState[findIndex].upvotes.includes(itemId)
-              ? newState[findIndex].upvotes.filter((id: string) => id !== itemId)
-              : [...newState[findIndex].upvotes, itemId],
-            downvotes: newState[findIndex].downvotes.includes(itemId)
-              ? newState[findIndex].downvotes.filter((id: string) => id !== itemId)
-              : newState[findIndex].downvotes,
-          };
-          return newState;
-        } else {
-          newState[findIndex] = {
-            ...newState[findIndex],
-            upvotes: newState[findIndex].downvotes.includes(itemId)
-              ? newState[findIndex].upvotes.filter((id: string) => id !== itemId)
-              : newState[findIndex].upvotes,
-            downvotes: newState[findIndex].downvotes.includes(itemId)
-              ? newState[findIndex].downvotes.filter((id: string) => id !== itemId)
-              : [...newState[findIndex].downvotes, itemId],
-          };
-          return newState;
-        }
-      }
-
-      return prevState;
-    });
-  }, []);
+  
 
   const pageRef = useRef(1);
 
   const [ref, inView] = useInView();
+  console.log('sssssssssss', inView);
 
   useEffect(() => {
+    console.log('ssssssssss tests');
     const loadMoreAnswers = async () => {
       const next = pageRef.current + 1;
-
-      const { answers: newAnswers, isNext } = await getAnswers({
+      
+      onNextPage({
         questionId,
         page: next,
         sortBy: filter,
       });
 
+      // const { answers, isNext } = await getAnswers({
+      //   questionId,
+      //   page: next,
+      //   sortBy: filter,
+      // });
+
+        console.log('ssssssssssssss safasdfsd a');
       if (allAnswers?.length) {
-        setAllAnswers((prevAnswers) => [...prevAnswers, ...newAnswers]);
+        // setAllAnswers((prevAnswers) => [...prevAnswers, ...answers]);
         setIsNextPage(isNext);
         pageRef.current = next;
       }
@@ -102,13 +88,20 @@ const AllAnswersInfiniteScroll = ({
     const filterAnswers = async () => {
       pageRef.current = 1;
 
-      const { answers: newAnswers, isNext } = await getAnswers({
+      onNextPage({
         questionId,
         page: pageRef.current,
         sortBy: filter,
       });
 
-      setAllAnswers(newAnswers);
+      // const { answers, isNext } = await getAnswers({
+      //   questionId,
+      //   page: pageRef.current,
+      //   sortBy: filter,
+      // });
+
+      // setAllAnswers(answers);
+
       setIsNextPage(isNext);
     };
     filterAnswers();
@@ -150,7 +143,7 @@ const AllAnswersInfiniteScroll = ({
                 hasupVoted={answer.upvotes.includes(userId)}
                 downvotes={answer.downvotes.length}
                 hasdownVoted={answer.downvotes.includes(userId)}
-                onItemUpdate={handleItemUpdate}
+                onItemUpdate={onItemUpdate}
                 // setAllAnswers={setAllAnswers as any}
               />
             </div>
@@ -162,6 +155,7 @@ const AllAnswersInfiniteScroll = ({
 
       {isNextPage && (
         <div className='mt-11 flex w-full items-center justify-center' ref={ref}>
+        {/* <div className='mt-11 flex w-full items-center justify-center' ref={inViewRef}> */}
           <Icons.Spinner className='size-9 animate-spin' />
         </div>
       )}

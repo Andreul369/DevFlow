@@ -7,9 +7,10 @@ import { toggleSaveQuestion } from '@/lib/actions/user.action';
 import { cn, formatAndDivideNumber } from '@/lib/utils';
 import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
-import { startTransition, useEffect, useOptimistic, useState } from 'react';
+import { useEffect} from 'react';
 import { toast } from 'sonner';
 import * as Icons from '@/components/ui/icons';
+import { AnswerVoteParams, QuestionVoteParams } from '../../lib/actions/shared.types';
 
 interface Props {
   type: string;
@@ -20,8 +21,11 @@ interface Props {
   downvotes: number;
   hasdownVoted: boolean;
   hasSaved?: boolean;
-  onItemUpdate: (itemId: string, action: string) => void;
+  onItemUpdate: (itemId: string, action: string, data: AnswerVoteParams | QuestionVoteParams) => void;
 }
+
+const isQuestion = (type: string): boolean => type === 'Question';
+const isAnswer = (type: string): boolean => type === 'Answer';
 
 const Votes = (props: Props) => {
   const pathname = usePathname();
@@ -60,48 +64,60 @@ const Votes = (props: Props) => {
     }
 
     if (action === 'upvote') {
-      if (type === 'Question') {
-        onItemUpdate(itemId, action);
-        await upvoteQuestion({
-          questionId: JSON.parse(itemId),
-          userId,
-          hasupVoted,
-          hasdownVoted,
-          path: pathname,
-        });
-      } else if (type === 'Answer') {
-        onItemUpdate(itemId, action);
-        await upvoteAnswer({
-          answerId: itemId,
-          userId,
-          hasupVoted,
-          hasdownVoted,
-          path: pathname,
-        });
+      
+      const data: Record<string, any> = {
+        userId,
+        hasupVoted,
+        hasdownVoted,
+        path: pathname,
+      };
+
+      if (isQuestion(type)) {
+        data.questionId = JSON.parse(itemId);
+      } else if (isAnswer(type)) {
+        data.answerId = itemId;
+
       }
+
+      onItemUpdate(itemId, action, data as unknown as AnswerVoteParams | QuestionVoteParams);
 
       return toast.success(`Upvote ${!hasupVoted ? 'Successful' : 'Removed'}`);
     }
 
     if (action === 'downvote') {
+      const data: Record<string, unknown> = {
+          userId,
+          hasupVoted,
+          hasdownVoted,
+          path: pathname,
+      };
+
+      if (isQuestion(type)) {
+        data.questionId = JSON.parse(itemId);
+      } else if (isAnswer(type)) {
+        data.answerId = itemId;
+      }
+
       if (type === 'Question') {
-        onItemUpdate(itemId, action);
-        await downvoteQuestion({
-          questionId: JSON.parse(itemId),
-          userId,
-          hasupVoted,
-          hasdownVoted,
-          path: pathname,
-        });
+        onItemUpdate(itemId, action, data as unknown as AnswerVoteParams | QuestionVoteParams);
+        // FIXME: delete this line 
+        // await downvoteQuestion({
+        //   questionId: JSON.parse(itemId),
+        //   userId,
+        //   hasupVoted,
+        //   hasdownVoted,
+        //   path: pathname,
+        // });
       } else if (type === 'Answer') {
-        onItemUpdate(itemId, action);
-        await downvoteAnswer({
-          answerId: itemId,
-          userId,
-          hasupVoted,
-          hasdownVoted,
-          path: pathname,
-        });
+        onItemUpdate(itemId, action, data as unknown as AnswerVoteParams | QuestionVoteParams);
+        // FIXME: delete this line 
+        // await downvoteAnswer({
+        //   answerId: itemId,
+        //   userId,
+        //   hasupVoted,
+        //   hasdownVoted,
+        //   path: pathname,
+        // });
       }
 
       return toast.success(`Downvote ${!hasdownVoted ? 'Successful' : 'Removed'}`);
