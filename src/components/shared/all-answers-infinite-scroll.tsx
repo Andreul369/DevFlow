@@ -1,6 +1,13 @@
 'use client';
 
-import React, { useCallback, useEffect, useMemo, useOptimistic, useRef, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useOptimistic,
+  useRef,
+  useState,
+} from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { getTimestamp } from '@/lib/utils';
@@ -11,7 +18,6 @@ import * as Icons from '@/components/ui/icons';
 // import {produce} from "immer";
 
 import { getAnswers } from '@/lib/actions/answer.action';
-
 
 interface Props {
   initialAnswers: any[];
@@ -30,50 +36,46 @@ const AllAnswersInfiniteScroll = ({
 }: Props) => {
   const [allAnswers, setAllAnswers] = useState(initialAnswers);
   const [isNextPage, setIsNextPage] = useState(isNext);
-  
-  const handleItemUpdate = useCallback((itemId: string) => {
-    setAllAnswers(prevState => {
-      const findIndex = prevState.findIndex(item => item._id === itemId);
 
-        // console.log('ssssssssss, findIndex', findIndex );
+  const handleItemUpdate = useCallback((itemId: string, action: string) => {
+    setAllAnswers((prevState) => {
+      const findIndex = prevState.findIndex((item) => item._id === itemId);
+
       if (findIndex > -1) {
         const newState = [...prevState];
-        newState[findIndex] = {
-          ...newState[findIndex],
-          upvotes: [newState[findIndex], itemId],
-          hasupVoted: true,
+        console.log('newState[findIndex]===', newState[findIndex]);
+        if (action === 'upvote') {
+          newState[findIndex] = {
+            ...newState[findIndex],
+            upvotes: newState[findIndex].upvotes.includes(itemId)
+              ? newState[findIndex].upvotes.filter((id: string) => id !== itemId)
+              : [...newState[findIndex].upvotes, itemId],
+            downvotes: newState[findIndex].downvotes.includes(itemId)
+              ? newState[findIndex].downvotes.filter((id: string) => id !== itemId)
+              : newState[findIndex].downvotes,
+          };
+          return newState;
+        } else {
+          newState[findIndex] = {
+            ...newState[findIndex],
+            upvotes: newState[findIndex].downvotes.includes(itemId)
+              ? newState[findIndex].upvotes.filter((id: string) => id !== itemId)
+              : newState[findIndex].upvotes,
+            downvotes: newState[findIndex].downvotes.includes(itemId)
+              ? newState[findIndex].downvotes.filter((id: string) => id !== itemId)
+              : [...newState[findIndex].downvotes, itemId],
+          };
+          return newState;
         }
-        return newState;
       }
-      
-    
-      // prevState.
-      
+
       return prevState;
-
     });
-    
-    // produce();
-    // console.log('ssssssssssss upvotes', upvote);
-    
-    //
-
   }, []);
-
 
   const pageRef = useRef(1);
 
   const [ref, inView] = useInView();
-  
-  const allSliced = allAnswers;
-  // const allSliced = useMemo(() => {
-  //   return allAnswers.slice(0, 1)
-  // }, [allAnswers]);
-
-  useEffect(() => {
-    // console.log('ssssssss', allSliced[0]);
-  }, [allSliced])
-  
 
   useEffect(() => {
     const loadMoreAnswers = async () => {
@@ -114,7 +116,7 @@ const AllAnswersInfiniteScroll = ({
 
   return (
     <>
-      {allSliced.map((answer) => (
+      {allAnswers?.map((answer) => (
         <article key={answer._id} className='light-border border-b py-10'>
           <div className='mb-8 flex flex-col-reverse justify-between gap-5 sm:flex-row sm:items-center sm:gap-2'>
             <Link
