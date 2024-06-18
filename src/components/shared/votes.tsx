@@ -1,4 +1,3 @@
-// @ts-nocheck
 'use client';
 
 import { downvoteAnswer, upvoteAnswer } from '@/lib/actions/answer.action';
@@ -8,42 +7,36 @@ import { toggleSaveQuestion } from '@/lib/actions/user.action';
 import { cn, formatAndDivideNumber } from '@/lib/utils';
 import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
-import { startTransition, useEffect, useOptimistic, useState } from 'react';
+import { useEffect, useOptimistic, useTransition } from 'react';
 import { toast } from 'sonner';
 import * as Icons from '@/components/ui/icons';
+import { Button } from '../ui/button';
 
 interface Props {
   type: string;
   itemId: string;
   userId: string;
-  upvotes: number;
+  upvotes: string[];
   hasupVoted: boolean;
-  downvotes: number;
+  downvotes: string[];
   hasdownVoted: boolean;
   hasSaved?: boolean;
-  onItemUpdate: (itemId: string, data: any) => void;
-  // setAllAnswers: ReturnType<typeof useState>;
 }
 
-const Votes = (props: Props) => {
+const Votes = ({
+  type,
+  itemId,
+  userId,
+  upvotes,
+  hasupVoted,
+  downvotes,
+  hasdownVoted,
+  hasSaved,
+}: Props) => {
   const pathname = usePathname();
   const router = useRouter();
 
-  const {
-    type,
-    itemId,
-    userId,
-    upvotes,
-    hasupVoted,
-    downvotes,
-    hasdownVoted,
-    hasSaved,
-    onItemUpdate,
-    // setAllAnswers,
-  } = props;
-
-  // console.log('sssssssetAllAnswers', setAllAnswers);
-
+  const [isPending, startTransition] = useTransition();
   const handleSave = async () => {
     await toggleSaveQuestion({
       userId,
@@ -51,19 +44,11 @@ const Votes = (props: Props) => {
       path: pathname,
     });
 
-    return toast(`Question ${!hasSaved ? 'Saved in' : 'Removed from'} your collection`, {
-      // variant: !hasSaved ? 'default' : 'destructive',
-    });
+    return toast(
+      `Question ${!hasSaved ? 'Saved in' : 'Removed from'} your collection`,
+      {}
+    );
   };
-
-  const [optimisticDownvotes, addOptimisticDownvote] = useOptimistic(
-    { downvotes, hasdownVoted },
-    // @ts-ignore
-    (state, newDownvote) => ({
-      upvotes: state.downvotes + newDownvote.downvotes,
-      hasupVoted: newDownvote.hasdownVoted,
-    })
-  );
 
   const handleVote = async (action: string) => {
     if (!userId) {
@@ -74,37 +59,20 @@ const Votes = (props: Props) => {
 
     if (action === 'upvote') {
       if (type === 'Question') {
-        startTransition(async () => {
-          // console.log('ssssssxxxxxxxx', upvotes , 1);
-          // console.log('ssssss', newUpvotes);
-          // onItemUpdate(itemId,  upvotes + 1);
-          onItemUpdate(itemId, {
-            // type: 'question',
-            questionId: JSON.parse(itemId),
-            userId,
-            hasupVoted,
-            hasdownVoted,
-            path: pathname,
-          });
-          // addOptimisticUpvote({ upvotes: hasupVoted ? -1 : 1, hasupVoted: !hasupVoted });
-          // await upvoteQuestion({
-          // });
+        await upvoteQuestion({
+          questionId: itemId,
+          userId,
+          hasupVoted,
+          hasdownVoted,
+          path: pathname,
         });
       } else if (type === 'Answer') {
-        startTransition(async () => {
-          // console.log('ssssssxxxxxxxx', upvotes , 1);
-          // console.log('ssssss', newUpvotes);
-          onItemUpdate(itemId, {
-            // type: 'answer',
-            answerId: itemId,
-            userId,
-            hasupVoted,
-            hasdownVoted,
-            path: pathname,
-          });
-          // addOptimisticUpvote({ upvotes: hasupVoted ? -1 : 1, hasupVoted: !hasupVoted });
-          // await upvoteAnswer({
-          // });
+        await upvoteAnswer({
+          answerId: itemId,
+          userId,
+          hasupVoted,
+          hasdownVoted,
+          path: pathname,
         });
       }
 
@@ -113,37 +81,24 @@ const Votes = (props: Props) => {
 
     if (action === 'downvote') {
       if (type === 'Question') {
-        startTransition(async () => {
-          addOptimisticDownvote({
-            downvotes: hasdownVoted ? -1 : 1,
-            hasdownVoted: !hasdownVoted,
-          });
-          await downvoteQuestion({
-            questionId: JSON.parse(itemId),
-            userId,
-            hasupVoted,
-            hasdownVoted,
-            path: pathname,
-          });
+        await downvoteQuestion({
+          questionId: itemId,
+          userId,
+          hasupVoted,
+          hasdownVoted,
+          path: pathname,
         });
       } else if (type === 'Answer') {
-        startTransition(async () => {
-          addOptimisticDownvote({
-            downvotes: hasdownVoted ? -1 : 1,
-            hasdownVoted: !hasdownVoted,
-          });
-          await downvoteAnswer({
-            answerId: itemId,
-            userId,
-            hasupVoted,
-            hasdownVoted,
-            path: pathname,
-          });
+        await downvoteAnswer({
+          answerId: itemId,
+          userId,
+          hasupVoted,
+          hasdownVoted,
+          path: pathname,
         });
       }
 
       return toast.success(`Downvote ${!hasdownVoted ? 'Successful' : 'Removed'}`);
-      // variant: !hasupVoted ? 'default' : 'destructive',
     }
   };
 
@@ -154,6 +109,22 @@ const Votes = (props: Props) => {
     });
   }, [itemId, userId, pathname, router]);
 
+  const [optimisticUpvotes, addOptimisticUpvote] = useOptimistic(
+    upvotes,
+    (state: string[], newUpvote: string) =>
+      state.includes(userId)
+        ? state.filter((upvote) => upvote !== userId)
+        : [...state, newUpvote]
+  );
+
+  const [optimisticDownvotes, addOptimisticDownvote] = useOptimistic(
+    downvotes,
+    (state: string[], newDownvote: string) =>
+      state.includes(userId)
+        ? state.filter((downvote) => downvote !== userId)
+        : [...state, newDownvote]
+  );
+
   return (
     <div className='flex gap-5'>
       <div className='flex-center gap-2.5'>
@@ -161,14 +132,23 @@ const Votes = (props: Props) => {
           <Icons.ThumbsUp
             className={cn(
               'size-5 stroke-1 text-[#7B8EC8]',
-              hasupVoted && 'fill-[#6DFF8D]'
+              optimisticUpvotes.includes(userId) && 'fill-[#6DFF8D]'
             )}
-            onClick={() => handleVote('upvote')}
+            onClick={
+              isPending
+                ? undefined
+                : () =>
+                    startTransition(() => {
+                      addOptimisticUpvote(userId);
+
+                      handleVote('upvote');
+                    })
+            }
           />
 
           <div className='flex-center background-light700_dark400 min-w-[18px] rounded-sm p-1'>
             <p className='subtle-medium text-dark400_light900'>
-              {formatAndDivideNumber(upvotes)}
+              {formatAndDivideNumber(optimisticUpvotes.length)}
             </p>
           </div>
         </div>
@@ -177,14 +157,23 @@ const Votes = (props: Props) => {
           <Icons.ThumbsDown
             className={cn(
               'size-5 stroke-1 text-[#7B8EC8]',
-              optimisticDownvotes.hasdownVoted && 'fill-[#FF6D6D]'
+              optimisticDownvotes.includes(userId) && 'fill-[#FF6D6D]'
             )}
-            onClick={() => handleVote('downvote')}
+            onClick={
+              isPending
+                ? undefined
+                : () =>
+                    startTransition(() => {
+                      addOptimisticDownvote(userId);
+
+                      handleVote('downvote');
+                    })
+            }
           />
 
           <div className='flex-center background-light700_dark400 min-w-[18px] rounded-sm p-1'>
             <p className='subtle-medium text-dark400_light900'>
-              {formatAndDivideNumber(optimisticDownvotes.downvotes)}
+              {formatAndDivideNumber(optimisticDownvotes.length)}
             </p>
           </div>
         </div>

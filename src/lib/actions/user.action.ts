@@ -28,7 +28,7 @@ export async function getUserById(params: any) {
 
     const user = await User.findOne({ clerkId: userId });
 
-    return user;
+    return JSON.parse(JSON.stringify(user));
   } catch (error) {
     console.log(error);
     throw error;

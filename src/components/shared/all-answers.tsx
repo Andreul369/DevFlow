@@ -3,7 +3,7 @@ import Filter from './filter';
 import { AnswerFilters } from '@/constants/filters';
 import { getAnswers } from '@/lib/actions/answer.action';
 import AllAnswersInfiniteScroll from './all-answers-infinite-scroll';
-
+import AnswerCard from './answer-card';
 interface Props {
   questionId: string;
   userId: string;
@@ -18,25 +18,28 @@ const AllAnswers = async ({ questionId, userId, totalAnswers, filter }: Props) =
     sortBy: filter,
   });
 
-  console.log('sssssssssssssss', 'ssstest', answers?.length);
+  const initialAnswers = answers?.map((answer: any) => (
+    <AnswerCard key={answer._id} initialData={answer} userId={userId} />
+  ));
 
   return (
     <div className='mt-11'>
       <div className='flex items-center justify-between'>
         <h3 className='primary-text-gradient'>{`${totalAnswers} ${totalAnswers === 1 ? 'Answer' : 'Answers'}`}</h3>
-
         <Filter filters={AnswerFilters} />
       </div>
 
-      <AllAnswersInfiniteScroll
-        initialAnswers={answers}
-        questionId={questionId}
-        userId={userId}
-        isNext={isNext}
-        filter={filter}
-      />
+      <AllAnswersInfiniteScroll>{initialAnswers}</AllAnswersInfiniteScroll>
     </div>
   );
 };
 
 export default AllAnswers;
+
+//  <AllAnswersInfiniteScroll
+//   initialAnswers={initialAnswers}
+//   questionId={questionId}
+//   userId={userId}
+//   isNext={isNext}
+//   filter={filter}
+// />

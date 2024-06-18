@@ -46,11 +46,11 @@ const QuestionPage = async ({ params, searchParams }: URLProps) => {
           <div className='flex justify-end'>
             <Votes
               type='Question'
-              itemId={JSON.stringify(result._id)}
-              userId={JSON.stringify(mongoUser?._id)}
-              upvotes={result.upvotes.length}
+              itemId={result._id}
+              userId={mongoUser?._id}
+              upvotes={result.upvotes}
               hasupVoted={result.upvotes.includes(mongoUser?._id)}
-              downvotes={result.downvotes.length}
+              downvotes={result.downvotes}
               hasdownVoted={result.downvotes.includes(mongoUser?._id)}
               hasSaved={mongoUser?.saved.includes(result?._id)}
             />

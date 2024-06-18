@@ -134,7 +134,7 @@ export async function getQuestionById(params: GetQuestionByIdParams) {
       })
       .populate({ path: 'author', model: User, select: '_id clerkId name picture' });
 
-    return question;
+    return JSON.parse(JSON.stringify(question));
   } catch (error) {
     console.log(error);
     throw error;
