@@ -18,10 +18,6 @@ const AllAnswers = async ({ questionId, userId, totalAnswers, filter }: Props) =
     sortBy: filter,
   });
 
-  const initialAnswers = answers?.map((answer: any) => (
-    <AnswerCard key={answer._id} initialData={answer} userId={userId} />
-  ));
-
   return (
     <div className='mt-11'>
       <div className='flex items-center justify-between'>
@@ -29,17 +25,15 @@ const AllAnswers = async ({ questionId, userId, totalAnswers, filter }: Props) =
         <Filter filters={AnswerFilters} />
       </div>
 
-      <AllAnswersInfiniteScroll>{initialAnswers}</AllAnswersInfiniteScroll>
+      <AllAnswersInfiniteScroll
+        initialAnswers={answers}
+        questionId={questionId}
+        userId={userId}
+        isNext={isNext}
+        filter={filter}
+      />
     </div>
   );
 };
 
 export default AllAnswers;
-
-//  <AllAnswersInfiniteScroll
-//   initialAnswers={initialAnswers}
-//   questionId={questionId}
-//   userId={userId}
-//   isNext={isNext}
-//   filter={filter}
-// />

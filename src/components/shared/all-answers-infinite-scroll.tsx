@@ -9,65 +9,73 @@ import Votes from './votes';
 import { useInView } from 'react-intersection-observer';
 import * as Icons from '@/components/ui/icons';
 import { getAnswers } from '@/lib/actions/answer.action';
+import AnswerCard from './answer-card';
 
 interface Props {
   children?: React.ReactNode;
 }
 
-const AllAnswersInfiniteScroll = ({ children }: Props) => {
-  // const [allAnswers, setAllAnswers] = useState(initialAnswers);
-  // const [isNextPage, setIsNextPage] = useState(isNext);
+const AllAnswersInfiniteScroll = ({
+  initialAnswers,
+  questionId,
+  userId,
+  isNext,
+  filter,
+}: Props) => {
+  const [allAnswers, setAllAnswers] = useState(initialAnswers);
+  const [isNextPage, setIsNextPage] = useState(isNext);
 
   const pageRef = useRef(1);
 
   const [ref, inView] = useInView();
 
-  // useEffect(() => {
-  //   const loadMoreAnswers = async () => {
-  //     const next = pageRef.current + 1;
+  useEffect(() => {
+    const loadMoreAnswers = async () => {
+      const next = pageRef.current + 1;
 
-  //     const { answers: newAnswers, isNext } = await getAnswers({
-  //       questionId,
-  //       page: next,
-  //       sortBy: filter,
-  //     });
+      const { answers: newAnswers, isNext } = await getAnswers({
+        questionId,
+        page: next,
+        sortBy: filter,
+      });
 
-  //     if (allAnswers?.length) {
-  //       setAllAnswers((prevAnswers) => [...prevAnswers, ...newAnswers]);
-  //       setIsNextPage(isNext);
-  //       pageRef.current = next;
-  //     }
-  //   };
-  //   if (inView) {
-  //     loadMoreAnswers();
-  //   }
-  // }, [inView]);
+      if (allAnswers?.length) {
+        setAllAnswers((prevAnswers) => [...prevAnswers, ...newAnswers]);
+        setIsNextPage(isNext);
+        pageRef.current = next;
+      }
+    };
+    if (inView) {
+      loadMoreAnswers();
+    }
+  }, [inView]);
 
-  // useEffect(() => {
-  //   const filterAnswers = async () => {
-  //     pageRef.current = 1;
+  useEffect(() => {
+    const filterAnswers = async () => {
+      pageRef.current = 1;
 
-  //     const { answers: newAnswers, isNext } = await getAnswers({
-  //       questionId,
-  //       page: pageRef.current,
-  //       sortBy: filter,
-  //     });
+      const { answers: newAnswers, isNext } = await getAnswers({
+        questionId,
+        page: pageRef.current,
+        sortBy: filter,
+      });
 
-  //     setAllAnswers(newAnswers);
-  //     setIsNextPage(isNext);
-  //   };
-  //   filterAnswers();
-  // }, [filter]);
+      setAllAnswers(newAnswers);
+      setIsNextPage(isNext);
+    };
+    filterAnswers();
+  }, [filter]);
 
   return (
     <>
-      {children}
-
-      {/* {isNextPage && ( */}
-      <div className='mt-11 flex w-full items-center justify-center' ref={ref}>
-        <Icons.Spinner className='size-9 animate-spin' />
-      </div>
-      {/* )} */}
+      {allAnswers.map((answer) => (
+        <AnswerCard key={answer._id} initialData={answer} />
+      ))}
+      {isNextPage && (
+        <div className='mt-11 flex w-full items-center justify-center' ref={ref}>
+          <Icons.Spinner className='size-9 animate-spin' />
+        </div>
+      )}
     </>
   );
 };
