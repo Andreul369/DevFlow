@@ -13,7 +13,7 @@ const LeftSidebar = () => {
   const pathname = usePathname();
 
   return (
-    <section className='background-light900_dark200 light-border custom-scrollbar sticky left-0 top-0 flex h-screen flex-col justify-between overflow-y-auto border-r p-6 pt-36 shadow-light-300 dark:shadow-none max-sm:hidden lg:w-[256px]'>
+    <section className='background-light900_dar200 light-border custom-scrollbar sticky left-0 top-0 flex h-screen flex-col justify-between overflow-y-auto border-r p-6 pt-36 shadow-light-300 dark:shadow-none max-sm:hidden lg:w-[256px]'>
       <div className='flex flex-1 flex-col gap-3'>
         {sidebarLinks.map((item) => {
           const isActive =
@@ -41,8 +41,8 @@ const LeftSidebar = () => {
               <Image
                 src={item.imgURL}
                 alt={item.label}
-                width={20}
-                height={20}
+                width={18}
+                height={18}
                 className={`${isActive ? '' : 'invert-colors'}`}
               />
               <p className={`${isActive ? 'base-bold' : 'base-medium'} max-lg:hidden`}>
@@ -60,8 +60,8 @@ const LeftSidebar = () => {
               <Image
                 src='/assets/icons/account.svg'
                 alt='login'
-                width={20}
-                height={20}
+                width={18}
+                height={18}
                 className='invert-colors lg:hidden'
               />
               <span className='primary-text-gradient max-lg:hidden'>Log In</span>
@@ -73,8 +73,8 @@ const LeftSidebar = () => {
               <Image
                 src='/assets/icons/sign-up.svg'
                 alt='sign up'
-                width={20}
-                height={20}
+                width={18}
+                height={18}
                 className='invert-colors lg:hidden'
               />
               <span className='max-lg:hidden'>Sign up</span>

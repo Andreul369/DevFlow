@@ -48,9 +48,9 @@ const QuestionPage = async ({ params, searchParams }: URLProps) => {
               type='Question'
               itemId={result._id}
               userId={mongoUser?._id}
-              upvotes={result.upvotes}
+              upvotes={result.upvotes.length}
               hasupVoted={result.upvotes.includes(mongoUser?._id)}
-              downvotes={result.downvotes}
+              downvotes={result.downvotes.length}
               hasdownVoted={result.downvotes.includes(mongoUser?._id)}
               hasSaved={mongoUser?.saved.includes(result?._id)}
             />

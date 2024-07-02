@@ -30,7 +30,7 @@ const AllAnswersInfiniteScroll = ({
   const [ref, inView] = useInView();
 
   useEffect(() => {
-    const loadMoreAnswers = async () => {
+    const loadMore = async () => {
       const next = pageRef.current + 1;
 
       const { answers: newAnswers, isNext } = await getAnswers({
@@ -46,7 +46,7 @@ const AllAnswersInfiniteScroll = ({
       }
     };
     if (inView) {
-      loadMoreAnswers();
+      loadMore();
     }
   }, [inView]);
 
@@ -69,8 +69,9 @@ const AllAnswersInfiniteScroll = ({
   return (
     <>
       {allAnswers.map((answer) => (
-        <AnswerCard key={answer._id} initialData={answer} />
+        <AnswerCard key={answer._id} answer={answer} userId={userId} />
       ))}
+
       {isNextPage && (
         <div className='mt-11 flex w-full items-center justify-center' ref={ref}>
           <Icons.Spinner className='size-9 animate-spin' />

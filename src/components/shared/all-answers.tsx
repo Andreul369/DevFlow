@@ -3,7 +3,12 @@ import Filter from './filter';
 import { AnswerFilters } from '@/constants/filters';
 import { getAnswers } from '@/lib/actions/answer.action';
 import AllAnswersInfiniteScroll from './all-answers-infinite-scroll';
-import AnswerCard from './answer-card';
+import AnswerForm from '../forms/answer-form';
+import Link from 'next/link';
+import Image from 'next/image';
+import Votes from './votes';
+import ParseHTML from './parse-html';
+import { getTimestamp } from '@/lib/utils';
 interface Props {
   questionId: string;
   userId: string;
@@ -12,24 +17,26 @@ interface Props {
   filter?: string;
 }
 
-const AllAnswers = async ({ questionId, userId, totalAnswers, filter }: Props) => {
-  const { answers, isNext } = await getAnswers({
+const AllAnswers = async ({ questionId, userId, totalAnswers, page, filter }: Props) => {
+  const result = await getAnswers({
     questionId,
+    page: page ? +page : 1,
     sortBy: filter,
   });
 
   return (
     <div className='mt-11'>
       <div className='flex items-center justify-between'>
-        <h3 className='primary-text-gradient'>{`${totalAnswers} ${totalAnswers === 1 ? 'Answer' : 'Answers'}`}</h3>
+        <h3 className='primary-text-gradient'>{totalAnswers} Answers</h3>
+
         <Filter filters={AnswerFilters} />
       </div>
 
       <AllAnswersInfiniteScroll
-        initialAnswers={answers}
+        initialAnswers={result.answers}
         questionId={questionId}
         userId={userId}
-        isNext={isNext}
+        isNext={result.isNext}
         filter={filter}
       />
     </div>

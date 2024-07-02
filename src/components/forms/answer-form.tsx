@@ -17,7 +17,7 @@ import {
 
 import { AnswersSchema } from '@/lib/validations';
 import { Editor } from '@tinymce/tinymce-react';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { createAnswer } from '@/lib/actions/answer.action';
 import { useTheme } from '@/context/theme-provider';
 import Image from 'next/image';
@@ -35,7 +35,7 @@ const AnswerForm = ({ question, questionId, authorId }: Props) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmittingAI, setIsSubmittingAI] = useState(false);
   const pathname = usePathname();
-
+  const router = useRouter();
   // 1. Define your form.
   const form = useForm<z.infer<typeof AnswersSchema>>({
     resolver: zodResolver(AnswersSchema),
@@ -68,6 +68,7 @@ const AnswerForm = ({ question, questionId, authorId }: Props) => {
       console.log('error', error);
     } finally {
       setIsSubmitting(false);
+      router.refresh();
     }
   }
 

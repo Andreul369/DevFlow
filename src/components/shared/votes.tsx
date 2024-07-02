@@ -7,7 +7,7 @@ import { toggleSaveQuestion } from '@/lib/actions/user.action';
 import { cn, formatAndDivideNumber } from '@/lib/utils';
 import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
-import { useEffect, useOptimistic, useTransition } from 'react';
+import { useEffect, useOptimistic, useState, useTransition } from 'react';
 import { toast } from 'sonner';
 import * as Icons from '@/components/ui/icons';
 import { Button } from '../ui/button';
@@ -16,9 +16,9 @@ interface Props {
   type: string;
   itemId: string;
   userId: string;
-  upvotes: string[];
+  upvotes: number;
   hasupVoted: boolean;
-  downvotes: string[];
+  downvotes: number;
   hasdownVoted: boolean;
   hasSaved?: boolean;
 }
@@ -36,14 +36,16 @@ const Votes = ({
   const pathname = usePathname();
   const router = useRouter();
 
-  const [isPending, startTransition] = useTransition();
+  const [localUpvotes, setLocalUpvotes] = useState(upvotes);
+  const [localDownvotes, setLocalDownvotes] = useState(downvotes);
+  const [localHasUpVoted, setLocalHasUpVoted] = useState(hasupVoted);
+  const [localHasDownVoted, setLocalHasDownVoted] = useState(hasdownVoted);
   const handleSave = async () => {
     await toggleSaveQuestion({
       userId,
       questionId: itemId,
       path: pathname,
     });
-
     return toast(
       `Question ${!hasSaved ? 'Saved in' : 'Removed from'} your collection`,
       {}
@@ -58,72 +60,66 @@ const Votes = ({
     }
 
     if (action === 'upvote') {
+      setLocalHasUpVoted(!localHasUpVoted);
+      setLocalHasDownVoted(false);
+      setLocalUpvotes((prev) => (localHasUpVoted ? prev - 1 : prev + 1));
+      setLocalDownvotes((prev) => (localHasDownVoted ? prev - 1 : prev));
+
       if (type === 'Question') {
         await upvoteQuestion({
           questionId: itemId,
           userId,
-          hasupVoted,
-          hasdownVoted,
+          hasupVoted: localHasUpVoted,
+          hasdownVoted: localHasDownVoted,
           path: pathname,
         });
       } else if (type === 'Answer') {
         await upvoteAnswer({
           answerId: itemId,
           userId,
-          hasupVoted,
-          hasdownVoted,
+          hasupVoted: localHasUpVoted,
+          hasdownVoted: localHasDownVoted,
           path: pathname,
         });
       }
 
-      return toast.success(`Upvote ${!hasupVoted ? 'Successful' : 'Removed'}`);
+      return toast.success(`Upvote ${!localHasUpVoted ? 'Successful' : 'Removed'}`);
     }
 
     if (action === 'downvote') {
+      setLocalHasDownVoted(!localHasDownVoted);
+      setLocalHasUpVoted(false);
+      setLocalDownvotes((prev) => (localHasDownVoted ? prev - 1 : prev + 1));
+      setLocalUpvotes((prev) => (localHasUpVoted ? prev - 1 : prev));
+
       if (type === 'Question') {
         await downvoteQuestion({
           questionId: itemId,
           userId,
-          hasupVoted,
-          hasdownVoted,
+          hasupVoted: localHasUpVoted,
+          hasdownVoted: localHasDownVoted,
           path: pathname,
         });
       } else if (type === 'Answer') {
         await downvoteAnswer({
           answerId: itemId,
           userId,
-          hasupVoted,
-          hasdownVoted,
+          hasupVoted: localHasUpVoted,
+          hasdownVoted: localHasDownVoted,
           path: pathname,
         });
       }
 
-      return toast.success(`Downvote ${!hasdownVoted ? 'Successful' : 'Removed'}`);
+      return toast.success(`Downvote ${!localHasDownVoted ? 'Successful' : 'Removed'}`);
     }
   };
-
+  console.log(localUpvotes);
   useEffect(() => {
     viewQuestion({
       questionId: itemId,
       userId: userId || undefined,
     });
   }, [itemId, userId, pathname, router]);
-
-  const [optimisticUpvotes, addOptimisticUpvote] = useOptimistic(
-    upvotes,
-    (state: string[], newUpvote: string) =>
-      state.includes(userId)
-        ? state.filter((upvote) => upvote !== userId)
-        : [...state, newUpvote]
-  );
-
-  const [optimisticDownvotes, addOptimisticDownvote] = useOptimistic(
-    downvotes,
-    (state: string[], newDownvote: string) =>
-      state.includes(userId)
-        ? state.filter((downvote) => downvote !== userId)
-        : [...state, newDownvote]
-  );
 
   return (
     <div className='flex gap-5'>
@@ -132,23 +128,14 @@ const Votes = ({
           <Icons.ThumbsUp
             className={cn(
               'size-5 stroke-1 text-[#7B8EC8]',
-              optimisticUpvotes.includes(userId) && 'fill-[#6DFF8D]'
+              localHasUpVoted && 'fill-[#6DFF8D]'
             )}
-            onClick={
-              isPending
-                ? undefined
-                : () =>
-                    startTransition(() => {
-                      addOptimisticUpvote(userId);
-
-                      handleVote('upvote');
-                    })
-            }
+            onClick={() => handleVote('upvote')}
           />
 
           <div className='flex-center background-light700_dark400 min-w-[18px] rounded-sm p-1'>
             <p className='subtle-medium text-dark400_light900'>
-              {formatAndDivideNumber(optimisticUpvotes.length)}
+              {formatAndDivideNumber(localUpvotes)}
             </p>
           </div>
         </div>
@@ -157,23 +144,14 @@ const Votes = ({
           <Icons.ThumbsDown
             className={cn(
               'size-5 stroke-1 text-[#7B8EC8]',
-              optimisticDownvotes.includes(userId) && 'fill-[#FF6D6D]'
+              localHasDownVoted && 'fill-[#FF6D6D]'
             )}
-            onClick={
-              isPending
-                ? undefined
-                : () =>
-                    startTransition(() => {
-                      addOptimisticDownvote(userId);
-
-                      handleVote('downvote');
-                    })
-            }
+            onClick={() => handleVote('downvote')}
           />
 
           <div className='flex-center background-light700_dark400 min-w-[18px] rounded-sm p-1'>
             <p className='subtle-medium text-dark400_light900'>
-              {formatAndDivideNumber(optimisticDownvotes.length)}
+              {formatAndDivideNumber(localDownvotes)}
             </p>
           </div>
         </div>
