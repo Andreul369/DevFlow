@@ -28,13 +28,13 @@ interface Props {
   authorId: string;
 }
 
-const AnswerForm = ({ question, questionId, authorId }: Props) => {
+const AnswerForm = ({ question, questionId, authorId, onAnswerSubmit }: Props) => {
   const { mode } = useTheme();
   const editorRef = useRef(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmittingAI, setIsSubmittingAI] = useState(false);
   const pathname = usePathname();
-  const router = useRouter();
+  // const router = useRouter();
   // 1. Define your form.
   const form = useForm<z.infer<typeof AnswersSchema>>({
     resolver: zodResolver(AnswersSchema),
@@ -57,6 +57,19 @@ const AnswerForm = ({ question, questionId, authorId }: Props) => {
         path: pathname,
       });
 
+      onAnswerSubmit((prevAnswers) => [
+        {
+          questionId,
+          content: values.answer,
+          author: JSON.parse(authorId),
+          question: JSON.parse(questionId),
+          upvotes: [],
+          downvotes: [],
+          createdAt: new Date(),
+        },
+        ...prevAnswers,
+      ]);
+
       form.reset();
 
       if (editorRef.current) {
@@ -67,7 +80,7 @@ const AnswerForm = ({ question, questionId, authorId }: Props) => {
       console.log('error', error);
     } finally {
       setIsSubmitting(false);
-      router.refresh();
+      // router.refresh();
     }
   }
 

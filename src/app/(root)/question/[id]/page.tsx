@@ -94,24 +94,21 @@ const QuestionPage = async ({ params, searchParams }: URLProps) => {
         ))}
       </div>
 
-      <AnswersSection
+      {/* <AnswersSection
         question={result.content}
         questionId={result._id}
         authorId={mongoUser?._id}
         totalAnswers={result.answers.length}
         filter={searchParams?.filter}
+      /> */}
+
+      <AllAnswers
+        questionId={result._id.toString()}
+        userId={mongoUser?._id.toString()}
+        totalAnswers={result.answers.length}
+        filter={searchParams?.filter}
+        question={result.content}
       />
-      {/* <AnswerForm
-          question={result.content}
-          questionId={JSON.stringify(result._id)}
-          authorId={JSON.stringify(mongoUser?._id)}
-        />
-        <AllAnswers
-          questionId={result._id.toString()}
-          userId={mongoUser?._id.toString()}
-          totalAnswers={result.answers.length}
-          filter={searchParams?.filter}
-        /> */}
     </>
   );
 };

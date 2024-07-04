@@ -113,7 +113,6 @@ const Votes = ({
       return toast.success(`Downvote ${!localHasDownVoted ? 'Successful' : 'Removed'}`);
     }
   };
-  console.log(localUpvotes);
   useEffect(() => {
     viewQuestion({
       questionId: itemId,

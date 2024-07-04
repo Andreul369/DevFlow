@@ -17,7 +17,14 @@ interface Props {
   filter?: string;
 }
 
-const AllAnswers = async ({ questionId, userId, totalAnswers, page, filter }: Props) => {
+const AllAnswers = async ({
+  questionId,
+  question,
+  userId,
+  totalAnswers,
+  page,
+  filter,
+}: Props) => {
   const result = await getAnswers({
     questionId,
     page: page ? +page : 1,
@@ -25,21 +32,15 @@ const AllAnswers = async ({ questionId, userId, totalAnswers, page, filter }: Pr
   });
 
   return (
-    <div className='mt-11'>
-      <div className='flex items-center justify-between'>
-        <h3 className='primary-text-gradient'>{totalAnswers} Answers</h3>
-
-        <Filter filters={AnswerFilters} />
-      </div>
-
-      <AllAnswersInfiniteScroll
-        initialAnswers={result.answers}
-        questionId={questionId}
-        userId={userId}
-        isNext={result.isNext}
-        filter={filter}
-      />
-    </div>
+    <AllAnswersInfiniteScroll
+      initialAnswers={result.answers}
+      questionId={questionId}
+      userId={userId}
+      isNext={result.isNext}
+      filter={filter}
+      question={question}
+      totalAnswers={totalAnswers}
+    />
   );
 };
 

@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import AnswerForm from '../forms/answer-form';
 import AllAnswers from './all-answers';
@@ -13,11 +15,11 @@ const AnswersSection = async ({
   totalAnswers,
   filter,
 }) => {
-  const result = await getAnswers({
-    questionId,
-    page: 1,
-    sortBy: filter,
-  });
+  // const result = await getAnswers({
+  //   questionId,
+  //   page: 1,
+  //   sortBy: filter,
+  // });
 
   return (
     <>
@@ -25,6 +27,12 @@ const AnswersSection = async ({
         question={question}
         questionId={JSON.stringify(questionId)}
         authorId={JSON.stringify(authorId)}
+      />
+      <AllAnswers
+        questionId={questionId.toString()}
+        userId={authorId.toString()}
+        totalAnswers={totalAnswers}
+        filter={filter}
       />
 
       <div className='mt-11'>

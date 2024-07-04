@@ -10,6 +10,9 @@ import { useInView } from 'react-intersection-observer';
 import * as Icons from '@/components/ui/icons';
 import { getAnswers } from '@/lib/actions/answer.action';
 import AnswerCard from './answer-card';
+import AnswerForm from '../forms/answer-form';
+import Filter from './filter';
+import { AnswerFilters } from '@/constants/filters';
 
 interface Props {
   children?: React.ReactNode;
@@ -21,6 +24,8 @@ const AllAnswersInfiniteScroll = ({
   userId,
   isNext,
   filter,
+  question,
+  totalAnswers,
 }: Props) => {
   const [allAnswers, setAllAnswers] = useState(initialAnswers);
   const [isNextPage, setIsNextPage] = useState(isNext);
@@ -68,6 +73,21 @@ const AllAnswersInfiniteScroll = ({
 
   return (
     <>
+      <AnswerForm
+        question={question}
+        questionId={JSON.stringify(questionId)}
+        authorId={JSON.stringify(userId)}
+        onAnswerSubmit={setAllAnswers}
+      />
+
+      <div className='mt-11'>
+        <div className='flex items-center justify-between'>
+          <h3 className='primary-text-gradient'>{totalAnswers} Answers</h3>
+
+          <Filter filters={AnswerFilters} />
+        </div>
+      </div>
+
       {allAnswers.map((answer) => (
         <AnswerCard key={answer._id} answer={answer} userId={userId} />
       ))}
