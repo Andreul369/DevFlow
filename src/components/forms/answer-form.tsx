@@ -22,7 +22,6 @@ import { createAnswer } from '@/lib/actions/answer.action';
 import { useTheme } from '@/context/theme-provider';
 import Image from 'next/image';
 import { toast } from 'sonner';
-
 interface Props {
   question: string;
   questionId: string;

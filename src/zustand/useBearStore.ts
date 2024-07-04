@@ -1,3 +1,4 @@
+import { getAnswers } from '@/lib/actions/answer.action';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
@@ -6,7 +7,6 @@ export const useBearStore = create(
   persist(
     (set, get) => ({
       allAnswers: [],
-      // addABear: () => set({ bears: get().bears + 1 }),
     }),
     {
       name: 'food-storage',

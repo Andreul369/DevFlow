@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@clerk/nextjs": "^4.31.3",
-    "@hookform/resolvers": "^3.6.0",
+    "@hookform/resolvers": "^3.7.0",
     "@ianvs/prettier-plugin-sort-imports": "^4.3.0",
     "@radix-ui/react-avatar": "^1.1.0",
     "@radix-ui/react-dialog": "^1.1.1",
@@ -40,7 +40,7 @@
     "next": "^14.2.4",
     "next-themes": "^0.2.1",
     "npm-check-updates": "^16.14.20",
-    "openai": "^4.52.2",
+    "openai": "^4.52.3",
     "prismjs": "^1.29.0",
     "query-string": "^8.2.0",
     "react": "^18.3.1",

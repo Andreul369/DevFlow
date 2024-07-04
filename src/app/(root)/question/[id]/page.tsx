@@ -12,6 +12,7 @@ import { getUserById } from '@/lib/actions/user.action';
 import AllAnswers from '@/components/shared/all-answers';
 import Votes from '@/components/shared/votes';
 import { URLProps } from '@/types';
+import AnswersSection from '@/components/shared/answers-section';
 
 const QuestionPage = async ({ params, searchParams }: URLProps) => {
   const { userId: clerkId } = auth();
@@ -93,18 +94,24 @@ const QuestionPage = async ({ params, searchParams }: URLProps) => {
         ))}
       </div>
 
-      <AnswerForm
+      <AnswersSection
         question={result.content}
-        questionId={JSON.stringify(result._id)}
-        authorId={JSON.stringify(mongoUser?._id)}
-      />
-
-      <AllAnswers
-        questionId={result._id.toString()}
-        userId={mongoUser?._id.toString()}
+        questionId={result._id}
+        authorId={mongoUser?._id}
         totalAnswers={result.answers.length}
         filter={searchParams?.filter}
       />
+      {/* <AnswerForm
+          question={result.content}
+          questionId={JSON.stringify(result._id)}
+          authorId={JSON.stringify(mongoUser?._id)}
+        />
+        <AllAnswers
+          questionId={result._id.toString()}
+          userId={mongoUser?._id.toString()}
+          totalAnswers={result.answers.length}
+          filter={searchParams?.filter}
+        /> */}
     </>
   );
 };
