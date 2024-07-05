@@ -11,6 +11,7 @@ import { SearchParamsProps } from '@/types';
 
 import { auth } from '@clerk/nextjs';
 import { Metadata } from 'next';
+import AllQuestionsInfiniteScroll from '@/components/shared/all-questions-infinite-scroll';
 
 export const metadata: Metadata = {
   title: 'Home | Dev Overflow',

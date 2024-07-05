@@ -26,8 +26,6 @@ const AllQuestionsInfiniteScroll = ({
   user,
   isNext,
   filter,
-  question,
-  totalAnswers,
 }: Props) => {
   const [allQuestions, setAllQuestions] = useState(initialQuestions);
   const [isNextPage, setIsNextPage] = useState(isNext);
