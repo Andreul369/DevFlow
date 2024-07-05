@@ -1,11 +1,7 @@
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
-import Link from 'next/link';
-import Image from 'next/image';
-import { getTimestamp } from '@/lib/utils';
-import ParseHTML from './parse-html';
-import Votes from './votes';
+
 import { useInView } from 'react-intersection-observer';
 import * as Icons from '@/components/ui/icons';
 import { getAnswers } from '@/lib/actions/answer.action';
@@ -13,15 +9,22 @@ import AnswerCard from './answer-card';
 import AnswerForm from '../forms/answer-form';
 import Filter from './filter';
 import { AnswerFilters } from '@/constants/filters';
+import { IAnswer } from '@/database/answer.model';
 
 interface Props {
-  children?: React.ReactNode;
+  initialAnswers: IAnswer[];
+  questionId: string;
+  user: string;
+  isNext: boolean;
+  filter?: string;
+  question: string;
+  totalAnswers: number;
 }
 
 const AllAnswersInfiniteScroll = ({
   initialAnswers,
   questionId,
-  userId,
+  user,
   isNext,
   filter,
   question,
@@ -54,7 +57,7 @@ const AllAnswersInfiniteScroll = ({
       loadMore();
     }
   }, [inView]);
-
+  console.log(allAnswers);
   useEffect(() => {
     const filterAnswers = async () => {
       pageRef.current = 1;
@@ -75,8 +78,8 @@ const AllAnswersInfiniteScroll = ({
     <>
       <AnswerForm
         question={question}
-        questionId={JSON.stringify(questionId)}
-        authorId={JSON.stringify(userId)}
+        questionId={questionId}
+        user={user}
         onAnswerSubmit={setAllAnswers}
       />
 
@@ -89,7 +92,13 @@ const AllAnswersInfiniteScroll = ({
       </div>
 
       {allAnswers.map((answer) => (
-        <AnswerCard key={answer._id} answer={answer} userId={userId} />
+        <AnswerCard
+          key={answer._id}
+          answer={answer}
+          userId={user._id}
+          // TODO: fix this on the getTimestamp after leaving a comment
+          suppressHydrationWarning
+        />
       ))}
 
       {isNextPage && (

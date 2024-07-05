@@ -1,6 +1,7 @@
 import { Schema, models, model, Document } from 'mongoose';
 
 export interface IAnswer extends Document {
+  // _id: Schema.Types.ObjectId;
   author: Schema.Types.ObjectId;
   question: Schema.Types.ObjectId;
   content: string;

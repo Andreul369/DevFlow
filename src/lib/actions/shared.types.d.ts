@@ -7,6 +7,7 @@ export interface CreateAnswerParams {
   author: string; // User ID
   question: string; // Question ID
   path: string;
+  _id: string;
 }
 
 export interface GetAnswersParams {

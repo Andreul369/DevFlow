@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useRef, useState } from 'react';
-
+import mongoose from 'mongoose';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
@@ -25,10 +25,10 @@ import { toast } from 'sonner';
 interface Props {
   question: string;
   questionId: string;
-  authorId: string;
+  user: { clerkId: string; name: string; picture: string; _id: string };
 }
 
-const AnswerForm = ({ question, questionId, authorId, onAnswerSubmit }: Props) => {
+const AnswerForm = ({ question, questionId, user, onAnswerSubmit }: Props) => {
   const { mode } = useTheme();
   const editorRef = useRef(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -46,26 +46,34 @@ const AnswerForm = ({ question, questionId, authorId, onAnswerSubmit }: Props) =
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof AnswersSchema>) {
     setIsSubmitting(true);
+    const newObjectId = new mongoose.Types.ObjectId().toString();
 
     try {
       // make an async call to our API -> create an answer
       // contain all form data
       await createAnswer({
         content: values.answer,
-        author: JSON.parse(authorId),
-        question: JSON.parse(questionId),
+        author: user._id.toString(),
+        question: questionId,
         path: pathname,
+        _id: newObjectId,
       });
 
       onAnswerSubmit((prevAnswers) => [
         {
+          author: {
+            clerkId: user.clerkId,
+            name: user.name,
+            picture: user.picture,
+            _id: user._id,
+          },
           questionId,
           content: values.answer,
-          author: JSON.parse(authorId),
-          question: JSON.parse(questionId),
+          question: questionId,
           upvotes: [],
           downvotes: [],
           createdAt: new Date(),
+          _id: newObjectId,
         },
         ...prevAnswers,
       ]);
@@ -85,7 +93,7 @@ const AnswerForm = ({ question, questionId, authorId, onAnswerSubmit }: Props) =
   }
 
   const generateAIAnswer = async () => {
-    if (!authorId) return;
+    if (!user._id) return;
 
     // setIsSubmittingAI(true);
     toast.info('Feature will be implemented soon.');

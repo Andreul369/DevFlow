@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -28,7 +30,7 @@ const AnswerCard = ({ answer, userId }: Props) => {
             <p className='body-semibold text-dark300_light700'>{answer?.author?.name}</p>
             <p className='small-regular text-dark400_light500 mt-0.5 line-clamp-1'>
               <span className='mx-0.5 max-sm:hidden'>•</span>
-              answered {getTimestamp(answer?.createdAt)}
+              answered {getTimestamp(answer.createdAt)}
             </p>
           </div>
         </Link>

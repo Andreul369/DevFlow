@@ -1,17 +1,11 @@
 import React from 'react';
-import Filter from './filter';
-import { AnswerFilters } from '@/constants/filters';
+
 import { getAnswers } from '@/lib/actions/answer.action';
 import AllAnswersInfiniteScroll from './all-answers-infinite-scroll';
-import AnswerForm from '../forms/answer-form';
-import Link from 'next/link';
-import Image from 'next/image';
-import Votes from './votes';
-import ParseHTML from './parse-html';
-import { getTimestamp } from '@/lib/utils';
+
 interface Props {
   questionId: string;
-  userId: string;
+  user: string;
   totalAnswers: number;
   page?: string;
   filter?: string;
@@ -20,7 +14,7 @@ interface Props {
 const AllAnswers = async ({
   questionId,
   question,
-  userId,
+  user,
   totalAnswers,
   page,
   filter,
@@ -35,7 +29,7 @@ const AllAnswers = async ({
     <AllAnswersInfiniteScroll
       initialAnswers={result.answers}
       questionId={questionId}
-      userId={userId}
+      user={user}
       isNext={result.isNext}
       filter={filter}
       question={question}

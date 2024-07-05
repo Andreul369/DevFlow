@@ -17,9 +17,9 @@ export async function createAnswer(params: CreateAnswerParams) {
   try {
     connectToDatabase();
 
-    const { content, author, question, path } = params;
+    const { content, author, question, path, _id } = params;
 
-    const newAnswer = await Answer.create({ content, author, question });
+    const newAnswer = await Answer.create({ content, author, question, _id });
 
     // Add the answer to the question's answers array
     const QuestionObject = await Question.findByIdAndUpdate(question, {
@@ -38,7 +38,7 @@ export async function createAnswer(params: CreateAnswerParams) {
       $inc: { reputation: 10 },
     });
 
-    revalidatePath(path);
+    // revalidatePath(path);
   } catch (error) {
     console.log(error);
     throw error;
