@@ -5,11 +5,10 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 import * as Icons from '@/components/ui/icons';
 import { getAnswers } from '@/lib/actions/answer.action';
-import AnswerCard from './answer-card';
-import AnswerForm from '../forms/answer-form';
-import Filter from './filter';
-import { AnswerFilters } from '@/constants/filters';
+
 import { IAnswer } from '@/database/answer.model';
+import QuestionCard from '../cards/question-card';
+import NoResult from './no-result';
 
 interface Props {
   initialAnswers: IAnswer[];
@@ -21,8 +20,8 @@ interface Props {
   totalAnswers: number;
 }
 
-const AllAnswersInfiniteScroll = ({
-  initialAnswers,
+const AllQuestionsInfiniteScroll = ({
+  initialQuestions,
   questionId,
   user,
   isNext,
@@ -30,7 +29,7 @@ const AllAnswersInfiniteScroll = ({
   question,
   totalAnswers,
 }: Props) => {
-  const [allAnswers, setAllAnswers] = useState(initialAnswers);
+  const [allQuestions, setAllQuestions] = useState(initialQuestions);
   const [isNextPage, setIsNextPage] = useState(isNext);
 
   const pageRef = useRef(1);
@@ -47,8 +46,8 @@ const AllAnswersInfiniteScroll = ({
         sortBy: filter,
       });
 
-      if (allAnswers?.length) {
-        setAllAnswers((prevAnswers) => [...prevAnswers, ...newAnswers]);
+      if (allQuestions?.length) {
+        setAllQuestions((prevAnswers) => [...prevAnswers, ...newAnswers]);
         setIsNextPage(isNext);
         pageRef.current = next;
       }
@@ -68,7 +67,7 @@ const AllAnswersInfiniteScroll = ({
         sortBy: filter,
       });
 
-      setAllAnswers(newAnswers);
+      setAllQuestions(newAnswers);
       setIsNextPage(isNext);
     };
     filterAnswers();
@@ -76,30 +75,29 @@ const AllAnswersInfiniteScroll = ({
 
   return (
     <>
-      <AnswerForm
-        question={question}
-        questionId={questionId}
-        user={user}
-        onAnswerSubmit={setAllAnswers}
-      />
-
-      <div className='mt-11'>
-        <div className='flex items-center justify-between'>
-          <h3 className='primary-text-gradient'>{totalAnswers} Answers</h3>
-
-          <Filter filters={AnswerFilters} />
-        </div>
-      </div>
-
-      {allAnswers.map((answer) => (
-        <AnswerCard
-          key={answer._id}
-          answer={answer}
-          userId={user._id}
-          // TODO: fix this on the getTimestamp after leaving a comment
-          suppressHydrationWarning
+      {allQuestions.length > 0 ? (
+        allQuestions.map((question) => (
+          <QuestionCard
+            key={question._id}
+            _id={question._id}
+            title={question.title}
+            tags={question.tags}
+            author={question.author}
+            upvotes={question.upvotes}
+            views={question.views}
+            answers={question.answers}
+            createdAt={question.createdAt}
+          />
+        ))
+      ) : (
+        <NoResult
+          title="There's no questions to show"
+          description='Be the first to break the silence! 🚀 Ask a Question and kickstart the discussion.
+          our query could be the next big thing others learn from. Get involved! 💡'
+          link='/ask-question'
+          linkText='Ask a Question'
         />
-      ))}
+      )}
 
       {isNextPage && (
         <div className='mt-11 flex w-full items-center justify-center' ref={ref}>
@@ -110,4 +108,4 @@ const AllAnswersInfiniteScroll = ({
   );
 };
 
-export default AllAnswersInfiniteScroll;
+export default AllQuestionsInfiniteScroll;

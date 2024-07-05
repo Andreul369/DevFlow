@@ -6,13 +6,11 @@ import Metric from '@/components/shared/metric';
 import { formatAndDivideNumber, getTimestamp } from '@/lib/utils';
 import ParseHTML from '@/components/shared/parse-html';
 import RenderTag from '@/components/shared/render-tag';
-import AnswerForm from '@/components/forms/answer-form';
 import { auth } from '@clerk/nextjs';
 import { getUserById } from '@/lib/actions/user.action';
 import AllAnswers from '@/components/shared/all-answers';
 import Votes from '@/components/shared/votes';
 import { URLProps } from '@/types';
-import AnswersSection from '@/components/shared/answers-section';
 
 const QuestionPage = async ({ params, searchParams }: URLProps) => {
   const { userId: clerkId } = auth();

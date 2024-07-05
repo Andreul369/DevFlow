@@ -101,12 +101,10 @@ export default async function HomePage({ searchParams }: SearchParamsProps) {
         )}
       </div>
 
-      {/* <div className='mt-10'>
-        <SharedPagination
-          pageNumber={searchParams?.page ? +searchParams.page : 1}
-          isNext={result.isNext}
-        />
-      </div> */}
+      <AllQuestionsInfiniteScroll
+        initialQuestions={result.questions}
+        isNext={result.isNext}
+      />
     </>
   );
 }
