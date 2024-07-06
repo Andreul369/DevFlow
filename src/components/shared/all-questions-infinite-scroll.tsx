@@ -21,11 +21,10 @@ interface Props {
   totalAnswers: number;
 }
 
-const AllQuestionsInfiniteScroll = ({ initialQuestions, user, isNext }: Props) => {
+const AllQuestionsInfiniteScroll = ({ initialQuestions, userId, isNext }: Props) => {
   const [allQuestions, setAllQuestions] = useState(initialQuestions);
   const [isNextPage, setIsNextPage] = useState(isNext);
   const pageRef = useRef(1);
-
   const [ref, inView] = useInView();
   const searchParams = useSearchParams();
   const filter = searchParams.get('filter');
@@ -35,9 +34,9 @@ const AllQuestionsInfiniteScroll = ({ initialQuestions, user, isNext }: Props) =
       const next = pageRef.current + 1;
 
       if (filter === 'recommended') {
-        if (user) {
+        if (userId) {
           const { questions: newQuestions, isNext } = await getRecommendedQuestions({
-            user: user._id,
+            userId,
             searchQuery: searchParams.q,
             page: next,
           });
@@ -54,8 +53,8 @@ const AllQuestionsInfiniteScroll = ({ initialQuestions, user, isNext }: Props) =
       } else {
         const { questions: newQuestions, isNext } = await getQuestions({
           searchQuery: searchParams.q,
-          filter: searchParams.filter,
-          page: searchParams.page ? +searchParams.page : 1,
+          filter,
+          page: next,
         });
 
         setAllQuestions((prevQuestions) => [...prevQuestions, ...newQuestions]);
