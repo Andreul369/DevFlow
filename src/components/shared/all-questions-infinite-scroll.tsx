@@ -9,28 +9,64 @@ import { getAnswers } from '@/lib/actions/answer.action';
 import { IAnswer } from '@/database/answer.model';
 import QuestionCard from '../cards/question-card';
 import NoResult from './no-result';
+import { useSearchParams } from 'next/navigation';
+import { getQuestions, getRecommendedQuestions } from '@/lib/actions/question.action';
 
 interface Props {
   initialAnswers: IAnswer[];
   questionId: string;
   user: string;
   isNext: boolean;
-  filter?: string;
   question: string;
   totalAnswers: number;
 }
 
-const AllQuestionsInfiniteScroll = ({
-  initialQuestions,
-  user,
-  isNext,
-  filter,
-}: Props) => {
+const AllQuestionsInfiniteScroll = ({ initialQuestions, user, isNext }: Props) => {
   const [allQuestions, setAllQuestions] = useState(initialQuestions);
   const [isNextPage, setIsNextPage] = useState(isNext);
   const pageRef = useRef(1);
 
   const [ref, inView] = useInView();
+  const searchParams = useSearchParams();
+  const filter = searchParams.get('filter');
+
+  useEffect(() => {
+    const loadMore = async () => {
+      const next = pageRef.current + 1;
+
+      if (filter === 'recommended') {
+        if (user) {
+          const { questions: newQuestions, isNext } = await getRecommendedQuestions({
+            user: user._id,
+            searchQuery: searchParams.q,
+            page: next,
+          });
+
+          setAllQuestions((prevQuestions) => [...prevQuestions, ...newQuestions]);
+          setIsNextPage(isNext);
+          pageRef.current = next;
+        } else {
+          const result = {
+            questions: [],
+            isNext: false,
+          };
+        }
+      } else {
+        const { questions: newQuestions, isNext } = await getQuestions({
+          searchQuery: searchParams.q,
+          filter: searchParams.filter,
+          page: searchParams.page ? +searchParams.page : 1,
+        });
+
+        setAllQuestions((prevQuestions) => [...prevQuestions, ...newQuestions]);
+        setIsNextPage(isNext);
+        pageRef.current = next;
+      }
+    };
+    if (inView) {
+      loadMore();
+    }
+  }, [inView]);
 
   return (
     <div className='mt-10 flex w-full flex-col gap-6'>
