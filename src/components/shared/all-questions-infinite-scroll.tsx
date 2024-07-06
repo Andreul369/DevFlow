@@ -22,57 +22,18 @@ interface Props {
 
 const AllQuestionsInfiniteScroll = ({
   initialQuestions,
-  questionId,
   user,
   isNext,
   filter,
 }: Props) => {
   const [allQuestions, setAllQuestions] = useState(initialQuestions);
   const [isNextPage, setIsNextPage] = useState(isNext);
-
   const pageRef = useRef(1);
 
   const [ref, inView] = useInView();
 
-  useEffect(() => {
-    const loadMore = async () => {
-      const next = pageRef.current + 1;
-
-      const { answers: newAnswers, isNext } = await getAnswers({
-        questionId,
-        page: next,
-        sortBy: filter,
-      });
-
-      if (allQuestions?.length) {
-        setAllQuestions((prevAnswers) => [...prevAnswers, ...newAnswers]);
-        setIsNextPage(isNext);
-        pageRef.current = next;
-      }
-    };
-    if (inView) {
-      loadMore();
-    }
-  }, [inView]);
-
-  useEffect(() => {
-    const filterAnswers = async () => {
-      pageRef.current = 1;
-
-      const { answers: newAnswers, isNext } = await getAnswers({
-        questionId,
-        page: pageRef.current,
-        sortBy: filter,
-      });
-
-      setAllQuestions(newAnswers);
-      setIsNextPage(isNext);
-    };
-    filterAnswers();
-  }, [filter]);
-
   return (
-    <>
+    <div className='mt-10 flex w-full flex-col gap-6'>
       {allQuestions.length > 0 ? (
         allQuestions.map((question) => (
           <QuestionCard
@@ -102,7 +63,7 @@ const AllQuestionsInfiniteScroll = ({
           <Icons.Spinner className='size-9 animate-spin' />
         </div>
       )}
-    </>
+    </div>
   );
 };
 

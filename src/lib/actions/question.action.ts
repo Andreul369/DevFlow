@@ -66,7 +66,7 @@ export async function getQuestions(params: GetQuestionsParams) {
 
     const isNext = totalQuestions > skipAmount + questions.length;
 
-    return { questions, isNext };
+    return { questions: JSON.parse(JSON.stringify(questions)), isNext };
   } catch (error) {
     console.log(error);
     throw error;
@@ -369,7 +369,7 @@ export async function getRecommendedQuestions(params: RecommendedParams) {
 
     const isNext = totalQuestions > skipAmount + recommendedQuestions.length;
 
-    return { questions: recommendedQuestions, isNext };
+    return { questions: JSON.parse(JSON.stringify(recommendedQuestions)), isNext };
   } catch (error) {
     console.error('Error getting recommended questions:', error);
     throw error;
