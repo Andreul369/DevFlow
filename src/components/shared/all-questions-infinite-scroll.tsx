@@ -24,6 +24,7 @@ const AllQuestionsInfiniteScroll = ({ initialQuestions, userId, isNext }: Props)
   const [ref, inView] = useInView();
   const searchParams = useSearchParams();
   const filter = searchParams.get('filter');
+  const query = searchParams.get('query');
 
   useEffect(() => {
     const loadMore = async () => {
@@ -33,7 +34,7 @@ const AllQuestionsInfiniteScroll = ({ initialQuestions, userId, isNext }: Props)
         if (userId) {
           const { questions: newQuestions, isNext } = await getRecommendedQuestions({
             userId,
-            searchQuery: searchParams.q,
+            searchQuery: query,
             page: next,
           });
 
@@ -41,6 +42,7 @@ const AllQuestionsInfiniteScroll = ({ initialQuestions, userId, isNext }: Props)
           setIsNextPage(isNext);
           pageRef.current = next;
         } else {
+          // TODO: Fix this
           const result = {
             questions: [],
             isNext: false,
@@ -48,7 +50,7 @@ const AllQuestionsInfiniteScroll = ({ initialQuestions, userId, isNext }: Props)
         }
       } else {
         const { questions: newQuestions, isNext } = await getQuestions({
-          searchQuery: searchParams.q,
+          searchQuery: query,
           filter,
           page: next,
         });
