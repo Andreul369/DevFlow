@@ -5,19 +5,16 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 import * as Icons from '@/components/ui/icons';
 
-import { IAnswer } from '@/database/answer.model';
 import QuestionCard from '../cards/question-card';
 import NoResult from './no-result';
 import { useSearchParams } from 'next/navigation';
 import { getQuestions, getRecommendedQuestions } from '@/lib/actions/question.action';
+import { IQuestion } from '@/database/question.model';
 
 interface Props {
-  initialAnswers: IAnswer[];
-  questionId: string;
-  user: string;
+  initialAnswers: IQuestion[];
+  userId: string;
   isNext: boolean;
-  question: string;
-  totalAnswers: number;
 }
 
 const AllQuestionsInfiniteScroll = ({ initialQuestions, userId, isNext }: Props) => {
