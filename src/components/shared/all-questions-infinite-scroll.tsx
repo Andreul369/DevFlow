@@ -4,7 +4,6 @@ import React, { useEffect, useRef, useState } from 'react';
 
 import { useInView } from 'react-intersection-observer';
 import * as Icons from '@/components/ui/icons';
-import { getAnswers } from '@/lib/actions/answer.action';
 
 import { IAnswer } from '@/database/answer.model';
 import QuestionCard from '../cards/question-card';
