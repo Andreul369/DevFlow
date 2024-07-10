@@ -10,8 +10,6 @@ import { SearchParamsProps } from '@/types';
 import { auth } from '@clerk/nextjs';
 import { Metadata } from 'next';
 import AllQuestionsInfiniteScroll from '@/components/shared/all-questions-infinite-scroll';
-import QuestionCard from '@/components/cards/question-card';
-import NoResult from '@/components/shared/no-result';
 
 export const metadata: Metadata = {
   title: 'Home | Dev Overflow',
