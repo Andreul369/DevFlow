@@ -13,7 +13,7 @@ interface QuestionProps {
 }
 
 const QuestionCard = ({ clerkId, question }: QuestionProps) => {
-  const showActionButtons = clerkId && clerkId === question.author.clerkId;
+  const showActionButtons = clerkId && clerkId === question.author.clerkId.toString();
 
   return (
     <div className='card-wrapper rounded-lg p-9 sm:px-11'>
