@@ -11,6 +11,7 @@ import { useEffect, useOptimistic, useState, useTransition } from 'react';
 import { toast } from 'sonner';
 import * as Icons from '@/components/ui/icons';
 import { Button } from '../ui/button';
+import { IUserWithId } from '@/database/user.model';
 
 interface Props {
   type: string;

@@ -17,15 +17,17 @@ import {
 
 import { AnswersSchema } from '@/lib/validations';
 import { Editor } from '@tinymce/tinymce-react';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { createAnswer } from '@/lib/actions/answer.action';
 import { useTheme } from '@/context/theme-provider';
 import Image from 'next/image';
 import { toast } from 'sonner';
+import { IAnswerWithId } from '@/database/answer.model';
 interface Props {
   question: string;
   questionId: string;
-  user: { clerkId: string; name: string; picture: string; _id: string };
+  user: string;
+  onAnswerSubmit: (answers: IAnswerWithId[]) => void; // Adjust the type as needed
 }
 
 const AnswerForm = ({ question, questionId, user, onAnswerSubmit }: Props) => {

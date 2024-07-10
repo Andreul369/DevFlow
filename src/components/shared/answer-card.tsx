@@ -6,9 +6,12 @@ import Image from 'next/image';
 import Votes from './votes';
 import { getTimestamp } from '@/lib/utils';
 import ParseHTML from './parse-html';
+import { IAnswerWithId } from '@/database/answer.model';
 
 interface Props {
   userId: string;
+  answer: IAnswerWithId;
+  suppressHydrationWarning: true;
 }
 
 const AnswerCard = ({ answer, userId }: Props) => {

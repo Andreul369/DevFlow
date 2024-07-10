@@ -15,6 +15,10 @@ export interface IUser extends Document {
   joinedAt: Date;
 }
 
+export interface IUserWithId extends IUser {
+  _id: string;
+}
+
 const UserSchema = new Schema<IUser>({
   clerkId: { type: String, required: true },
   name: { type: String, required: true },
