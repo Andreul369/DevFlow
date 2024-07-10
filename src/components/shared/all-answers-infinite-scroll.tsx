@@ -10,6 +10,7 @@ import AnswerForm from '../forms/answer-form';
 import Filter from './filter';
 import { AnswerFilters } from '@/constants/filters';
 import { IAnswerWithId } from '@/database/answer.model';
+import { IQuestionWithId } from '@/database/question.model';
 
 interface Props {
   initialAnswers: IAnswerWithId[];
@@ -17,7 +18,7 @@ interface Props {
   user: string;
   isNext: boolean;
   filter?: string;
-  question: string;
+  question: IQuestionWithId;
   totalAnswers: number;
 }
 

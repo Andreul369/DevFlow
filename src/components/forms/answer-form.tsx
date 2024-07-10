@@ -22,12 +22,13 @@ import { createAnswer } from '@/lib/actions/answer.action';
 import { useTheme } from '@/context/theme-provider';
 import Image from 'next/image';
 import { toast } from 'sonner';
-import { IAnswerWithId } from '@/database/answer.model';
+import { IQuestionWithId } from '@/database/question.model';
+import { IUserWithId } from '@/database/user.model';
 interface Props {
-  question: string;
+  question: IQuestionWithId;
   questionId: string;
-  user: string;
-  onAnswerSubmit: (answers: IAnswerWithId[]) => void; // Adjust the type as needed
+  user: IUserWithId;
+  onAnswerSubmit: (answers: any) => void; // Adjust the type as needed
 }
 
 const AnswerForm = ({ question, questionId, user, onAnswerSubmit }: Props) => {
@@ -61,7 +62,7 @@ const AnswerForm = ({ question, questionId, user, onAnswerSubmit }: Props) => {
         _id: newObjectId,
       });
 
-      onAnswerSubmit((prevAnswers) => [
+      onAnswerSubmit((prevAnswers: any) => [
         {
           author: {
             clerkId: user.clerkId,
