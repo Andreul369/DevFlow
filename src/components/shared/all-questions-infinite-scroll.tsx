@@ -42,11 +42,8 @@ const AllQuestionsInfiniteScroll = ({ initialQuestions, userId, isNext }: Props)
           setIsNextPage(isNext);
           pageRef.current = next;
         } else {
-          // TODO: Fix this
-          const result = {
-            questions: [],
-            isNext: false,
-          };
+          setAllQuestions([]);
+          setIsNextPage(false);
         }
       } else {
         const { questions: newQuestions, isNext } = await getQuestions({
@@ -64,6 +61,22 @@ const AllQuestionsInfiniteScroll = ({ initialQuestions, userId, isNext }: Props)
       loadMore();
     }
   }, [inView]);
+
+  useEffect(() => {
+    const filterQuestions = async () => {
+      pageRef.current = 1;
+
+      const { questions: newQuestions, isNext } = await getQuestions({
+        searchQuery: query,
+        filter,
+        page: 1,
+      });
+
+      setAllQuestions(newQuestions);
+      setIsNextPage(isNext);
+    };
+    filterQuestions();
+  }, [filter]);
 
   return (
     <div className='mt-10 flex w-full flex-col gap-6'>

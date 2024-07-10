@@ -4,8 +4,6 @@ import LocalSearchbar from '@/components/shared/search/local-searchbar';
 import { Button } from '@/components/ui/button';
 import { HomePageFilters } from '@/constants/filters';
 import HomeFilters from '@/components/home/home-filters';
-import QuestionCard from '@/components/cards/question-card';
-import NoResult from '@/components/shared/no-result';
 import { getQuestions, getRecommendedQuestions } from '@/lib/actions/question.action';
 import { SearchParamsProps } from '@/types';
 
