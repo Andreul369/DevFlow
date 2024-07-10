@@ -6,6 +6,7 @@ import { formatAndDivideNumber, getTimestamp } from '@/lib/utils';
 import { SignedIn } from '@clerk/nextjs';
 import EditDeleteAction from '../shared/edit-delete-action';
 import { IQuestionWithId } from '@/database/question.model';
+import { ObjectId } from 'mongodb';
 
 interface QuestionProps {
   clerkId?: string | null;
@@ -13,7 +14,7 @@ interface QuestionProps {
 }
 
 const QuestionCard = ({ clerkId, question }: QuestionProps) => {
-  const showActionButtons = clerkId && clerkId === question.author;
+  const showActionButtons = clerkId && new ObjectId(clerkId).equals(question.author);
 
   return (
     <div className='card-wrapper rounded-lg p-9 sm:px-11'>
