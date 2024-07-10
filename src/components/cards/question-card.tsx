@@ -13,6 +13,7 @@ interface QuestionProps {
 }
 
 const QuestionCard = ({ clerkId, question }: QuestionProps) => {
+  // @ts-ignore
   const showActionButtons = clerkId && clerkId === question.author.clerkId;
 
   return (
