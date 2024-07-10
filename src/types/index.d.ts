@@ -45,4 +45,12 @@ export interface BadgeCounts {
   GOLD: number;
 }
 
+export interface Question {
+  _id: string;
+}
+
+export interface Answer {
+  _id: string;
+}
+
 export type BadgeCriteriaType = keyof typeof BADGE_CRITERIA;
