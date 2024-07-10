@@ -13,9 +13,7 @@ interface QuestionProps {
 }
 
 const QuestionCard = ({ clerkId, question }: QuestionProps) => {
-  const showActionButtons = clerkId && clerkId === question.author;
-
-  console.log('question author:', question.author);
+  const showActionButtons = clerkId && clerkId === question.author.clerkId;
 
   return (
     <div className='card-wrapper rounded-lg p-9 sm:px-11'>
