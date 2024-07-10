@@ -5,15 +5,13 @@ import Metric from '../shared/metric';
 import { formatAndDivideNumber, getTimestamp } from '@/lib/utils';
 import { SignedIn } from '@clerk/nextjs';
 import EditDeleteAction from '../shared/edit-delete-action';
-import { IQuestionWithId } from '@/database/question.model';
 
 interface QuestionProps {
   clerkId?: string | null;
-  question: IQuestionWithId;
+  question: any;
 }
 
 const QuestionCard = ({ clerkId, question }: QuestionProps) => {
-  // @ts-ignore
   const showActionButtons = clerkId && clerkId === question.author.clerkId;
 
   return (
@@ -38,7 +36,7 @@ const QuestionCard = ({ clerkId, question }: QuestionProps) => {
       </div>
 
       <div className='mt-3.5 flex flex-wrap gap-2'>
-        {question.tags.map((tag) => (
+        {question.tags.map((tag: any) => (
           <RenderTag key={tag._id} _id={tag._id} name={tag.name} />
         ))}
       </div>

@@ -1,5 +1,4 @@
 import { Schema, models, model, Document } from 'mongoose';
-import { IUser } from './user.model';
 
 export interface IQuestion extends Document {
   title: string;
