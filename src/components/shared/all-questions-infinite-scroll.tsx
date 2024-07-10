@@ -9,11 +9,11 @@ import QuestionCard from '../cards/question-card';
 import NoResult from './no-result';
 import { useSearchParams } from 'next/navigation';
 import { getQuestions, getRecommendedQuestions } from '@/lib/actions/question.action';
-import { IQuestion } from '@/database/question.model';
+import { IQuestionWithId } from '@/database/question.model';
 import { useAuth } from '@clerk/nextjs';
 
 interface Props {
-  initialAnswers: IQuestion[];
+  initialQuestions: IQuestionWithId[];
   userId: string;
   isNext: boolean;
 }
@@ -36,7 +36,7 @@ const AllQuestionsInfiniteScroll = ({ initialQuestions, isNext }: Props) => {
         if (userId) {
           const { questions: newQuestions, isNext } = await getRecommendedQuestions({
             userId,
-            searchQuery: query,
+            searchQuery: query || '',
             page: next,
           });
 
@@ -49,8 +49,8 @@ const AllQuestionsInfiniteScroll = ({ initialQuestions, isNext }: Props) => {
         }
       } else {
         const { questions: newQuestions, isNext } = await getQuestions({
-          searchQuery: query,
-          filter,
+          searchQuery: query || '',
+          filter: filter || '',
           page: next,
         });
 
@@ -85,8 +85,8 @@ const AllQuestionsInfiniteScroll = ({ initialQuestions, isNext }: Props) => {
         }
       } else {
         const { questions: newQuestions, isNext } = await getQuestions({
-          searchQuery: query,
-          filter,
+          searchQuery: query || '',
+          filter: filter || '',
           page: 1,
         });
 

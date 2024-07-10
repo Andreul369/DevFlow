@@ -9,10 +9,10 @@ import AnswerCard from './answer-card';
 import AnswerForm from '../forms/answer-form';
 import Filter from './filter';
 import { AnswerFilters } from '@/constants/filters';
-import { IAnswer } from '@/database/answer.model';
+import { IAnswerWithId } from '@/database/answer.model';
 
 interface Props {
-  initialAnswers: IAnswer[];
+  initialAnswers: IAnswerWithId[];
   questionId: string;
   user: string;
   isNext: boolean;
@@ -56,6 +56,7 @@ const AllAnswersInfiniteScroll = ({
     if (inView) {
       loadMore();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inView]);
 
   useEffect(() => {
@@ -73,6 +74,7 @@ const AllAnswersInfiniteScroll = ({
     };
 
     filterAnswers();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filter]);
 
   return (

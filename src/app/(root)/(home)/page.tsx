@@ -77,7 +77,7 @@ export default async function HomePage({ searchParams }: SearchParamsProps) {
       <AllQuestionsInfiniteScroll
         initialQuestions={result.questions}
         isNext={result.isNext}
-        userId={userId}
+        userId={userId || ''}
       />
     </>
   );

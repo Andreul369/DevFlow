@@ -12,6 +12,10 @@ export interface IQuestion extends Document {
   createdAt: Date;
 }
 
+export interface IQuestionWithId extends IQuestion {
+  _id: string;
+}
+
 const QuestionSchema = new Schema({
   title: { type: String, required: true },
   content: { type: String, required: true },

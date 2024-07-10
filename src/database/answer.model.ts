@@ -10,6 +10,10 @@ export interface IAnswer extends Document {
   createdAt: Date;
 }
 
+export interface IAnswerWithId extends IAnswer {
+  _id: string;
+}
+
 const AnswerSchema = new Schema<IAnswer>({
   author: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   question: { type: Schema.Types.ObjectId, ref: 'Question', required: true },
