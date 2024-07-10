@@ -71,6 +71,7 @@ const AllAnswersInfiniteScroll = ({
       setAllAnswers(newAnswers);
       setIsNextPage(isNext);
     };
+
     filterAnswers();
   }, [filter]);
 
@@ -96,7 +97,8 @@ const AllAnswersInfiniteScroll = ({
           key={answer._id}
           answer={answer}
           userId={user._id}
-          // TODO: fix this on the getTimestamp after leaving a comment
+          // prevent Hydration warning when page is refreshed and comment are
+          // left for a few seconds.
           suppressHydrationWarning
         />
       ))}
