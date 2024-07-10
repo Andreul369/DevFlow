@@ -3,11 +3,12 @@ import React from 'react';
 import { getAnswers } from '@/lib/actions/answer.action';
 import AllAnswersInfiniteScroll from './all-answers-infinite-scroll';
 import { IQuestionWithId } from '@/database/question.model';
+import { IUserWithId } from '@/database/user.model';
 
 interface Props {
   question: IQuestionWithId;
   questionId: string;
-  user: string;
+  user: IUserWithId;
   totalAnswers: number;
   page?: string;
   filter?: string;

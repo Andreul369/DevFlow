@@ -11,11 +11,12 @@ import Filter from './filter';
 import { AnswerFilters } from '@/constants/filters';
 import { IAnswerWithId } from '@/database/answer.model';
 import { IQuestionWithId } from '@/database/question.model';
+import { IUserWithId } from '@/database/user.model';
 
 interface Props {
   initialAnswers: IAnswerWithId[];
   questionId: string;
-  user: string;
+  user: IUserWithId;
   isNext: boolean;
   filter?: string;
   question: IQuestionWithId;
