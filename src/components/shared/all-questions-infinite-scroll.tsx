@@ -26,6 +26,8 @@ const AllQuestionsInfiniteScroll = ({ initialQuestions, userId, isNext }: Props)
   const filter = searchParams.get('filter');
   const query = searchParams.get('query');
 
+  console.log(userId);
+
   useEffect(() => {
     const loadMore = async () => {
       const next = pageRef.current + 1;
@@ -66,14 +68,24 @@ const AllQuestionsInfiniteScroll = ({ initialQuestions, userId, isNext }: Props)
     const filterQuestions = async () => {
       pageRef.current = 1;
 
-      const { questions: newQuestions, isNext } = await getQuestions({
-        searchQuery: query,
-        filter,
-        page: 1,
-      });
+      if (userId) {
+        const { questions: newQuestions, isNext } = await getQuestions({
+          searchQuery: query,
+          filter,
+          page: 1,
+        });
+        setAllQuestions(newQuestions);
+        setIsNextPage(isNext);
+      } else {
+        const { questions: newQuestions, isNext } = await getQuestions({
+          searchQuery: query,
+          filter,
+          page: 1,
+        });
 
-      setAllQuestions(newQuestions);
-      setIsNextPage(isNext);
+        setAllQuestions(newQuestions);
+        setIsNextPage(isNext);
+      }
     };
     filterQuestions();
   }, [filter]);
