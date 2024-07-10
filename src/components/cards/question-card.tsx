@@ -13,7 +13,7 @@ interface QuestionProps {
 }
 
 const QuestionCard = ({ clerkId, question }: QuestionProps) => {
-  const showActionButtons = clerkId && clerkId === question.author.clerkId;
+  const showActionButtons = clerkId && clerkId === question.author;
 
   console.log('question author:', question.author);
 
