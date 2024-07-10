@@ -63,6 +63,7 @@ const AllQuestionsInfiniteScroll = ({ initialQuestions, isNext }: Props) => {
     if (inView) {
       loadMore();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inView]);
 
   useEffect(() => {
@@ -95,6 +96,7 @@ const AllQuestionsInfiniteScroll = ({ initialQuestions, isNext }: Props) => {
     };
 
     filterQuestions();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filter]);
 
   return (
