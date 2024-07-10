@@ -10,6 +10,7 @@ import NoResult from './no-result';
 import { useSearchParams } from 'next/navigation';
 import { getQuestions, getRecommendedQuestions } from '@/lib/actions/question.action';
 import { IQuestion } from '@/database/question.model';
+import { useAuth } from '@clerk/nextjs';
 
 interface Props {
   initialAnswers: IQuestion[];
@@ -17,16 +18,15 @@ interface Props {
   isNext: boolean;
 }
 
-const AllQuestionsInfiniteScroll = ({ initialQuestions, userId, isNext }: Props) => {
+const AllQuestionsInfiniteScroll = ({ initialQuestions, isNext }: Props) => {
+  const { userId } = useAuth();
   const [allQuestions, setAllQuestions] = useState(initialQuestions);
   const [isNextPage, setIsNextPage] = useState(isNext);
   const pageRef = useRef(1);
   const [ref, inView] = useInView();
   const searchParams = useSearchParams();
   const filter = searchParams.get('filter');
-  const query = searchParams.get('query');
-
-  console.log(userId);
+  const query = searchParams.get('q');
 
   useEffect(() => {
     const loadMore = async () => {
@@ -59,6 +59,7 @@ const AllQuestionsInfiniteScroll = ({ initialQuestions, userId, isNext }: Props)
         pageRef.current = next;
       }
     };
+
     if (inView) {
       loadMore();
     }
@@ -68,14 +69,19 @@ const AllQuestionsInfiniteScroll = ({ initialQuestions, userId, isNext }: Props)
     const filterQuestions = async () => {
       pageRef.current = 1;
 
-      if (userId) {
-        const { questions: newQuestions, isNext } = await getQuestions({
-          searchQuery: query,
-          filter,
-          page: 1,
-        });
-        setAllQuestions(newQuestions);
-        setIsNextPage(isNext);
+      if (filter === 'recommended') {
+        if (userId) {
+          const { questions: newQuestions, isNext } = await getRecommendedQuestions({
+            userId,
+            searchQuery: query || '',
+            page: 1,
+          });
+          setAllQuestions(newQuestions);
+          setIsNextPage(isNext);
+        } else {
+          setAllQuestions([]);
+          setIsNextPage(false);
+        }
       } else {
         const { questions: newQuestions, isNext } = await getQuestions({
           searchQuery: query,
@@ -87,6 +93,7 @@ const AllQuestionsInfiniteScroll = ({ initialQuestions, userId, isNext }: Props)
         setIsNextPage(isNext);
       }
     };
+
     filterQuestions();
   }, [filter]);
 

@@ -10,6 +10,8 @@ import { SearchParamsProps } from '@/types';
 import { auth } from '@clerk/nextjs';
 import { Metadata } from 'next';
 import AllQuestionsInfiniteScroll from '@/components/shared/all-questions-infinite-scroll';
+import QuestionCard from '@/components/cards/question-card';
+import NoResult from '@/components/shared/no-result';
 
 export const metadata: Metadata = {
   title: 'Home | Dev Overflow',
@@ -73,32 +75,6 @@ export default async function HomePage({ searchParams }: SearchParamsProps) {
       </div>
 
       <HomeFilters />
-
-      {/* <div className='mt-10 flex w-full flex-col gap-6'>
-        {result.questions.length > 0 ? (
-          result.questions.map((question) => (
-            <QuestionCard
-              key={question._id}
-              _id={question._id}
-              title={question.title}
-              tags={question.tags}
-              author={question.author}
-              upvotes={question.upvotes}
-              views={question.views}
-              answers={question.answers}
-              createdAt={question.createdAt}
-            />
-          ))
-        ) : (
-          <NoResult
-            title="There's no questions to show"
-            description='Be the first to break the silence! 🚀 Ask a Question and kickstart the discussion.
-          our query could be the next big thing others learn from. Get involved! 💡'
-            link='/ask-question'
-            linkText='Ask a Question'
-          />
-        )}
-      </div> */}
 
       <AllQuestionsInfiniteScroll
         initialQuestions={result.questions}
