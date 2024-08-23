@@ -21,7 +21,7 @@ import { Editor } from '@tinymce/tinymce-react';
 import { Badge } from '../ui/badge';
 import { createQuestion, editQuestion } from '@/lib/actions/question.action';
 import { useRouter, usePathname } from 'next/navigation';
-import { useTheme } from '@/context/theme-provider';
+import { useTheme } from 'next-themes';
 
 interface Props {
   type?: 'create' | 'edit';
@@ -30,7 +30,7 @@ interface Props {
 }
 
 const QuestionForm = ({ type, mongoUserId, questionDetails }: Props) => {
-  const { mode } = useTheme();
+  const { theme } = useTheme();
   const editorRef = useRef(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const router = useRouter();
@@ -123,16 +123,16 @@ const QuestionForm = ({ type, mongoUserId, questionDetails }: Props) => {
           name='title'
           render={({ field }) => (
             <FormItem className='flex w-full flex-col'>
-              <FormLabel className='paragraph-semibold text-dark400_light800'>
+              <FormLabel className='paragraph-semibold'>
                 Question Title <span className='text-primary-500'>*</span>
               </FormLabel>
               <FormControl className='mt-3.5'>
                 <Input
-                  className='no-focus paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 min-h-[56px] border'
+                  className='no-focus paragraph-regular light-border-2 min-h-[56px] border'
                   {...field}
                 />
               </FormControl>
-              <FormDescription className='body-regular mt-2.5 text-light-500'>
+              <FormDescription className='body-regular text-light-500 mt-2.5'>
                 Be specific and imagine you&apos;re asking a question to another person.
               </FormDescription>
               <FormMessage className='text-red-500' />
@@ -183,12 +183,12 @@ const QuestionForm = ({ type, mongoUserId, questionDetails }: Props) => {
                       'codesample | bold italic forecolor | alignleft aligncenter |' +
                       'alignright alignjustify | bullist numlist',
                     content_style: 'body { font-family:Inter; font-size:16px }',
-                    skin: mode === 'dark' ? 'oxide-dark' : 'oxide',
-                    content_css: mode === 'dark' ? 'dark' : 'light',
+                    skin: theme === 'dark' ? 'oxide-dark' : 'oxide',
+                    content_css: theme === 'dark' ? 'dark' : 'light',
                   }}
                 />
               </FormControl>
-              <FormDescription className='body-regular mt-2.5 text-light-500'>
+              <FormDescription className='body-regular text-light-500 mt-2.5'>
                 Introduce the problem and expand on what you put in the title. Minimum 20
                 characters.
               </FormDescription>
@@ -201,14 +201,14 @@ const QuestionForm = ({ type, mongoUserId, questionDetails }: Props) => {
           name='tags'
           render={({ field }) => (
             <FormItem className='flex w-full flex-col'>
-              <FormLabel className='paragraph-semibold text-dark400_light800'>
+              <FormLabel className='paragraph-semibold'>
                 Tags <span className='text-primary-500'>*</span>
               </FormLabel>
               <FormControl className='mt-3.5'>
                 <>
                   <Input
                     disabled={type === 'edit'}
-                    className='no-focus paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 min-h-[56px] border'
+                    className='no-focus paragraph-regular light-border-2 min-h-[56px] border'
                     placeholder='Add tags...'
                     onKeyDown={(e) => handleInputKeyDown(e, field)}
                   />
@@ -218,7 +218,7 @@ const QuestionForm = ({ type, mongoUserId, questionDetails }: Props) => {
                       {field.value.map((tag: any) => (
                         <Badge
                           key={tag}
-                          className='subtle-medium background-light800_dark300 text-light400_light500 flex items-center justify-center gap-2 rounded-md border-none px-4 py-2 capitalize'
+                          className='subtle-medium flex items-center justify-center gap-2 rounded-md border-none px-4 py-2 capitalize'
                           onClick={() =>
                             type !== 'edit' ? handleTagRemove(tag, field) : () => {}
                           }
@@ -239,7 +239,7 @@ const QuestionForm = ({ type, mongoUserId, questionDetails }: Props) => {
                   )}
                 </>
               </FormControl>
-              <FormDescription className='body-regular mt-2.5 text-light-500'>
+              <FormDescription className='body-regular text-light-500 mt-2.5'>
                 Add up to 3 tags to describe what your question is about. You need to
                 press enter to add a tag.
               </FormDescription>
@@ -249,7 +249,7 @@ const QuestionForm = ({ type, mongoUserId, questionDetails }: Props) => {
         />
         <Button
           type='submit'
-          className='primary-gradient w-fit !text-light-900'
+          className='primary-gradient !text-light-900 w-fit'
           disabled={isSubmitting}
         >
           {isSubmitting ? (

@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { formUrlQuery, removeKeysFromQuery } from '@/lib/utils';
-
+import * as Icons from '@/components/ui/icons';
 interface CustomInputProps {
   route: string;
   iconPosition: string;
@@ -54,35 +54,19 @@ const LocalSearchbar = ({
 
   return (
     <div
-      className={`background-light800_darkgradient relative flex min-h-[46px] grow items-center gap-4 rounded-xl px-4 ${otherClasses}`}
+      className={`relative flex min-h-[46px] grow items-center gap-4 rounded-xl bg-embark px-4  ${otherClasses}`}
     >
-      {iconPosition === 'left' && (
-        <Image
-          src={imgSrc}
-          alt='search icon'
-          width={24}
-          height={24}
-          className='cursor-pointer'
-        />
-      )}
+      {iconPosition === 'left' && <Icons.Search className='size-7 cursor-pointer' />}
 
       <Input
         type='text'
         placeholder={placeholder}
         value={search}
         onChange={(e) => setSearch(e.target.value)}
-        className='paragraph-regular no-focus placeholder text-dark400_light700 border-none bg-transparent shadow-none outline-none'
+        className='no-focus border-none bg-embark shadow-none outline-none'
       />
 
-      {iconPosition === 'right' && (
-        <Image
-          src={imgSrc}
-          alt='search icon'
-          width={24}
-          height={24}
-          className='cursor-pointer'
-        />
-      )}
+      {iconPosition === 'right' && <Icons.Search className='size-7 cursor-pointer' />}
     </div>
   );
 };

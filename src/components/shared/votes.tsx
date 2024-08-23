@@ -133,10 +133,8 @@ const Votes = ({
             onClick={() => handleVote('upvote')}
           />
 
-          <div className='flex-center background-light700_dark400 min-w-[18px] rounded-sm p-1'>
-            <p className='subtle-medium text-dark400_light900'>
-              {formatAndDivideNumber(localUpvotes)}
-            </p>
+          <div className='flex-center min-w-[18px] rounded-sm p-1'>
+            <p className='subtle-medium'>{formatAndDivideNumber(localUpvotes)}</p>
           </div>
         </div>
 
@@ -149,7 +147,7 @@ const Votes = ({
             onClick={() => handleVote('downvote')}
           />
 
-          <div className='flex-center background-light700_dark400 min-w-[18px] rounded-sm p-1'>
+          <div className='flex-center min-w-[18px] rounded-sm p-1'>
             <p className='subtle-medium text-dark400_light900'>
               {formatAndDivideNumber(localDownvotes)}
             </p>

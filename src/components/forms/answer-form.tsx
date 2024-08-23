@@ -19,7 +19,7 @@ import { AnswersSchema } from '@/lib/validations';
 import { Editor } from '@tinymce/tinymce-react';
 import { usePathname } from 'next/navigation';
 import { createAnswer } from '@/lib/actions/answer.action';
-import { useTheme } from '@/context/theme-provider';
+import { useTheme } from 'next-themes';
 import Image from 'next/image';
 import { toast } from 'sonner';
 import { IQuestionWithId } from '@/database/question.model';
@@ -32,7 +32,7 @@ interface Props {
 }
 
 const AnswerForm = ({ question, questionId, user, onAnswerSubmit }: Props) => {
-  const { mode } = useTheme();
+  const { theme } = useTheme();
   const editorRef = useRef(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmittingAI, setIsSubmittingAI] = useState(false);
@@ -133,7 +133,7 @@ const AnswerForm = ({ question, questionId, user, onAnswerSubmit }: Props) => {
         </h4>
 
         <Button
-          className='btn light-border-2 gap-1.5 rounded-md px-4 py-2.5 text-primary-500 shadow-none dark:text-primary-500'
+          className='light-border-2 gap-1.5 rounded-md px-4 py-2.5 shadow-none'
           onClick={generateAIAnswer}
         >
           {isSubmittingAI ? (
@@ -197,8 +197,9 @@ const AnswerForm = ({ question, questionId, user, onAnswerSubmit }: Props) => {
                         'codesample | bold italic forecolor | alignleft aligncenter | ' +
                         'alignright alignjustify | bullist numlist',
                       content_style: 'body { font-family:Inter; font-size:16px; }',
-                      skin: mode === 'dark' ? 'oxide-dark' : 'oxide',
-                      content_css: mode === 'dark' ? 'dark' : 'oxide',
+                      // TODO: Fix the theme here
+                      skin: theme === 'dark' ? 'oxide-dark' : 'oxide',
+                      content_css: theme === 'dark' ? 'dark' : 'oxide',
                     }}
                   />
                 </FormControl>
@@ -209,7 +210,7 @@ const AnswerForm = ({ question, questionId, user, onAnswerSubmit }: Props) => {
 
           <Button
             type='submit'
-            className='primary-gradient w-fit self-end !text-light-900'
+            className='primary-gradient !text-light-900 w-fit self-end'
             disabled={isSubmitting}
           >
             {isSubmitting ? 'Posting...' : 'Post Answer'}

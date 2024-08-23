@@ -28,7 +28,8 @@ const EditQuestionPage = async ({ params }: ParamsProps) => {
   return (
     <>
       <div>
-        <h1 className='h1-bold text-dark100_light900'>Edit Question</h1>
+        <h1 className='text-3xl font-bold'>Edit Question</h1>
+
         <div className='mt-9'>
           <QuestionForm
             type='edit'

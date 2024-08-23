@@ -33,7 +33,7 @@ const NavContent = () => {
               href={item.route}
               className={`${
                 isActive
-                  ? 'primary-gradient rounded-lg text-light-900'
+                  ? 'primary-gradient text-light-900 rounded-lg'
                   : 'text-dark300_light900'
               } flex items-center justify-start gap-4 bg-transparent p-4`}
             >
@@ -65,7 +65,7 @@ const MobileNav = () => {
           className='invert-colors sm:hidden'
         />
       </SheetTrigger>
-      <SheetContent side='left' className='background-light900_dark200 border-none'>
+      <SheetContent side='left' className='border-none'>
         <Link href='/' className='flex items-center gap-1'>
           <Image
             src='/assets/images/site-logo.svg'
@@ -74,8 +74,8 @@ const MobileNav = () => {
             alt='DevFlow'
           />
 
-          <p className='h2-bold text-dark100_light900 font-spaceGrotesk'>
-            Dev <span className='text-primary-500'>Overflow</span>
+          <p className='text-2xl font-bold'>
+            Dev <span className='text-primary'>Overflow</span>
           </p>
         </Link>
         <div>
@@ -87,7 +87,7 @@ const MobileNav = () => {
             <div className='flex flex-col gap-3'>
               <SheetClose asChild>
                 <Link href='/sign-in'>
-                  <Button className='small-medium btn-secondary min-h-[41px] w-full rounded-lg px-4 py-3 shadow-none'>
+                  <Button className='small-medium min-h-[41px] w-full rounded-lg px-4 py-3 shadow-none'>
                     <span className='primary-text-gradient'>Log In</span>
                   </Button>
                 </Link>
@@ -95,7 +95,7 @@ const MobileNav = () => {
 
               <SheetClose asChild>
                 <Link href='/sign-up'>
-                  <Button className='small-medium light-border-2 btn-tertiary text-dark400_light900 min-h-[41px] w-full rounded-lg border px-4 py-3 shadow-none'>
+                  <Button className='small-medium light-border-2 min-h-[41px] w-full rounded-lg border px-4 py-3 shadow-none'>
                     Sign Up
                   </Button>
                 </Link>

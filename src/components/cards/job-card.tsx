@@ -34,13 +34,13 @@ const JobCard = ({
   createdAt,
 }: QuestionProps) => {
   return (
-    <div className='background-light900_dark200 light-border shadow-light100_darknone flex flex-col items-start gap-6 rounded-lg border p-6 sm:flex-row sm:p-8'>
+    <div className='light-border flex flex-col items-start gap-6 rounded-lg border p-6 sm:flex-row sm:p-8'>
       <div className='flex items-center gap-6'>
         <Image src='/assets/icons/clock-2.svg' alt='clock' width={40} height={40} />
       </div>
       <div className='w-full'>
         <div className='flex-between flex-wrap gap-2'>
-          <p className='base-semibold text-dark200_light900'>SNI</p>
+          <p className='base-semibold'>SNI</p>
           <div className='hidden sm:flex'></div>
         </div>
         <p className='body-regular text-dark500_light700 mt-2 line-clamp-2'>

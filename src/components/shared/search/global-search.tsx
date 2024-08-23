@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { formUrlQuery, removeKeysFromQuery } from '@/lib/utils';
 import GlobalResult from './global-result';
-
+import * as Icons from '@/components/ui/icons';
 const GlobalSearch = () => {
   const router = useRouter();
   const pathname = usePathname();
@@ -70,14 +70,8 @@ const GlobalSearch = () => {
 
   return (
     <div className='relative w-full max-w-[600px] max-lg:hidden' ref={searchContainerRef}>
-      <div className='background-light800_darkgradient relative flex min-h-[46px] grow items-center gap-1 rounded-xl px-4'>
-        <Image
-          src='/assets/icons/search.svg'
-          alt='search'
-          width={24}
-          height={24}
-          className='cursor-pointer'
-        />
+      <div className='relative flex min-h-[46px] grow items-center gap-1 rounded-xl bg-embark px-4'>
+        <Icons.Search className='size-7 cursor-pointer' />
 
         <Input
           type='text'
@@ -90,7 +84,7 @@ const GlobalSearch = () => {
 
             if (e.target.value === '' && isOpen) setIsOpen(false);
           }}
-          className='paragraph-regular no-focus text-dark400_light700 placeholder border-none bg-transparent shadow-none outline-none'
+          className='no-focus border-none bg-embark shadow-none outline-none'
         />
       </div>
       {isOpen && <GlobalResult />}

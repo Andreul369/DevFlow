@@ -48,7 +48,7 @@ export async function globalSearch(params: SearchParams) {
       }
     } else {
       // Search in the specified model type
-     
+
       const modelInfo = modelsAndTypes.find((item) => item.type === type);
 
       console.log({ modelInfo, type });

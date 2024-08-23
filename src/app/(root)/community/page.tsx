@@ -31,7 +31,8 @@ const CommunityPage = async ({ searchParams }: SearchParamsProps) => {
 
   return (
     <>
-      <h1 className='h1-bold text-dark100_light900'>All Users</h1>
+      <h1 className='text-3xl font-bold'>All Users</h1>
+
       <div className='mt-11 flex justify-between gap-5 max-sm:flex-col sm:items-center'>
         <LocalSearchbar
           route='/community'
@@ -54,7 +55,7 @@ const CommunityPage = async ({ searchParams }: SearchParamsProps) => {
         ) : (
           <div className='paragraph-regular text-dark200_light800 mx-auto max-w-4xl text-center'>
             <p>No users yet</p>
-            <Link href='/sign-up' className='mt-2 font-bold text-accent-blue'>
+            <Link href='/sign-up' className='text-accent-blue mt-2 font-bold'>
               Join to be the first!
             </Link>
           </div>

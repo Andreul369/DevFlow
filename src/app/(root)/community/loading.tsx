@@ -5,7 +5,7 @@ const CommunityLoading = () => {
   return (
     <>
       <div className='flex w-full flex-col-reverse justify-between gap-4 sm:flex-row sm:items-center'>
-        <h1 className='h1-bold text-dark100_light900'>All Users</h1>
+        <h1 className='text-3xl font-bold'>All Users</h1>
       </div>
 
       <div className='mb-12 mt-11 flex flex-wrap items-center justify-between gap-5'>

@@ -47,10 +47,10 @@ export default async function HomePage({ searchParams }: SearchParamsProps) {
   return (
     <>
       <div className='flex w-full flex-col-reverse justify-between gap-4 sm:flex-row sm:items-center'>
-        <h1 className='h1-bold text-dark100_light900'>All Questions</h1>
+        <h1 className='text-3xl font-bold'>All Questions</h1>
 
         <Link href='/ask-question' className='flex justify-end max-sm:w-full'>
-          <Button className='primary-gradient min-h-[46px] px-4 py-3 !text-light-900'>
+          <Button className='primary-gradient !text-light-900 min-h-[46px] px-4 py-3'>
             Ask a Question
           </Button>
         </Link>

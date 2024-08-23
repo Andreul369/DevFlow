@@ -24,7 +24,8 @@ const EditProfilePage = async ({ params }: ParamsProps) => {
   return (
     <>
       <div>
-        <h1 className='h1-bold text-dark100_light900'>Edit Profile</h1>
+        <h1 className='text-3xl font-bold'>Edit Profile</h1>
+
         <div className='mt-9'>
           <ProfileForm clerkId={userId} userDetails={JSON.stringify(mongoUser)} />
         </div>

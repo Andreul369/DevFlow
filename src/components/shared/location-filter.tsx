@@ -154,7 +154,7 @@ const LocationFilter = () => {
           variant='default'
           role='combobox'
           aria-expanded={open}
-          className='light-border background-light800_dark300 text-dark500_light700 flex min-h-[46px] justify-between'
+          className='light-border flex min-h-[46px] justify-between'
         >
           <Image
             src='/assets/icons/carbon-location.svg'
@@ -170,13 +170,10 @@ const LocationFilter = () => {
           </p>
         </Button>
       </PopoverTrigger>
-      <PopoverContent className='text-dark500_light700 w-[200px] border-none border-slate-200 bg-light-900 p-0 outline-none dark:bg-slate-950'>
+      <PopoverContent className='bg-light-900 w-[200px] border-none border-slate-200 p-0 outline-none dark:bg-slate-950'>
         <ScrollArea className='h-[350px]'>
           <Command>
-            <CommandInput
-              placeholder='Search location...'
-              className='text-dark500_light700'
-            />
+            <CommandInput placeholder='Search location...' />
             <CommandEmpty>No location found.</CommandEmpty>
             <CommandGroup>
               {frameworks.map((framework) => (
@@ -187,7 +184,6 @@ const LocationFilter = () => {
                     setValue(currentValue === value ? '' : currentValue);
                     setOpen(false);
                   }}
-                  className='text-dark500_light700'
                 >
                   <Check
                     className={cn(

@@ -15,14 +15,14 @@ const QuestionCard = ({ clerkId, question }: QuestionProps) => {
   const showActionButtons = clerkId && clerkId === question.author.clerkId;
 
   return (
-    <div className='card-wrapper rounded-lg p-9 sm:px-11'>
+    <div className='rounded-lg bg-surface p-9 sm:px-11'>
       <div className='flex flex-col-reverse items-start justify-between gap-5 sm:flex-row'>
         <div>
-          <span className='subtle-regular text-dark400_light700 line-clamp-1 flex sm:hidden'>
+          <span className='line-clamp-1 flex sm:hidden'>
             {getTimestamp(question.createdAt)}
           </span>
           <Link href={`/question/${question._id}`}>
-            <h3 className='sm:h3-semibold base-semibold text-dark200_light900 line-clamp-1 flex-1'>
+            <h3 className='line-clamp-1 flex-1 text-xl font-semibold'>
               {question.title}
             </h3>
           </Link>
@@ -49,7 +49,7 @@ const QuestionCard = ({ clerkId, question }: QuestionProps) => {
           title={` - asked ${getTimestamp(question.createdAt)}`}
           href={`/profile/${question.author._id}`}
           isAuthor
-          textStyles='body-medium text-dark400_light700'
+          textStyles='text-sm'
         />
 
         <div className='flex items-center gap-4 max-sm:flex-wrap max-sm:justify-start'>
@@ -58,21 +58,21 @@ const QuestionCard = ({ clerkId, question }: QuestionProps) => {
             alt='upvotes'
             value={formatAndDivideNumber(question.upvotes.length)}
             title=' Votes'
-            textStyles='small-medium text-dark400_light800'
+            textStyles='text-sm text-muted-foreground'
           />
           <Metric
             imgUrl='/assets/icons/message.svg'
             alt='message'
             value={formatAndDivideNumber(question.answers.length)}
             title=' Answers'
-            textStyles='small-medium text-dark400_light800'
+            textStyles='text-sm text-muted-foreground'
           />
           <Metric
             imgUrl='/assets/icons/eye.svg'
             alt='eye'
             value={formatAndDivideNumber(question.views)}
             title=' Views'
-            textStyles='small-medium text-dark400_light800'
+            textStyles='text-sm text-muted-foreground'
           />
         </div>
       </div>
