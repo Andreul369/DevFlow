@@ -10,6 +10,7 @@ import { getAllTags } from '@/lib/actions/tag.action';
 import { SearchParamsProps } from '@/types';
 
 import { Metadata } from 'next';
+import GlobalSearch from '@/components/shared/search/global-search';
 
 export const metadata: Metadata = {
   title: 'All Tags | Dev Overflow',
@@ -31,7 +32,12 @@ const TagsPage = async ({ searchParams }: SearchParamsProps) => {
 
   return (
     <>
-      <h1>All Tags</h1>
+      <div className='sticky top-0 z-50 w-full max-w-5xl pt-6 backdrop-blur-md'>
+        <GlobalSearch />
+      </div>
+
+      <h1 className='pt-16 text-3xl font-bold'>Tags</h1>
+
       <div className='mt-11 flex justify-between gap-5 max-sm:flex-col sm:items-center'>
         <LocalSearchbar
           route='/tags'
@@ -43,7 +49,7 @@ const TagsPage = async ({ searchParams }: SearchParamsProps) => {
 
         <Filter
           filters={TagFilters}
-          otherClasses='min-h-[46px] sm:min-w-[170px]'
+          otherClasses='min-h-12 sm:min-w-40'
           containerClasses='flex'
         />
       </div>
@@ -54,7 +60,7 @@ const TagsPage = async ({ searchParams }: SearchParamsProps) => {
             <Link key={tag._id} href={`/tags/${tag._id}`}>
               <article className='flex w-full flex-col rounded-2xl border px-8 py-10 sm:w-[260px]'>
                 <div className='w-fit rounded-sm px-5 py-1.5'>
-                  <p className='paragraph-semibold text-dark300_light900'>{tag.name}</p>
+                  <p className='paragraph-semibold'>{tag.name}</p>
                 </div>
 
                 <p className='small-medium mt-3.5'>

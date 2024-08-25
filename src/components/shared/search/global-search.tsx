@@ -1,6 +1,5 @@
 'use client';
 
-import Image from 'next/image';
 import React, { useEffect, useRef, useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
@@ -40,6 +39,7 @@ const GlobalSearch = () => {
     return () => {
       document.removeEventListener('click', handleOutsideClick);
     };
+    // TODO: check this dep and see which one has better UX
     // 👇 This dep. is needed too for the globalResult dialog close after click
     //   }, [pathname]);
   }, []);
@@ -69,8 +69,8 @@ const GlobalSearch = () => {
   }, [search, pathname, router, searchParams, query]);
 
   return (
-    <div className='relative w-full max-w-[600px] max-lg:hidden' ref={searchContainerRef}>
-      <div className='relative flex min-h-[46px] grow items-center gap-1 rounded-xl bg-embark px-4'>
+    <div className='relative w-full max-lg:hidden' ref={searchContainerRef}>
+      <div className='relative flex min-h-12 grow items-center gap-1 rounded-xl bg-embark  px-4'>
         <Icons.Search className='size-7 cursor-pointer' />
 
         <Input

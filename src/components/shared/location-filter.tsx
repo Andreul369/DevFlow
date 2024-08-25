@@ -154,7 +154,7 @@ const LocationFilter = () => {
           variant='default'
           role='combobox'
           aria-expanded={open}
-          className='light-border flex min-h-[46px] justify-between'
+          className='light-border flex min-h-12 justify-between'
         >
           <Image
             src='/assets/icons/carbon-location.svg'

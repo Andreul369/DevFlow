@@ -4,6 +4,7 @@ import NoResult from '@/components/shared/no-result';
 import QuestionCard from '@/components/cards/question-card';
 import LocalSearchbar from '@/components/shared/search/local-searchbar';
 import { URLProps } from '@/types';
+import GlobalSearch from '@/components/shared/search/global-search';
 
 const TagPage = async ({ params, searchParams }: URLProps) => {
   const { tagTitle, questions } = await getQuestionsByTagId({
@@ -14,8 +15,11 @@ const TagPage = async ({ params, searchParams }: URLProps) => {
 
   return (
     <>
-      <h1 className='h1-bold text-dark100_light900'>{tagTitle}</h1>
+      <div className='sticky top-0 z-50 w-full max-w-5xl pt-6 backdrop-blur-md'>
+        <GlobalSearch />
+      </div>
 
+      <h1 className='pt-16 text-3xl font-bold'>{tagTitle}</h1>
       <div className='mt-11 w-full'>
         <LocalSearchbar
           route='/'

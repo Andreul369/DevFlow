@@ -57,11 +57,7 @@ const Page = async ({ params, searchParams }: URLProps) => {
               />
             </div>
 
-            {userInfo.user.bio && (
-              <p className='paragraph-regular text-dark400_light800 mt-8'>
-                {userInfo.user.bio}
-              </p>
-            )}
+            {userInfo.user.bio && <p className='mt-8'>{userInfo.user.bio}</p>}
           </div>
         </div>
 
@@ -69,9 +65,7 @@ const Page = async ({ params, searchParams }: URLProps) => {
           <SignedIn>
             {clerkId === userInfo.user.clerkId && (
               <Link href='/profile/edit'>
-                <Button className='paragraph-medium min-h-[46px] min-w-[175px] px-4 py-3'>
-                  Edit Profile
-                </Button>
+                <Button className='min-h-12 min-w-44 px-4 py-3'>Edit Profile</Button>
               </Link>
             )}
           </SignedIn>

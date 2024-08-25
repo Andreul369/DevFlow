@@ -54,7 +54,7 @@ const LocalSearchbar = ({
 
   return (
     <div
-      className={`relative flex min-h-[46px] grow items-center gap-4 rounded-xl bg-embark px-4  ${otherClasses}`}
+      className={`relative flex min-h-12 grow items-center gap-4 rounded-xl bg-embark px-4  ${otherClasses}`}
     >
       {iconPosition === 'left' && <Icons.Search className='size-7 cursor-pointer' />}
 

@@ -105,9 +105,11 @@ export async function getAllUsers(params: GetAllUsersParams) {
     const query: FilterQuery<typeof User> = {};
 
     if (searchQuery) {
+      const escapedSearchQuery = searchQuery.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
       query.$or = [
-        { name: { $regex: new RegExp(searchQuery, 'i') } },
-        { username: { $regex: new RegExp(searchQuery, 'i') } },
+        { name: { $regex: new RegExp(escapedSearchQuery, 'i') } },
+        { username: { $regex: new RegExp(escapedSearchQuery, 'i') } },
       ];
     }
 

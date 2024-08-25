@@ -218,7 +218,7 @@ const QuestionForm = ({ type, mongoUserId, questionDetails }: Props) => {
                       {field.value.map((tag: any) => (
                         <Badge
                           key={tag}
-                          className='subtle-medium flex items-center justify-center gap-2 rounded-md border-none px-4 py-2 capitalize'
+                          className='flex items-center justify-center gap-2 rounded-md border-none px-4 py-2 capitalize hover:text-[#F6F6F6]'
                           onClick={() =>
                             type !== 'edit' ? handleTagRemove(tag, field) : () => {}
                           }

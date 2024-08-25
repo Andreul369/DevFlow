@@ -26,7 +26,7 @@ const JobsPage = async ({ searchParams }: SearchParamsProps) => {
 
   return (
     <>
-      <div className='flex w-full flex-col-reverse justify-between gap-4 sm:flex-row sm:items-center'>
+      <div className='flex w-full flex-col-reverse justify-between gap-4 pt-16 sm:flex-row sm:items-center'>
         <h1 className='text-3xl font-bold'>Jobs</h1>
       </div>
 

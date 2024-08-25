@@ -10,9 +10,7 @@ const HomeLoading = () => {
         <h1 className='text-3xl'>All Questions</h1>
 
         <Link href='/ask-question' className='flex justify-end max-sm:w-full'>
-          <Button className='primary-gradient !text-light-900 min-h-[46px] px-4 py-3'>
-            Ask a Question
-          </Button>
+          <Button className='primary-gradient min-h-12 px-4 py-3'>Ask a Question</Button>
         </Link>
       </div>
 

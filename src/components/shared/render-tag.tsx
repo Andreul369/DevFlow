@@ -12,13 +12,11 @@ interface Props {
 const RenderTag = ({ _id, name, totalQuestions, showCount }: Props) => {
   return (
     <Link href={`/tags/${_id}`} className='flex items-center justify-between gap-2'>
-      <Badge className='subtle-medium rounded-md border-none px-4 py-2 uppercase'>
+      {/* // TODO: check the font colors from here */}
+      <Badge className='rounded-md border-none bg-embark px-4 py-2 uppercase text-[#363636] hover:text-[#F6F6F6] dark:text-[#F6F6F6]'>
         {name}
       </Badge>
-
-      {showCount && (
-        <p className='small-medium text-dark500_light700'>{totalQuestions}</p>
-      )}
+      {showCount && <p className='text-sm'>{totalQuestions}</p>}
     </Link>
   );
 };

@@ -1,4 +1,5 @@
 import { SidebarLink } from '@/types';
+import * as Icons from '@/components/ui/icons';
 
 export const themes = [
   { value: 'light', label: 'Light', icon: '/assets/icons/sun.svg' },
@@ -8,39 +9,36 @@ export const themes = [
 
 export const sidebarLinks: SidebarLink[] = [
   {
-    imgURL: '/assets/icons/home.svg',
+    icon: <Icons.Home className='size-5' />,
     route: '/',
     label: 'Home',
   },
+  { icon: <Icons.User className='size-5' />, route: '/profile', label: 'Profile' },
   {
-    imgURL: '/assets/icons/users.svg',
+    icon: <Icons.CircleHelp className='size-5' />,
+    route: '/ask-question',
+    label: 'Ask a question',
+  },
+  {
+    icon: <Icons.Users className='size-5' />,
     route: '/community',
     label: 'Community',
   },
   {
-    imgURL: '/assets/icons/star.svg',
+    icon: <Icons.Star className='size-5' />,
     route: '/collection',
     label: 'Collections',
   },
   {
-    imgURL: '/assets/icons/suitcase.svg',
-    route: '/jobs',
-    label: 'Find Jobs',
-  },
-  {
-    imgURL: '/assets/icons/tag.svg',
+    icon: <Icons.Tag className='size-5' />,
     route: '/tags',
     label: 'Tags',
   },
+
   {
-    imgURL: '/assets/icons/user.svg',
-    route: '/profile',
-    label: 'Profile',
-  },
-  {
-    imgURL: '/assets/icons/question.svg',
-    route: '/ask-question',
-    label: 'Ask a question',
+    icon: <Icons.BriefcaseBusiness className='size-5' />,
+    route: '/jobs',
+    label: 'Find Jobs',
   },
 ];
 

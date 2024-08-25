@@ -9,6 +9,7 @@ import { auth } from '@clerk/nextjs';
 import { SearchParamsProps } from '@/types';
 
 import { Metadata } from 'next';
+import GlobalSearch from '@/components/shared/search/global-search';
 
 export const metadata: Metadata = {
   title: 'Collection | Dev Overflow',
@@ -31,7 +32,11 @@ const CollectionPage = async ({ searchParams }: SearchParamsProps) => {
 
   return (
     <>
-      <h1 className='text-3xl font-bold'>Saved Questions</h1>
+      <div className='sticky top-0 z-50 w-full max-w-5xl pt-6 backdrop-blur-md'>
+        <GlobalSearch />
+      </div>
+
+      <h1 className='pt-16 text-3xl font-bold'>Saved Questions</h1>
 
       <div className='mt-11 flex justify-between gap-5 max-sm:flex-col sm:items-center'>
         <LocalSearchbar
@@ -42,7 +47,7 @@ const CollectionPage = async ({ searchParams }: SearchParamsProps) => {
           otherClasses='flex-1'
         />
 
-        <Filter filters={QuestionFilters} otherClasses='min-h-[46px] sm:min-w-[170px]' />
+        <Filter filters={QuestionFilters} otherClasses='min-h-12 min-w-40' />
       </div>
 
       <div className='mt-10 flex w-full flex-col gap-6'>

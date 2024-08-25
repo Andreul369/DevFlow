@@ -37,13 +37,7 @@ const NavContent = () => {
                   : 'text-dark300_light900'
               } flex items-center justify-start gap-4 bg-transparent p-4`}
             >
-              <Image
-                src={item.imgURL}
-                alt={item.label}
-                width={20}
-                height={20}
-                className={`${isActive ? '' : 'invert-colors'}`}
-              />
+              {item.icon}
               <p className={`${isActive ? 'base-bold' : 'base-medium'}`}>{item.label}</p>
             </Link>
           </SheetClose>
@@ -65,7 +59,7 @@ const MobileNav = () => {
           className='invert-colors sm:hidden'
         />
       </SheetTrigger>
-      <SheetContent side='left' className='border-none'>
+      <SheetContent side='left' className='no-scrollbar overflow-y-auto border-none'>
         <Link href='/' className='flex items-center gap-1'>
           <Image
             src='/assets/images/site-logo.svg'

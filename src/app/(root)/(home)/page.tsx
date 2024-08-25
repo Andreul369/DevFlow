@@ -10,6 +10,7 @@ import { SearchParamsProps } from '@/types';
 import { auth } from '@clerk/nextjs';
 import { Metadata } from 'next';
 import AllQuestionsInfiniteScroll from '@/components/shared/all-questions-infinite-scroll';
+import GlobalSearch from '@/components/shared/search/global-search';
 
 export const metadata: Metadata = {
   title: 'Home | Dev Overflow',
@@ -46,13 +47,14 @@ export default async function HomePage({ searchParams }: SearchParamsProps) {
 
   return (
     <>
-      <div className='flex w-full flex-col-reverse justify-between gap-4 sm:flex-row sm:items-center'>
+      <div className='sticky top-0 z-50 w-full max-w-5xl pt-6 backdrop-blur-md'>
+        <GlobalSearch />
+      </div>
+      <div className='flex w-full flex-col-reverse justify-between gap-4 pt-16 sm:flex-row sm:items-center'>
         <h1 className='text-3xl font-bold'>All Questions</h1>
 
         <Link href='/ask-question' className='flex justify-end max-sm:w-full'>
-          <Button className='primary-gradient !text-light-900 min-h-[46px] px-4 py-3'>
-            Ask a Question
-          </Button>
+          <Button className='primary-gradient min-h-12 px-4 py-3'>Ask a Question</Button>
         </Link>
       </div>
 
@@ -67,7 +69,7 @@ export default async function HomePage({ searchParams }: SearchParamsProps) {
 
         <Filter
           filters={HomePageFilters}
-          otherClasses='min-h-[46px] sm:min-w-[170px]'
+          otherClasses='min-h-12 sm:min-w-[170px]'
           containerClasses='hidden max-md:flex'
         />
       </div>

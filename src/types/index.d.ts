@@ -1,7 +1,8 @@
 import { BADGE_CRITERIA } from '@/constants';
+import { JSX } from 'react';
 
 export interface SidebarLink {
-  imgURL: string;
+  icon: JSX.Element;
   route: string;
   label: string;
 }
