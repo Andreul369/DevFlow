@@ -30,7 +30,7 @@ const QuestionPage = async ({ params, searchParams }: URLProps) => {
         <GlobalSearch />
       </div>
 
-      <div className='flex-start w-full flex-col pt-16'>
+      <div className='flex-start w-full flex-col pt-1 lg:pt-16'>
         <div className='flex w-full flex-col-reverse justify-between gap-5 sm:flex-row sm:items-center sm:gap-2'>
           <Link
             href={`/profile/${result.author.clerkId}`}

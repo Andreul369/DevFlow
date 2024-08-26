@@ -11,6 +11,7 @@ import { auth } from '@clerk/nextjs';
 import { Metadata } from 'next';
 import InfiniteScrollQuestions from '@/components/shared/infinite-scroll-questions';
 import GlobalSearch from '@/components/shared/search/global-search';
+import MobileNav from '@/components/shared/navbar/mobile-nav';
 
 export const metadata: Metadata = {
   title: 'Home | Dev Overflow',
@@ -49,8 +50,9 @@ export default async function HomePage({ searchParams }: SearchParamsProps) {
     <>
       <div className='sticky top-0 z-50 w-full max-w-5xl pt-6 backdrop-blur-md'>
         <GlobalSearch />
+        <MobileNav />
       </div>
-      <div className='flex w-full flex-col-reverse justify-between gap-4 pt-16 sm:flex-row sm:items-center'>
+      <div className='flex w-full flex-col-reverse justify-between gap-4 pt-1 sm:flex-row sm:items-center lg:pt-16'>
         <h1 className='text-3xl font-bold'>All Questions</h1>
 
         <Link href='/ask-question' className='flex justify-end max-sm:w-full'>

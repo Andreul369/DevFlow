@@ -26,7 +26,7 @@ const AskQuestionPage = async () => {
         <GlobalSearch />
       </div>
 
-      <h1 className='pt-16 text-3xl font-bold'>Ask a Question</h1>
+      <h1 className='pt-1 text-3xl font-bold lg:pt-16'>Ask a Question</h1>
       <div className='mt-9'>
         <QuestionForm mongoUserId={JSON.stringify(mongoUser?._id)} />
       </div>

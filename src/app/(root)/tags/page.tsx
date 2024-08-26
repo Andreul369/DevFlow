@@ -38,7 +38,7 @@ const TagsPage = async ({ searchParams }: SearchParamsProps) => {
         <GlobalSearch />
       </div>
 
-      <h1 className='pt-16 text-3xl font-bold'>Tags</h1>
+      <h1 className='pt-1 text-3xl font-bold lg:pt-16'>Tags</h1>
 
       <div className='mt-11 flex justify-between gap-5 max-sm:flex-col sm:items-center'>
         <LocalSearchbar

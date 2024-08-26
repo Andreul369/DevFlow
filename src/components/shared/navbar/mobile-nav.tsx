@@ -71,7 +71,7 @@ const MobileNav = () => {
             Dev <span className='text-primary'>Overflow</span>
           </p>
         </Link>
-        <div>
+        <div className='no-scrollbar flex h-[calc(100vh-80px)] flex-col justify-between overflow-y-auto'>
           <SheetClose asChild>
             <NavContent />
           </SheetClose>
@@ -80,16 +80,30 @@ const MobileNav = () => {
             <div className='flex flex-col gap-3'>
               <SheetClose asChild>
                 <Link href='/sign-in'>
-                  <Button className='min-h-[41px] w-full rounded-lg px-4 py-3 text-xs shadow-none'>
-                    <span className='primary-text-gradient'>Log In</span>
+                  <Button className='min-h-10 w-full rounded-lg bg-embark px-4 py-3 text-[#363636] shadow-none hover:text-[#F6F6F6] dark:text-[#F6F6F6]'>
+                    <Image
+                      src='/assets/icons/account.svg'
+                      alt='login'
+                      width={18}
+                      height={18}
+                      className='mr-4 text-[#363636] shadow-none hover:text-[#F6F6F6] dark:text-[#F6F6F6] lg:hidden'
+                    />
+                    Log In
                   </Button>
                 </Link>
               </SheetClose>
 
               <SheetClose asChild>
                 <Link href='/sign-up'>
-                  <Button className='light-border-2 min-h-[41px] w-full rounded-lg border px-4 py-3 text-xs shadow-none'>
-                    Sign Up
+                  <Button className='min-h-10 w-full rounded-lg border bg-embark px-4 py-3 text-[#363636] shadow-none hover:text-[#F6F6F6] dark:text-[#F6F6F6]'>
+                    <Image
+                      src='/assets/icons/sign-up.svg'
+                      alt='sign up'
+                      width={18}
+                      height={18}
+                      className='mr-4 text-[#363636] shadow-none hover:text-[#F6F6F6] dark:text-[#F6F6F6] lg:hidden'
+                    />
+                    Sign up
                   </Button>
                 </Link>
               </SheetClose>

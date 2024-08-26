@@ -37,7 +37,7 @@ const CommunityPage = async ({ searchParams }: SearchParamsProps) => {
         <GlobalSearch />
       </div>
 
-      <h1 className='pt-16 text-3xl font-bold'>All Users</h1>
+      <h1 className='pt-1 text-3xl font-bold lg:pt-16'>All Users</h1>
 
       <div className='mt-11 flex justify-between gap-5 max-sm:flex-col sm:items-center'>
         <LocalSearchbar

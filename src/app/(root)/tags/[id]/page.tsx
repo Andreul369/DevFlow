@@ -19,7 +19,7 @@ const TagPage = async ({ params, searchParams }: URLProps) => {
         <GlobalSearch />
       </div>
 
-      <h1 className='pt-16 text-3xl font-bold'>{tagTitle}</h1>
+      <h1 className='pt-1 text-3xl font-bold lg:pt-16'>{tagTitle}</h1>
       <div className='mt-11 w-full'>
         <LocalSearchbar
           route='/'

@@ -15,10 +15,10 @@ const ThemeToggle = dynamic(() => import('@/components/shared/navbar/theme-toggl
     <Button
       variant='ghost'
       size='sm'
-      className='gap-1 px-2 text-lg font-semibold md:text-base'
+      className='mt-3 gap-1 px-2 text-lg font-semibold md:text-base'
     >
       <div className='size-6 animate-pulse rounded-full bg-muted-foreground/70' />
-      <span className='w-14 animate-pulse rounded bg-muted-foreground/70 capitalize'>
+      <span className='w-14 animate-pulse rounded bg-muted-foreground/70 capitalize max-lg:hidden'>
         &nbsp;
       </span>
     </Button>
