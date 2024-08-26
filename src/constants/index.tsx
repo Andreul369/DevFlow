@@ -34,12 +34,11 @@ export const sidebarLinks: SidebarLink[] = [
     route: '/tags',
     label: 'Tags',
   },
-
-  {
-    icon: <Icons.BriefcaseBusiness className='size-5' />,
-    route: '/jobs',
-    label: 'Find Jobs',
-  },
+  // {
+  //   icon: <Icons.BriefcaseBusiness className='size-5' />,
+  //   route: '/jobs',
+  //   label: 'Find Jobs',
+  // },
 ];
 
 export const BADGE_CRITERIA = {

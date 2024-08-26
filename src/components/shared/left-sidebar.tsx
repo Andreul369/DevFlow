@@ -7,7 +7,6 @@ import { SignedOut, useAuth } from '@clerk/nextjs';
 import { sidebarLinks } from '@/constants';
 import { usePathname } from 'next/navigation';
 import { Button } from '../ui/button';
-import * as Icons from '@/components/ui/icons';
 import dynamic from 'next/dynamic';
 
 const ThemeToggle = dynamic(() => import('@/components/shared/navbar/theme-toggle'), {
@@ -18,7 +17,7 @@ const ThemeToggle = dynamic(() => import('@/components/shared/navbar/theme-toggl
       size='sm'
       className='gap-1 px-2 text-lg font-semibold md:text-base'
     >
-      <div className='size-6 animate-pulse rounded-full bg-muted-foreground/70' />
+      <div className='size-6 animate-pulse rounded-full' />
       <span className='w-14 animate-pulse rounded bg-muted-foreground/70 capitalize'>
         &nbsp;
       </span>
@@ -79,7 +78,7 @@ const LeftSidebar = () => {
                 alt='login'
                 width={18}
                 height={18}
-                className='invert-colors lg:hidden'
+                className='lg:hidden'
               />
               <span className='primary-text-gradient max-lg:hidden'>Log In</span>
             </Button>
@@ -92,7 +91,7 @@ const LeftSidebar = () => {
                 alt='sign up'
                 width={18}
                 height={18}
-                className='invert-colors lg:hidden'
+                className='lg:hidden'
               />
               <span className='max-lg:hidden'>Sign up</span>
             </Button>

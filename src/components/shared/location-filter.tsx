@@ -16,6 +16,8 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import Image from 'next/image';
 import { ScrollArea } from '../ui/scroll-area';
 
+import * as Icons from '@/components/ui/icons';
+
 const frameworks: { value: string; label: string }[] = [
   {
     value: 'next.js',
@@ -154,23 +156,19 @@ const LocationFilter = () => {
           variant='default'
           role='combobox'
           aria-expanded={open}
-          className='light-border flex min-h-12 justify-between'
+          className='flex min-h-12 justify-between p-3'
         >
-          <Image
-            src='/assets/icons/carbon-location.svg'
-            alt='Location'
-            height={20}
-            width={20}
-          />
+          <Icons.MapPin className='size-5' />
+
           <p className='flex'>
             {value
               ? frameworks.find((framework) => framework.value === value)?.label
               : 'Select Location'}
-            <ChevronsUpDown className='ml-2 size-4 shrink-0 opacity-50' />
+            <ChevronsUpDown className='ml-2 size-4 shrink-0' />
           </p>
         </Button>
       </PopoverTrigger>
-      <PopoverContent className='bg-light-900 w-[200px] border-none border-slate-200 p-0 outline-none dark:bg-slate-950'>
+      <PopoverContent className='w-[200px] border-none p-0 outline-none'>
         <ScrollArea className='h-[350px]'>
           <Command>
             <CommandInput placeholder='Search location...' />

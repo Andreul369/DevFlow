@@ -9,7 +9,7 @@ import { SearchParamsProps } from '@/types';
 
 import { auth } from '@clerk/nextjs';
 import { Metadata } from 'next';
-import InfiniteScrollQuestions from '@/components/shared/all-questions-infinite-scroll';
+import InfiniteScrollQuestions from '@/components/shared/infinite-scroll-questions';
 import GlobalSearch from '@/components/shared/search/global-search';
 
 export const metadata: Metadata = {
