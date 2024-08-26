@@ -20,9 +20,15 @@ export default function ThemeToggle(props: {
   const { setTheme, theme } = useTheme();
 
   const triggerIcon = {
-    light: <Icons.Sun className='size-6' />,
-    dark: <Icons.Moon className='size-6' />,
-    system: <Icons.System className='size-6' />,
+    light: (
+      <Icons.Sun className='size-6 text-[#363636] hover:text-[#363636] dark:text-white dark:hover:text-white' />
+    ),
+    dark: (
+      <Icons.Moon className='size-6 text-[#363636] hover:text-[#363636] dark:text-white dark:hover:text-white' />
+    ),
+    system: (
+      <Icons.System className='size-6 text-[#363636] hover:text-[#363636] dark:text-white dark:hover:text-white' />
+    ),
   }[theme as 'light' | 'dark' | 'system'];
 
   return (
@@ -31,10 +37,10 @@ export default function ThemeToggle(props: {
         <Button
           variant='ghost'
           size='sm'
-          className='gap-1 px-2 text-lg font-semibold md:text-base'
+          className='mt-3 gap-1 px-2 text-lg font-semibold text-[#363636] hover:text-[#363636] dark:text-white dark:hover:text-white'
         >
           {triggerIcon}
-          <span className='capitalize'>{theme}</span>
+          <span className='capitalize max-lg:hidden'>{theme}</span>
           <span className='sr-only'>Toggle theme</span>
         </Button>
       </DropdownMenuTrigger>

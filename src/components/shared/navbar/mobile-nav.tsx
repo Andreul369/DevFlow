@@ -32,13 +32,12 @@ const NavContent = () => {
             <Link
               href={item.route}
               className={`${
-                isActive
-                  ? 'primary-gradient text-light-900 rounded-lg'
-                  : 'text-dark300_light900'
+                // TODO : should text-white be changed?
+                isActive ? 'primary-gradient rounded-lg text-white' : ''
               } flex items-center justify-start gap-4 bg-transparent p-4`}
             >
               {item.icon}
-              <p className={`${isActive ? 'base-bold' : 'base-medium'}`}>{item.label}</p>
+              <p className={`${isActive ? 'font-bold' : 'font-normal'}`}>{item.label}</p>
             </Link>
           </SheetClose>
         );
@@ -56,7 +55,7 @@ const MobileNav = () => {
           width={36}
           height={36}
           alt='Menu'
-          className='invert-colors sm:hidden'
+          className='sm:hidden'
         />
       </SheetTrigger>
       <SheetContent side='left' className='no-scrollbar overflow-y-auto border-none'>
