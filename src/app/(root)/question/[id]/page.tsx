@@ -11,6 +11,7 @@ import { getUserById } from '@/lib/actions/user.action';
 import AllAnswers from '@/components/shared/all-answers';
 import Votes from '@/components/shared/votes';
 import { URLProps } from '@/types';
+import GlobalSearch from '@/components/shared/search/global-search';
 
 const QuestionPage = async ({ params, searchParams }: URLProps) => {
   const { userId: clerkId } = auth();
@@ -25,7 +26,11 @@ const QuestionPage = async ({ params, searchParams }: URLProps) => {
 
   return (
     <>
-      <div className='flex-start w-full flex-col'>
+      <div className='sticky top-0 z-50 w-full max-w-5xl pt-6 backdrop-blur-md'>
+        <GlobalSearch />
+      </div>
+
+      <div className='flex-start w-full flex-col pt-16'>
         <div className='flex w-full flex-col-reverse justify-between gap-5 sm:flex-row sm:items-center sm:gap-2'>
           <Link
             href={`/profile/${result.author.clerkId}`}
@@ -38,9 +43,7 @@ const QuestionPage = async ({ params, searchParams }: URLProps) => {
               height={22}
               alt='profile'
             />
-            <p className='paragraph-semibold text-dark300_light700'>
-              {result.author.name}
-            </p>
+            <p className='font-semibold'>{result.author.name}</p>
           </Link>
           <div className='flex justify-end'>
             <Votes
@@ -55,9 +58,7 @@ const QuestionPage = async ({ params, searchParams }: URLProps) => {
             />
           </div>
         </div>
-        <h2 className='h2-semibold text-dark200_light900 mt-3.5 w-full text-left'>
-          {result.title}
-        </h2>
+        <h2 className='mt-3.5 w-full text-left text-2xl font-semibold'>{result.title}</h2>
       </div>
 
       <div className='mb-8 mt-5 flex flex-wrap gap-4'>
@@ -66,21 +67,21 @@ const QuestionPage = async ({ params, searchParams }: URLProps) => {
           alt='clock icon'
           value={` asked ${getTimestamp(result.createdAt)}`}
           title=''
-          textStyles='small-medium text-dark400_light800'
+          textStyles='text-xs text-dark400_light800'
         />
         <Metric
           imgUrl='/assets/icons/message.svg'
           alt='message'
           value={formatAndDivideNumber(result.answers.length)}
           title=' Answers'
-          textStyles='small-medium text-dark400_light800'
+          textStyles='text-xs text-dark400_light800'
         />
         <Metric
           imgUrl='/assets/icons/eye.svg'
           alt='eye'
           value={formatAndDivideNumber(result.views)}
           title=' Views'
-          textStyles='small-medium text-dark400_light800'
+          textStyles='text-xs text-dark400_light800'
         />
       </div>
 

@@ -12,6 +12,7 @@ import ProfileLink from '@/components/shared/profile-link';
 import Stats from '@/components/shared/stats';
 import QuestionTab from '@/components/shared/questions-tab';
 import AnswersTab from '@/components/shared/answers-tab';
+import GlobalSearch from '@/components/shared/search/global-search';
 
 const Page = async ({ params, searchParams }: URLProps) => {
   const { userId: clerkId } = auth();
@@ -19,7 +20,11 @@ const Page = async ({ params, searchParams }: URLProps) => {
 
   return (
     <>
-      <div className='flex flex-col-reverse items-start justify-between sm:flex-row'>
+      <div className='sticky top-0 z-50 w-full max-w-5xl pt-6 backdrop-blur-md'>
+        <GlobalSearch />
+      </div>
+
+      <div className='flex flex-col-reverse items-start justify-between pt-16 sm:flex-row'>
         <div className='flex flex-col items-start gap-4 lg:flex-row'>
           <Image
             src={userInfo?.user.picture}
@@ -30,10 +35,8 @@ const Page = async ({ params, searchParams }: URLProps) => {
           />
 
           <div className='mt-3'>
-            <h2 className='h2-bold text-dark100_light900'>{userInfo.user.name}</h2>
-            <p className='paragraph-regular text-dark200_light800'>
-              @{userInfo.user.username}
-            </p>
+            <h2 className='text-2xl leading-8'>{userInfo.user.name}</h2>
+            <p>@{userInfo.user.username}</p>
 
             <div className='mt-5 flex flex-wrap items-center justify-start gap-5'>
               {userInfo.user.portfolioWebsite && (
@@ -82,12 +85,8 @@ const Page = async ({ params, searchParams }: URLProps) => {
       <div className='mt-10 flex gap-10'>
         <Tabs defaultValue='top-posts' className='flex-1'>
           <TabsList className='min-h-[42px] p-1'>
-            <TabsTrigger value='top-posts' className='tab'>
-              Top Posts
-            </TabsTrigger>
-            <TabsTrigger value='answers' className='tab'>
-              Answers
-            </TabsTrigger>
+            <TabsTrigger value='top-posts'>Top Posts</TabsTrigger>
+            <TabsTrigger value='answers'>Answers</TabsTrigger>
           </TabsList>
           <TabsContent value='top-posts' className='mt-5 flex w-full flex-col gap-6'>
             <QuestionTab

@@ -3,12 +3,12 @@ import React from 'react';
 import LocalSearchbar from '@/components/shared/search/local-searchbar';
 
 import LocationFilter from '@/components/shared/location-filter';
-import { getQuestions } from '@/lib/actions/question.action';
 import { SearchParamsProps } from '@/types';
 import JobCard from '@/components/cards/job-card';
 import NoResult from '@/components/shared/no-result';
 
 import { Metadata } from 'next';
+import { getJobs } from '@/lib/actions/job.action';
 
 export const metadata: Metadata = {
   title: 'Jobs | Dev Overflow',
@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 };
 
 const JobsPage = async ({ searchParams }: SearchParamsProps) => {
-  const result = await getQuestions({
+  const result = await getJobs({
     searchQuery: searchParams.q,
     filter: searchParams.filter,
     page: searchParams.page ? +searchParams.page : 1,
@@ -34,14 +34,11 @@ const JobsPage = async ({ searchParams }: SearchParamsProps) => {
         <LocalSearchbar
           route='/community'
           iconPosition='left'
-          imgSrc='/assets/icons/search.svg'
           placeholder='Job Title, Company, or Keywords'
           otherClasses='flex-1'
         />
 
         <LocationFilter />
-        {/* otherClasses='min-h-[56px] sm:min-w-[170px]'
-          containerClasses='flex' */}
       </div>
 
       <div className='mt-10 flex w-full flex-col gap-6'>

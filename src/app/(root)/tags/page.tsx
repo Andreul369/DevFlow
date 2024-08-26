@@ -19,6 +19,8 @@ export const metadata: Metadata = {
   },
 };
 
+// TODO: This doesn't have infinite scroll
+
 const TagsPage = async ({ searchParams }: SearchParamsProps) => {
   const { userId } = auth();
 
@@ -42,7 +44,6 @@ const TagsPage = async ({ searchParams }: SearchParamsProps) => {
         <LocalSearchbar
           route='/tags'
           iconPosition='left'
-          imgSrc='/assets/icons/search.svg'
           placeholder='Search for tags'
           otherClasses='flex-1'
         />
@@ -60,11 +61,11 @@ const TagsPage = async ({ searchParams }: SearchParamsProps) => {
             <Link key={tag._id} href={`/tags/${tag._id}`}>
               <article className='flex w-full flex-col rounded-2xl border px-8 py-10 sm:w-[260px]'>
                 <div className='w-fit rounded-sm px-5 py-1.5'>
-                  <p className='paragraph-semibold'>{tag.name}</p>
+                  <p className='font-semibold'>{tag.name}</p>
                 </div>
 
-                <p className='small-medium mt-3.5'>
-                  <span className='body-semibold primary-text-gradient mr-2.5'>
+                <p className='mt-3.5 text-xs'>
+                  <span className='primary-text-gradient mr-2.5 font-semibold'>
                     {tag.questions.length}+
                   </span>
                   Questions

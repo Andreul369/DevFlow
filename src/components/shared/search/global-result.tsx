@@ -60,19 +60,17 @@ const GlobalResult = () => {
   };
 
   return (
-    <div className='dark:bg-dark-400 absolute top-full z-10 mt-3 w-full rounded-xl bg-embark py-5 shadow-sm'>
+    <div className='absolute top-full z-10 mt-3 w-full rounded-xl bg-embark py-5 shadow-sm'>
       <GlobalFilters />
-      <div className='bg-light-700/50 dark:bg-dark-500/50 my-5 h-px' />
+      <div className='my-5 h-px' />
 
       <div className='space-y-5'>
-        <p className='text-dark400_light900 paragraph-semibold px-5'>Top Match</p>
+        <p className='px-5 font-semibold'>Top Match</p>
 
         {isLoading ? (
           <div className='flex-center flex-col px-5'>
-            <ReloadIcon className='text-primary-500 my-2 size-10 animate-spin' />
-            <p className='text-dark200_light800 body-regular'>
-              Browsing the entire database
-            </p>
+            <ReloadIcon className='my-2 size-10 animate-spin' />
+            <p>Browsing the entire database</p>
           </div>
         ) : (
           <div className='flex flex-col gap-2'>
@@ -81,31 +79,26 @@ const GlobalResult = () => {
                 <Link
                   href={renderLink(item.type, item.id)}
                   key={item.type + item.id + index}
-                  className='hover:bg-light-700/50 dark:bg-dark-500/50 flex w-full cursor-pointer items-start gap-3 px-5 py-2.5'
+                  // TODO: Add a hover color here
+                  className='flex w-full cursor-pointer items-start gap-3 px-5 py-2.5'
                 >
                   <Image
                     src='/assets/icons/tag.svg'
                     alt='tags'
                     width={18}
                     height={18}
-                    className='invert-colors mt-1 object-contain'
+                    className='mt-1 object-contain'
                   />
 
                   <div className='flex flex-col'>
-                    <p className='body-medium text-dark200_light800 line-clamp-1'>
-                      {item.title}
-                    </p>
-                    <p className='text-light400_light500 small-medium mt-1 font-bold capitalize'>
-                      {item.type}
-                    </p>
+                    <p className='text-sm'>{item.title}</p>
+                    <p className='mt-1 text-xs font-bold capitalize'>{item.type}</p>
                   </div>
                 </Link>
               ))
             ) : (
               <div className='flex-center flex-col px-5'>
-                <p className='text-dark200_light800 body-regular px-5 py-2.5'>
-                  Oops, no results found
-                </p>
+                <p className='px-5 py-2.5'>Oops, no results found</p>
               </div>
             )}
           </div>

@@ -23,7 +23,7 @@ const UserCard = async ({ user }: Props) => {
       href={`/profile/${user.clerkId}`}
       className='w-full max-xs:min-w-full xs:w-[260px]'
     >
-      <article className='light-border flex w-full flex-col items-center justify-center rounded-2xl border p-8'>
+      <article className='flex w-full flex-col items-center justify-center rounded-2xl border p-8'>
         <Image
           src={user.picture}
           alt='user profile picture'
@@ -32,12 +32,10 @@ const UserCard = async ({ user }: Props) => {
           className='rounded-full'
         />
         <div className='mt-4 text-center'>
-          <h3 className='h3-bold line-clamp-1'>{user.name}</h3>
-          <p className='body-regular mt-2'>@{user.username}</p>
+          <h3 className='line-clamp-1 text-xl font-bold'>{user.name}</h3>
+          <p className='mt-2'>@{user.username}</p>
         </div>
-        {
-          // TODO: FIX HYDRATION ERROR BELOW
-        }
+
         <div className='mt-5'>
           {interactedTags.length > 0 ? (
             <div className='flex items-center gap-2'>

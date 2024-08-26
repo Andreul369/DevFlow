@@ -9,7 +9,7 @@ import { SearchParamsProps } from '@/types';
 
 import { auth } from '@clerk/nextjs';
 import { Metadata } from 'next';
-import AllQuestionsInfiniteScroll from '@/components/shared/all-questions-infinite-scroll';
+import InfiniteScrollQuestions from '@/components/shared/all-questions-infinite-scroll';
 import GlobalSearch from '@/components/shared/search/global-search';
 
 export const metadata: Metadata = {
@@ -62,7 +62,6 @@ export default async function HomePage({ searchParams }: SearchParamsProps) {
         <LocalSearchbar
           route='/'
           iconPosition='left'
-          imgSrc='/assets/icons/search.svg'
           placeholder='Search for questions'
           otherClasses='flex-1'
         />
@@ -76,7 +75,7 @@ export default async function HomePage({ searchParams }: SearchParamsProps) {
 
       <HomeFilters />
 
-      <AllQuestionsInfiniteScroll
+      <InfiniteScrollQuestions
         initialQuestions={result.questions}
         isNext={result.isNext}
         userId={userId || ''}

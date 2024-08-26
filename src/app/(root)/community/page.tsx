@@ -43,7 +43,6 @@ const CommunityPage = async ({ searchParams }: SearchParamsProps) => {
         <LocalSearchbar
           route='/community'
           iconPosition='left'
-          imgSrc='/assets/icons/search.svg'
           placeholder='Search by username...'
           otherClasses='flex-1'
         />

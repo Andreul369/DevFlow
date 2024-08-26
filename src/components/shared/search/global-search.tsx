@@ -71,7 +71,7 @@ const GlobalSearch = () => {
   return (
     <div className='relative w-full max-lg:hidden' ref={searchContainerRef}>
       <div className='relative flex min-h-12 grow items-center gap-1 rounded-xl bg-embark  px-4'>
-        <Icons.Search className='size-7 cursor-pointer' />
+        <Icons.Search className='size-7 cursor-pointer text-muted-foreground' />
 
         <Input
           type='text'

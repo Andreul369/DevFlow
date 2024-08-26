@@ -42,7 +42,6 @@ const CollectionPage = async ({ searchParams }: SearchParamsProps) => {
         <LocalSearchbar
           route='/'
           iconPosition='left'
-          imgSrc='/assets/icons/search.svg'
           placeholder='Search for questions'
           otherClasses='flex-1'
         />

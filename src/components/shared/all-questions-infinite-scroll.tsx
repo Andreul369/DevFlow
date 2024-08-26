@@ -18,7 +18,7 @@ interface Props {
   isNext: boolean;
 }
 
-const AllQuestionsInfiniteScroll = ({ initialQuestions, isNext }: Props) => {
+const InfiniteScrollQuestions = ({ initialQuestions, isNext }: Props) => {
   const { userId } = useAuth();
   const [allQuestions, setAllQuestions] = useState(initialQuestions);
   const [isNextPage, setIsNextPage] = useState(isNext);
@@ -96,8 +96,7 @@ const AllQuestionsInfiniteScroll = ({ initialQuestions, isNext }: Props) => {
     };
 
     filterQuestions();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filter]);
+  }, [filter, query, userId]);
 
   return (
     <div className='mt-10 flex w-full flex-col gap-6'>
@@ -124,4 +123,4 @@ const AllQuestionsInfiniteScroll = ({ initialQuestions, isNext }: Props) => {
   );
 };
 
-export default AllQuestionsInfiniteScroll;
+export default InfiniteScrollQuestions;

@@ -22,6 +22,8 @@ interface QuestionProps {
   createdAt: Date;
 }
 
+// TODO: WTF is this
+
 const JobCard = ({
   clerkId,
   title,
@@ -34,16 +36,16 @@ const JobCard = ({
   createdAt,
 }: QuestionProps) => {
   return (
-    <div className='light-border flex flex-col items-start gap-6 rounded-lg border p-6 sm:flex-row sm:p-8'>
+    <div className='flex flex-col items-start gap-6 rounded-lg border p-6 sm:flex-row sm:p-8'>
       <div className='flex items-center gap-6'>
         <Image src='/assets/icons/clock-2.svg' alt='clock' width={40} height={40} />
       </div>
       <div className='w-full'>
         <div className='flex-between flex-wrap gap-2'>
-          <p className='base-semibold'>SNI</p>
+          <p className='font-semibold'>SNI</p>
           <div className='hidden sm:flex'></div>
         </div>
-        <p className='body-regular text-dark500_light700 mt-2 line-clamp-2'>
+        <p className='mt-2 line-clamp-2'>
           Overview To be part of our organization, every employee should understand and
           share in the YNHHS Vision, support our Mission, and live our Values. These
           values - integrity,
@@ -52,7 +54,7 @@ const JobCard = ({
           <div className='flex flex-wrap items-center gap-6'>
             <div className='flex items-center gap-2'>
               <Image src='/assets/icons/clock-2.svg' alt='clock' width={20} height={20} />
-              <p className='body-medium text-light-500'>FULLTIME</p>
+              <p className='text-sm'>FULLTIME</p>
             </div>
             <div className='flex items-center gap-2'>
               <Image
@@ -61,11 +63,11 @@ const JobCard = ({
                 width={20}
                 height={20}
               />
-              <p className='body-medium text-light-500'>Not disclosed</p>
+              <p className='text-sm'>Not disclosed</p>
             </div>
           </div>
           <Link href='#' className='flex items-center gap-2'>
-            <p className='body-semibold primary-text-gradient'>View Job</p>
+            <p className='primary-text-gradient font-semibold'>View Job</p>
             <Image
               src='/assets/icons/arrow-up-right.svg'
               alt='clock'
