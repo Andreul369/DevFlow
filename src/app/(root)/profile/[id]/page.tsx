@@ -1,20 +1,18 @@
+import React from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { getUserInfo } from '@/lib/actions/user.action';
 import { URLProps } from '@/types';
 import { SignedIn, auth } from '@clerk/nextjs';
-import Image from 'next/image';
-import Link from 'next/link';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
-import React from 'react';
 import { getJoinedDate } from '@/lib/utils';
 import ProfileLink from '@/components/shared/profile-link';
 import Stats from '@/components/shared/stats';
-import QuestionTab from '@/components/shared/questions-tab';
 import AnswersTab from '@/components/shared/answers-tab';
+import QuestionTab from '@/components/shared/questions-tab';
 import GlobalSearch from '@/components/shared/search/global-search';
-
-import * as Icons from '@/components/ui/icons';
 
 const Page = async ({ params, searchParams }: URLProps) => {
   const { userId: clerkId } = auth();
