@@ -14,6 +14,8 @@ import QuestionTab from '@/components/shared/questions-tab';
 import AnswersTab from '@/components/shared/answers-tab';
 import GlobalSearch from '@/components/shared/search/global-search';
 
+import * as Icons from '@/components/ui/icons';
+
 const Page = async ({ params, searchParams }: URLProps) => {
   const { userId: clerkId } = auth();
   const userInfo = await getUserInfo({ userId: params.id });
