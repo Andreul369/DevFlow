@@ -81,12 +81,14 @@ const AllAnswersInfiniteScroll = ({
 
   return (
     <>
-      <AnswerForm
-        question={question}
-        questionId={questionId}
-        user={user}
-        onAnswerSubmit={setAllAnswers}
-      />
+      {user ? (
+        <AnswerForm
+          question={question}
+          questionId={questionId}
+          user={user}
+          onAnswerSubmit={setAllAnswers}
+        />
+      ) : null}
 
       <div className='mt-11'>
         <div className='flex items-center justify-between'>
@@ -100,7 +102,7 @@ const AllAnswersInfiniteScroll = ({
         <AnswerCard
           key={answer._id}
           answer={answer}
-          userId={user._id}
+          userId={user?._id}
           // prevent Hydration warning when page is refreshed and comment are
           // left for a few seconds.
           suppressHydrationWarning
