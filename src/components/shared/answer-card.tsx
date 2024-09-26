@@ -15,7 +15,7 @@ interface Props {
 
 const AnswerCard = ({ answer, userId }: Props) => {
   return (
-    <article key={answer._id} className='light-border border-b py-10'>
+    <article key={answer._id} className='border-b py-10'>
       <div className='mb-8 flex flex-col-reverse justify-between gap-5 sm:flex-row sm:items-center sm:gap-2'>
         <Link
           href={`/profile/${answer?.author?.clerkId}`}
@@ -29,8 +29,8 @@ const AnswerCard = ({ answer, userId }: Props) => {
             className='rounded-full object-cover max-sm:mt-0.5'
           />
           <div className='flex flex-col sm:flex-row sm:items-center'>
-            <p className='body-semibold text-dark300_light700'>{answer?.author?.name}</p>
-            <p className='small-regular text-dark400_light500 mt-0.5 line-clamp-1'>
+            <p className='font-semibold'>{answer?.author?.name}</p>
+            <p className='mt-0.5  line-clamp-1 text-sm text-muted-foreground'>
               <span className='mx-0.5 max-sm:hidden'>•</span>
               answered {getTimestamp(answer.createdAt)}
             </p>
