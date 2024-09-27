@@ -18,7 +18,7 @@ const QuestionCard = ({ clerkId, question }: QuestionProps) => {
     <div className='rounded-lg bg-surface p-9 sm:px-11'>
       <div className='flex flex-col-reverse items-start justify-between gap-5 sm:flex-row'>
         <div>
-          <span className='line-clamp-1 flex sm:hidden'>
+          <span className='line-clamp-1 flex text-sm sm:hidden'>
             {getTimestamp(question.createdAt)}
           </span>
           <Link href={`/question/${question._id}`}>
