@@ -7,6 +7,7 @@ import { SignedOut, useAuth } from '@clerk/nextjs';
 import { Button } from '@/components/ui/button';
 import { sidebarLinks } from '@/constants';
 import { usePathname } from 'next/navigation';
+import * as Icons from '@/components/ui/icons';
 
 const NavContent = () => {
   const { userId } = useAuth();
@@ -50,13 +51,7 @@ const MobileNav = () => {
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Image
-          src='/assets/icons/hamburger.svg'
-          width={36}
-          height={36}
-          alt='Menu'
-          className='sm:hidden'
-        />
+        <Icons.Menu className='size-9 sm:hidden' />
       </SheetTrigger>
       <SheetContent side='left' className='no-scrollbar overflow-y-auto border-none'>
         <Link href='/' className='flex items-center gap-1'>

@@ -48,6 +48,7 @@ export const LineChart = Lucide.LineChart;
 export const Logo = Lucide.Command;
 export const LogOut = Lucide.LogOut;
 export const MapPin = Lucide.MapPin;
+export const Menu = Lucide.Menu;
 export const Minus = Lucide.Minus;
 export const MixerHorizontal = Lucide.SlidersHorizontal;
 export const Moon = Lucide.Moon;
